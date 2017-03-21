@@ -55,7 +55,11 @@ public class CategoryDAO extends AbstractDAO<Category> {
             preparedStatement = connection.prepareStatement(SqlSynatx.INSERT_INTO_CATEGORY_VALUES);
             preparedStatement.setInt(1, category.getId());
             preparedStatement.setString(2, category.getName());
-            preparedStatement.setInt(3, category.getCategory().getId());
+            if (category.getCategory() != null) {
+                preparedStatement.setInt(3, category.getCategory().getId());
+            } else {
+                preparedStatement.setInt(3, 0);
+            }
             preparedStatement.executeUpdate();
             logger.log(Level.INFO, "Add new Category: {} [{}]", category.getName(), category.getId());
         } catch (SQLException e) {
@@ -127,7 +131,11 @@ public class CategoryDAO extends AbstractDAO<Category> {
             connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SqlSynatx.UPDATE_CATEGORY_SET_WHERE);
             preparedStatement.setString(1, category.getName());
-            preparedStatement.setInt(2, category.getCategory().getId());
+            if (category.getCategory() != null) {
+                preparedStatement.setInt(2, category.getCategory().getId());
+            } else {
+                preparedStatement.setInt(2, 0);
+            }
             preparedStatement.setInt(3, category.getId());
             preparedStatement.executeUpdate();
             logger.log(Level.INFO, "Update Category: {} [{}]", category.getName(), category.getId());

@@ -1,3 +1,191 @@
 [INFO ] 21 РјР°СЂ 2017 12:41:44,569 [CategoryDAO] - Add new Category: Test [2]
 [INFO ] 21 РјР°СЂ 2017 12:41:44,587 [CategoryDAO] - Update Category: Test2 [2]
 [INFO ] 21 РјР°СЂ 2017 12:41:44,595 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 16:29:24,136 [CategoryDAO] - Add new Category: Test [2]
+[INFO ] 21 РјР°СЂ 2017 16:29:24,162 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 16:29:24,180 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 16:32:37,166 [RoleDAO] - Created new role Test Role [6]
+[FATAL] 21 РјР°СЂ 2017 16:32:44,624 [RoleDAO] - MySQL fatal error in create method
+[FATAL] 21 РјР°СЂ 2017 16:38:58,014 [RoleDAO] - MySQL fatal error in create method
+[INFO ] 21 РјР°СЂ 2017 16:47:23,284 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 РјР°СЂ 2017 16:50:24,528 [RoleDAO] - Created new role Test Role [6]
+[FATAL] 21 РјР°СЂ 2017 16:53:06,345 [RoleDAO] - MySQL fatal error in create method
+[INFO ] 21 РјР°СЂ 2017 16:53:38,121 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 РјР°СЂ 2017 16:56:18,247 [RoleDAO] - Created new role Test Role [6]
+[FATAL] 21 РјР°СЂ 2017 16:56:18,262 [RoleDAO] - MySQL fatal error in create method
+[INFO ] 21 РјР°СЂ 2017 16:56:18,269 [RoleDAO] - Role [6] removed
+[INFO ] 21 РјР°СЂ 2017 16:57:12,269 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 РјР°СЂ 2017 16:57:12,281 [RoleDAO] - Update role: Test2 [6]
+[INFO ] 21 РјР°СЂ 2017 16:57:12,345 [RoleDAO] - Role [6] removed
+[INFO ] 21 РјР°СЂ 2017 17:03:05,562 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:03:05,577 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 17:03:05,587 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:06:03,487 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:06:03,498 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 17:06:03,503 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:11:20,662 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:12:36,477 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 17:12:36,482 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:13:24,258 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:13:50,255 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 17:13:50,267 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:15:50,562 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:17:59,300 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 17:18:00,024 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:18:08,339 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:19:44,743 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 17:19:44,747 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:20:00,347 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:20:00,370 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 17:20:00,377 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:21:18,507 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:21:18,533 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:22:29,801 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:22:29,843 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 17:22:29,866 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:25:29,342 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 17:25:29,360 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 17:25:29,363 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 17:25:40,936 [TagDAO] - Created new tag Test Role [5]
+[INFO ] 21 РјР°СЂ 2017 17:25:40,942 [TagDAO] - Update tag: Test2 [5]
+[INFO ] 21 РјР°СЂ 2017 17:25:40,947 [TagDAO] - Tag [5] removed
+[INFO ] 21 РјР°СЂ 2017 17:26:41,662 [TagDAO] - Created new tag Test Role [5]
+[INFO ] 21 РјР°СЂ 2017 17:26:41,668 [TagDAO] - Update tag: Test2 [5]
+[INFO ] 21 РјР°СЂ 2017 17:26:41,672 [TagDAO] - Tag [5] removed
+[INFO ] 21 мар 2017 17:27:14,363 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 мар 2017 17:27:14,371 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 мар 2017 17:27:14,374 [CategoryDAO] - Category [2] removed
+[INFO ] 21 мар 2017 17:27:14,395 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 мар 2017 17:27:14,399 [RoleDAO] - Update role: Test2 [6]
+[INFO ] 21 мар 2017 17:27:14,402 [RoleDAO] - Role [6] removed
+[INFO ] 21 мар 2017 17:27:14,415 [TagDAO] - Created new tag Test Role [5]
+[INFO ] 21 мар 2017 17:27:14,418 [TagDAO] - Update tag: Test2 [5]
+[INFO ] 21 мар 2017 17:27:14,421 [TagDAO] - Tag [5] removed
+[FATAL] 21 РјР°СЂ 2017 17:39:17,700 [UserDAO] - MySQL fatal error in create method
+[INFO ] 21 РјР°СЂ 2017 17:39:17,723 [UserDAO] - Update user: Test "NewCoolTest" User [3]
+[INFO ] 21 РјР°СЂ 2017 17:39:17,728 [UserDAO] - User [3] removed
+[FATAL] 21 РјР°СЂ 2017 17:57:39,194 [UserDAO] - MySQL fatal error in create method
+[INFO ] 21 РјР°СЂ 2017 17:57:39,216 [UserDAO] - Update user: Test "NewCoolTest" User [3]
+[INFO ] 21 РјР°СЂ 2017 17:57:39,220 [UserDAO] - User [3] removed
+[INFO ] 21 РјР°СЂ 2017 17:58:00,896 [UserDAO] - Created new user Test "Tester" User [3]
+[INFO ] 21 РјР°СЂ 2017 17:58:00,913 [UserDAO] - Update user: Test "NewCoolTest" User [3]
+[INFO ] 21 РјР°СЂ 2017 17:58:00,939 [UserDAO] - User [3] removed
+[INFO ] 21 РјР°СЂ 2017 18:07:39,775 [RecordDAO] - Created new record "Test Header" [2]
+[FATAL] 21 РјР°СЂ 2017 18:07:39,850 [TagDAO] - MySQL fatal error in getTagsForRecord method
+[FATAL] 21 РјР°СЂ 2017 18:07:39,865 [TagDAO] - MySQL fatal error in getTagsForRecord method
+[INFO ] 21 РјР°СЂ 2017 18:07:39,878 [RecordDAO] - Update record: New Header [2]
+[FATAL] 21 РјР°СЂ 2017 18:07:39,883 [TagDAO] - MySQL fatal error in getTagsForRecord method
+[INFO ] 21 РјР°СЂ 2017 18:07:39,899 [RecordDAO] - Record [2] removed
+[FATAL] 21 РјР°СЂ 2017 18:12:58,176 [TagDAO] - MySQL fatal error in getTagsForRecord method
+[INFO ] 21 РјР°СЂ 2017 18:17:24,800 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 РјР°СЂ 2017 18:17:24,861 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 РјР°СЂ 2017 18:17:24,879 [RecordDAO] - Record [2] removed
+[INFO ] 21 РјР°СЂ 2017 18:19:17,588 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 РјР°СЂ 2017 18:19:17,695 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 РјР°СЂ 2017 18:19:17,711 [RecordDAO] - Record [2] removed
+[INFO ] 21 РјР°СЂ 2017 18:19:25,159 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 РјР°СЂ 2017 18:19:25,228 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 РјР°СЂ 2017 18:19:25,240 [RecordDAO] - Record [2] removed
+[INFO ] 21 РјР°СЂ 2017 18:22:10,485 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 РјР°СЂ 2017 18:22:10,518 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 РјР°СЂ 2017 18:22:10,525 [RecordDAO] - Record [2] removed
+[INFO ] 21 РјР°СЂ 2017 18:23:15,470 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 РјР°СЂ 2017 18:23:15,498 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 РјР°СЂ 2017 18:23:15,511 [RecordDAO] - Record [2] removed
+[FATAL] 21 РјР°СЂ 2017 18:23:24,061 [TagDAO] - MySQL fatal error in getTagsForRecord method
+[INFO ] 21 РјР°СЂ 2017 18:23:36,453 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 РјР°СЂ 2017 18:23:36,484 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 РјР°СЂ 2017 18:23:36,495 [RecordDAO] - Record [2] removed
+[INFO ] 21 РјР°СЂ 2017 18:23:40,278 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 РјР°СЂ 2017 18:23:40,326 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 РјР°СЂ 2017 18:23:40,335 [RecordDAO] - Record [2] removed
+[INFO ] 21 мар 2017 18:23:52,227 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 мар 2017 18:23:52,232 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 мар 2017 18:23:52,235 [CategoryDAO] - Category [2] removed
+[INFO ] 21 мар 2017 18:23:52,254 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 мар 2017 18:23:52,277 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 мар 2017 18:23:52,282 [RecordDAO] - Record [2] removed
+[INFO ] 21 мар 2017 18:23:52,286 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 мар 2017 18:23:52,289 [RoleDAO] - Update role: Test2 [6]
+[INFO ] 21 мар 2017 18:23:52,292 [RoleDAO] - Role [6] removed
+[INFO ] 21 мар 2017 18:23:52,296 [TagDAO] - Created new tag Test Role [5]
+[INFO ] 21 мар 2017 18:23:52,299 [TagDAO] - Update tag: Test2 [5]
+[INFO ] 21 мар 2017 18:23:52,301 [TagDAO] - Tag [5] removed
+[INFO ] 21 мар 2017 18:23:52,306 [UserDAO] - Created new user Test "Tester" User [3]
+[INFO ] 21 мар 2017 18:23:52,313 [UserDAO] - Update user: Test "NewCoolTest" User [3]
+[INFO ] 21 мар 2017 18:23:52,319 [UserDAO] - User [3] removed
+[INFO ] 21 РјР°СЂ 2017 18:24:10,132 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,192 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,200 [CategoryDAO] - Category [2] removed
+[INFO ] 21 РјР°СЂ 2017 18:24:10,254 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,289 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,294 [RecordDAO] - Record [2] removed
+[INFO ] 21 РјР°СЂ 2017 18:24:10,298 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,302 [RoleDAO] - Update role: Test2 [6]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,308 [RoleDAO] - Role [6] removed
+[INFO ] 21 РјР°СЂ 2017 18:24:10,312 [TagDAO] - Created new tag Test Role [5]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,316 [TagDAO] - Update tag: Test2 [5]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,323 [TagDAO] - Tag [5] removed
+[INFO ] 21 РјР°СЂ 2017 18:24:10,328 [UserDAO] - Created new user Test "Tester" User [3]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,336 [UserDAO] - Update user: Test "NewCoolTest" User [3]
+[INFO ] 21 РјР°СЂ 2017 18:24:10,347 [UserDAO] - User [3] removed
+[INFO ] 21 мар 2017 18:41:45,292 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 мар 2017 18:41:45,301 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 мар 2017 18:41:45,304 [CategoryDAO] - Category [2] removed
+[INFO ] 21 мар 2017 18:41:45,332 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 мар 2017 18:41:45,353 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 мар 2017 18:41:45,358 [RecordDAO] - Record [2] removed
+[INFO ] 21 мар 2017 18:41:45,363 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 мар 2017 18:41:45,368 [RoleDAO] - Update role: Test2 [6]
+[INFO ] 21 мар 2017 18:41:45,370 [RoleDAO] - Role [6] removed
+[INFO ] 21 мар 2017 18:41:45,375 [TagDAO] - Created new tag Test Role [5]
+[INFO ] 21 мар 2017 18:41:45,378 [TagDAO] - Update tag: Test2 [5]
+[INFO ] 21 мар 2017 18:41:45,382 [TagDAO] - Tag [5] removed
+[INFO ] 21 мар 2017 18:41:45,387 [UserDAO] - Created new user Test "Tester" User [3]
+[INFO ] 21 мар 2017 18:41:45,393 [UserDAO] - Update user: Test "NewCoolTest" User [3]
+[INFO ] 21 мар 2017 18:41:45,397 [UserDAO] - User [3] removed
+[INFO ] 21 мар 2017 18:42:07,865 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 мар 2017 18:42:07,875 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 мар 2017 18:42:07,883 [CategoryDAO] - Category [2] removed
+[INFO ] 21 мар 2017 18:42:07,922 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 мар 2017 18:42:07,940 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 мар 2017 18:42:07,946 [RecordDAO] - Record [2] removed
+[INFO ] 21 мар 2017 18:42:07,953 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 мар 2017 18:42:07,956 [RoleDAO] - Update role: Test2 [6]
+[INFO ] 21 мар 2017 18:42:07,962 [RoleDAO] - Role [6] removed
+[INFO ] 21 мар 2017 18:42:07,966 [TagDAO] - Created new tag Test Role [5]
+[INFO ] 21 мар 2017 18:42:07,970 [TagDAO] - Update tag: Test2 [5]
+[INFO ] 21 мар 2017 18:42:07,973 [TagDAO] - Tag [5] removed
+[INFO ] 21 мар 2017 18:42:07,979 [UserDAO] - Created new user Test "Tester" User [3]
+[INFO ] 21 мар 2017 18:42:07,987 [UserDAO] - Update user: Test "NewCoolTest" User [3]
+[INFO ] 21 мар 2017 18:42:07,990 [UserDAO] - User [3] removed
+[INFO ] 21 мар 2017 18:42:10,016 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 мар 2017 18:42:10,025 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 мар 2017 18:42:10,027 [CategoryDAO] - Category [2] removed
+[INFO ] 21 мар 2017 18:42:10,047 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 мар 2017 18:42:10,069 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 мар 2017 18:42:10,073 [RecordDAO] - Record [2] removed
+[INFO ] 21 мар 2017 18:42:10,082 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 мар 2017 18:42:10,085 [RoleDAO] - Update role: Test2 [6]
+[INFO ] 21 мар 2017 18:42:10,088 [RoleDAO] - Role [6] removed
+[INFO ] 21 мар 2017 18:42:10,103 [TagDAO] - Created new tag Test Role [5]
+[INFO ] 21 мар 2017 18:42:10,107 [TagDAO] - Update tag: Test2 [5]
+[INFO ] 21 мар 2017 18:42:10,111 [TagDAO] - Tag [5] removed
+[INFO ] 21 мар 2017 18:42:10,120 [UserDAO] - Created new user Test "Tester" User [3]
+[INFO ] 21 мар 2017 18:42:10,128 [UserDAO] - Update user: Test "NewCoolTest" User [3]
+[INFO ] 21 мар 2017 18:42:10,133 [UserDAO] - User [3] removed
+[INFO ] 21 мар 2017 18:42:55,432 [CategoryDAO] - Add new Category: Test Role [2]
+[INFO ] 21 мар 2017 18:42:55,441 [CategoryDAO] - Update Category: Test2 [2]
+[INFO ] 21 мар 2017 18:42:55,444 [CategoryDAO] - Category [2] removed
+[INFO ] 21 мар 2017 18:42:55,464 [RecordDAO] - Created new record "Test Header" [2]
+[INFO ] 21 мар 2017 18:42:55,483 [RecordDAO] - Update record: New Header [2]
+[INFO ] 21 мар 2017 18:42:55,488 [RecordDAO] - Record [2] removed
+[INFO ] 21 мар 2017 18:42:55,494 [RoleDAO] - Created new role Test Role [6]
+[INFO ] 21 мар 2017 18:42:55,499 [RoleDAO] - Update role: Test2 [6]
+[INFO ] 21 мар 2017 18:42:55,502 [RoleDAO] - Role [6] removed
+[INFO ] 21 мар 2017 18:42:55,507 [TagDAO] - Created new tag Test Role [5]
+[INFO ] 21 мар 2017 18:42:55,513 [TagDAO] - Update tag: Test2 [5]
+[INFO ] 21 мар 2017 18:42:55,516 [TagDAO] - Tag [5] removed
+[INFO ] 21 мар 2017 18:42:55,522 [UserDAO] - Created new user Test "Tester" User [3]
+[INFO ] 21 мар 2017 18:42:55,528 [UserDAO] - Update user: Test "NewCoolTest" User [3]
+[INFO ] 21 мар 2017 18:42:55,534 [UserDAO] - User [3] removed

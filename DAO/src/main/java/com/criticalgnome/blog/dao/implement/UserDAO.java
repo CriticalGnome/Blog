@@ -54,7 +54,7 @@ public class UserDAO extends AbstractDAO<User> {
             preparedStatement.setString(5, user.getNickName());
             preparedStatement.setString(6, user.getFirstName());
             preparedStatement.setString(7, user.getLastName());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             logger.log(Level.INFO, "Created new user {} \"{}\" {} [{}]", user.getFirstName(), user.getNickName(), user.getLastName(), user.getId());
         } catch (SQLException e) {
             logger.log(Level.FATAL, "MySQL fatal error in create method");
