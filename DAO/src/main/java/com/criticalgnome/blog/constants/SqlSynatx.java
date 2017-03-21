@@ -36,4 +36,12 @@ public class SqlSynatx {
     public static final String UPDATE_TAG_SET_WHERE = "UPDATE tag SET name = ? WHERE id = ?;";
     public static final String DELETE_FROM_TAG_WHERE = "DELETE FROM tag WHERE id = ?;";
     public static final String SELECT_MAX_FROM_TAG = "SELECT max(id) FROM tag;";
+    public static final String SELECT_FROM_TAG_WHERE_RECORD_HAS_TAG_RECORD_ID = "SELECT * FROM tag WHERE record_has_tag.record_id = ?;";
+    // User table
+    public static final String INSERT_INTO_USER_VALUES = "INSERT INTO user (id, email, password, role_id, nick_name, first_name, last_name) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    public static final String SELECT_FROM_USER = "SELECT * FROM user;";
+    public static final String SELECT_FROM_USER_WHERE = "SELECT * FROM user WHERE id = ?;";
+    public static final String UPDATE_USER_SET_WHERE = "UPDATE user SET email = ?, password = ?, nick_name = ?, first_name = ?, last_name = ?, role_id = ? WHERE id = ?;";
+    public static final String DELETE_FROM_USER_WHERE = "DELETE FROM user WHERE id = ?;";
+    public static final String SELECT_MAX_FROM_USER = "SELECT max(id) FROM user;";
 }

@@ -149,6 +149,25 @@ public class TagDAO extends AbstractDAO<Tag> {
         return maxId;
     }
 
+    public List<Tag> getTagsForRecord(int id) throws DAOException {
+        List<Tag> tagList = new ArrayList<>();
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM_TAG_WHERE_RECORD_HAS_TAG_RECORD_ID);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                tagList.add(buildTag(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.log(Level.FATAL, "MySQL fatal error in getTagsForRecord method");
+            throw new DAOException("MySQL Error", e);
+        } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
+        }
+        return tagList;
+    }
+
     private Tag buildTag(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(SqlTables.TAG_ID);
         String name = resultSet.getString(SqlTables.TAG_NAME);

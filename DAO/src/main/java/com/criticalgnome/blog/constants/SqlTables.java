@@ -19,10 +19,18 @@ public class SqlTables {
     public static final String RECORD_DATE = "date";
     public static final String RECORD_CATEGORY_ID = "category_id";
     public static final String RECORD_USER_ID = "user_id";
-    // Role Table
+    // Role table
     public static final String ROLE_ID = "id";
     public static final String ROLE_NAME = "name";
-    // Tag Table
+    // Tag table
     public static final String TAG_ID = "id";
     public static final String TAG_NAME = "name";
+    // User table
+    public static final String USER_ID = "id";
+    public static final String USER_EMAIL = "email";
+    public static final String USER_PASSWORD = "password";
+    public static final String USER_NICK_NAME = "nick_name";
+    public static final String USER_FIRST_NAME = "first_name";
+    public static final String USER_LAST_NAME = "last_name";
+    public static final String USER_ROLE_ID = "role_id";
 }
