@@ -3,6 +3,8 @@ package com.criticalgnome.blog.dao.implement;
 import com.criticalgnome.blog.dao.AbstractDAO;
 import com.criticalgnome.blog.dao.exceptions.DAOException;
 import com.criticalgnome.blog.entities.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -14,8 +16,11 @@ import java.util.List;
  */
 public class UserDAO extends AbstractDAO<User> {
 
+    private static volatile UserDAO instance;
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
-    public void create(User entity) throws DAOException {
+    public void create(User user) throws DAOException {
 
     }
 
@@ -30,7 +35,7 @@ public class UserDAO extends AbstractDAO<User> {
     }
 
     @Override
-    public void update(User entity) throws DAOException {
+    public void update(User user) throws DAOException {
 
     }
 

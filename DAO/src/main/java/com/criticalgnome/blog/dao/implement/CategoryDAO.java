@@ -52,7 +52,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
     public void create(Category category) throws DAOException {
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SqlSynatx.INSERT_INTO_VALUES);
+            preparedStatement = connection.prepareStatement(SqlSynatx.INSERT_INTO_CATEGORY_VALUES);
             preparedStatement.setInt(1, category.getId());
             preparedStatement.setString(2, category.getName());
             preparedStatement.setInt(3, category.getCategory().getId());
@@ -76,7 +76,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
         List<Category> categories = new ArrayList<>();
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM);
+            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM_CATEGORY);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 categories.add(buildCategory(resultSet));
@@ -101,7 +101,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
         Category category = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM_WHERE);
+            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM_CATEGORY_WHERE);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -125,7 +125,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
     public void update(Category category) throws DAOException {
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SqlSynatx.UPDATE_SET_WHERE);
+            preparedStatement = connection.prepareStatement(SqlSynatx.UPDATE_CATEGORY_SET_WHERE);
             preparedStatement.setString(1, category.getName());
             preparedStatement.setInt(2, category.getCategory().getId());
             preparedStatement.setInt(3, category.getId());
@@ -148,7 +148,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
     public void remove(int id) throws DAOException {
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SqlSynatx.DELETE_FROM_WHERE);
+            preparedStatement = connection.prepareStatement(SqlSynatx.DELETE_FROM_CATEGORY_WHERE);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             logger.log(Level.INFO, "Category [{}] removed", id);
@@ -170,7 +170,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
         int maxId = -1;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_MAXID_FROM);
+            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_MAX_FROM_CATEGORY);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 maxId = resultSet.getInt(1);
@@ -192,11 +192,11 @@ public class CategoryDAO extends AbstractDAO<Category> {
      * @throws DAOException custom exception
      */
     private Category buildCategory(ResultSet resultSet) throws SQLException, DAOException {
-        int id = resultSet.getInt(SqlTables.CATEGORY_TABLE_ID);
-        String name = resultSet.getString(SqlTables.CATEGORY_TABLE_NAME);
+        int id = resultSet.getInt(SqlTables.CATEGORY_ID);
+        String name = resultSet.getString(SqlTables.CATEGORY_NAME);
         Category category = null;
-        if (resultSet.getInt(SqlTables.CATEGORY_TABLE_CATEGORY_ID) != 0) {
-            category = getById(resultSet.getInt(SqlTables.CATEGORY_TABLE_CATEGORY_ID));
+        if (resultSet.getInt(SqlTables.CATEGORY_CATEGORY_ID) != 0) {
+            category = getById(resultSet.getInt(SqlTables.CATEGORY_CATEGORY_ID));
         }
         return EntityConstructor.buildCategory(id, name, category);
     }

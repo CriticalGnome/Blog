@@ -3,6 +3,7 @@ package com.criticalgnome.blog.utils;
 import com.criticalgnome.blog.entities.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Constructors for all entities
@@ -38,7 +39,7 @@ public class EntityConstructor {
      * @param author record author
      * @return created object
      */
-    public static Record buildRecord(int id, String header, String body, Timestamp timestamp, Category category, User author) {
+    public static Record buildRecord(int id, String header, String body, Timestamp timestamp, Category category, User author, List<Tag> tags) {
         Record record = new Record();
         record.setId(id);
         record.setHeader(header);
@@ -46,6 +47,7 @@ public class EntityConstructor {
         record.setTimestamp(timestamp);
         record.setCategory(category);
         record.setAuthor(author);
+        record.setTags(tags);
         return record;
     }
 
