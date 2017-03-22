@@ -1,7 +1,10 @@
 package com.criticalgnome.blog.actions;
 
+import com.criticalgnome.blog.actions.content.ActionMainpage;
 import com.criticalgnome.blog.actions.locale.ActionChangeLocale;
 import com.criticalgnome.blog.actions.user.ActionLogin;
+import com.criticalgnome.blog.actions.user.ActionLogout;
+import com.criticalgnome.blog.actions.user.ActionRegister;
 
 /**
  * Project Blog
@@ -10,7 +13,10 @@ import com.criticalgnome.blog.actions.user.ActionLogin;
  * @author CriticalGnome
  */
 public enum ActionsTable {
+    MAINPAGE {{ this.action = new ActionMainpage(); }},
     LOGIN {{ this.action = new ActionLogin(); }},
+    LOGOUT {{ this.action = new ActionLogout(); }},
+    REGISTER {{ this.action = new ActionRegister(); }},
     CHANGELOCALE {{ this.action = new ActionChangeLocale(); }};
 
     Action action;

@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: CriticalGnome
-  Date: 21.03.2017
-  Time: 19:35
---%>
+
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
@@ -23,10 +18,18 @@
                 <li><a href="about.jsp">About</a></li>
                 <li><a href="#">Link</a></li>
             </ul>
-            <form action="controller" class="navbar-form navbar-right">
-                <input type="hidden" name="action" value="login">
-                <button type="submit" class="btn btn-default">Login</button>
-            </form>
+            <c:if test="${empty user}">
+                <form action="login.jsp" class="navbar-form navbar-right">
+                    <button type="submit" class="btn btn-default">Sign in</button>
+                </form>
+            </c:if>
+            <c:if test="${not empty user}">
+                <form action="controller" class="navbar-form navbar-right">
+                    Welcome, ${user.nickName}
+                    <input type="hidden" name="action" value="logout">
+                    <button type="submit" class="btn btn-default">Sign out</button>
+                </form>
+            </c:if>
         </div>
     </div>
 </nav>

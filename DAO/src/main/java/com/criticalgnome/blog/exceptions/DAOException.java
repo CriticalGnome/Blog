@@ -1,4 +1,4 @@
-package com.criticalgnome.blog.dao.exceptions;
+package com.criticalgnome.blog.exceptions;
 
 /**
  * Project Blog

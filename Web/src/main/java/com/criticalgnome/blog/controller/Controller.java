@@ -27,7 +27,7 @@ public class Controller extends HttpServlet {
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String page;
+        String page = null;
         if (request.getParameter("action") == null) {
             page = "error.jsp?reason=Illegal Call";
         } else {

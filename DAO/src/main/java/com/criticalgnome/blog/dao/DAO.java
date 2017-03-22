@@ -1,6 +1,6 @@
 package com.criticalgnome.blog.dao;
 
-import com.criticalgnome.blog.dao.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.entities.Entity;
 
 import java.util.List;

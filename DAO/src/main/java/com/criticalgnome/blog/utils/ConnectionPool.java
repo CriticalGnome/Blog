@@ -1,4 +1,4 @@
-package com.criticalgnome.blog.dao.utils;
+package com.criticalgnome.blog.utils;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
