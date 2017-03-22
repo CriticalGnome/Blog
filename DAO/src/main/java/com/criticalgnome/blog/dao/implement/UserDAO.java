@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -96,6 +95,26 @@ public class UserDAO extends AbstractDAO<User> {
             }
         } catch (SQLException e) {
             logger.log(Level.FATAL, "MySQL fatal error in getById method");
+            throw new DAOException("MySQL Error", e);
+        } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
+        }
+        return user;
+    }
+
+    public User getByEmailAndPassword(String email, String password) throws DAOException {
+        User user = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM_USER_WHERE_EMAIL_AND_PASSWORD);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                user = buildUser(resultSet);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.FATAL, "MySQL fatal error in getByEmailAndPassword method");
             throw new DAOException("MySQL Error", e);
         } finally {
             ConnectionPool.getInstance().releaseConnection(connection);

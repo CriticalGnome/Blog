@@ -41,6 +41,7 @@ public class SqlSynatx {
     public static final String INSERT_INTO_USER_VALUES = "INSERT INTO user (id, email, password, role_id, nick_name, first_name, last_name) VALUES (?, ?, ?, ?, ?, ?, ?);";
     public static final String SELECT_FROM_USER = "SELECT * FROM user;";
     public static final String SELECT_FROM_USER_WHERE = "SELECT * FROM user WHERE id = ?;";
+    public static final String SELECT_FROM_USER_WHERE_EMAIL_AND_PASSWORD = "SELECT * FROM user WHERE email = ? AND password = ?;";
     public static final String UPDATE_USER_SET_WHERE = "UPDATE user SET email = ?, password = ?, nick_name = ?, first_name = ?, last_name = ?, role_id = ? WHERE id = ?;";
     public static final String DELETE_FROM_USER_WHERE = "DELETE FROM user WHERE id = ?;";
     public static final String SELECT_MAX_FROM_USER = "SELECT max(id) FROM user;";
