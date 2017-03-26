@@ -1,6 +1,11 @@
+<%--@elvariable id="rightPage" type="java.lang.String"--%>
+<%--@elvariable id="rightPageClass" type="java.lang.String"--%>
+<%--@elvariable id="leftPage" type="java.lang.String"--%>
+<%--@elvariable id="leftPageClass" type="java.lang.String"--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%--@elvariable id="records" type="java.util.List"--%>
 <c:if test="${empty records}">
     <c:redirect url="controller?action=mainpage"/>
 </c:if>
@@ -22,6 +27,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><b>${record.header}</b></h3>
+                        <%--@elvariable id="user" type="com.criticalgnome.blog.entities.User"--%>
+                        <c:if test="${(not empty user and user.role.id < 3) or (not empty user and user.id == record.author.id)}">
+                            <a href="controller?action=editrecord&id=${record.id}">Edit</a>
+                        </c:if>
                     </div>
                     <div class="panel-body">
                         <h6><b>Category: ${record.category.name}</b></h6>
@@ -39,6 +48,16 @@
                 </div>
             </c:forEach>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="container">
+        <nav aria-label="...">
+            <ul class="pager">
+                <li class="previous${leftPageClass}"><a href="${leftPage}"><span aria-hidden="true">&larr;</span> Left</a></li>
+                <li class="next${rightPageClass}"><a href="${rightPage}">Right <span aria-hidden="true">&rarr;</span></a></li>
+            </ul>
+        </nav>
     </div>
 </div>
 

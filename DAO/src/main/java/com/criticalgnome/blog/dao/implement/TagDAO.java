@@ -6,7 +6,6 @@ import com.criticalgnome.blog.dao.AbstractDAO;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.utils.ConnectionPool;
 import com.criticalgnome.blog.entities.Tag;
-import com.criticalgnome.blog.utils.EntityConstructor;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -171,6 +170,6 @@ public class TagDAO extends AbstractDAO<Tag> {
     private Tag buildTag(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(SqlTables.TAG_ID);
         String name = resultSet.getString(SqlTables.TAG_NAME);
-        return EntityConstructor.buildTag(id, name);
+        return new Tag(id, name);
     }
 }

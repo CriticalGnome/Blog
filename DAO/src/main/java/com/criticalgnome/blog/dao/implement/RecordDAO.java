@@ -9,7 +9,6 @@ import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
-import com.criticalgnome.blog.utils.EntityConstructor;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -75,7 +74,27 @@ public class RecordDAO extends AbstractDAO<Record> {
                 recordList.add(buildRecord(resultSet));
             }
         } catch (SQLException e) {
-            logger.log(Level.FATAL, "MySQL fatal error in create method");
+            logger.log(Level.FATAL, "MySQL fatal error in getAll method");
+            throw new DAOException("MySQL Error", e);
+        } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
+        }
+        return recordList;
+    }
+
+    public List<Record> getRecordsByPage(int pageNumber, int pageCapacity) throws DAOException {
+        List<Record> recordList = new ArrayList<>();
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM_RECORD_BY_PAGE);
+            preparedStatement.setInt(1, pageCapacity);
+            preparedStatement.setInt(2, (pageNumber * pageCapacity - pageCapacity));
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                recordList.add(buildRecord(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.log(Level.FATAL, "MySQL fatal error in getByPage method");
             throw new DAOException("MySQL Error", e);
         } finally {
             ConnectionPool.getInstance().releaseConnection(connection);
@@ -159,6 +178,24 @@ public class RecordDAO extends AbstractDAO<Record> {
         return maxId;
     }
 
+    public int getRecordsCount() throws DAOException {
+        int count = -1;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_COUNT_FROM_RECORD);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.FATAL, "MySQL fatal error in getMaxId method");
+            throw new DAOException("MySQL Error", e);
+        } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
+        }
+        return count;
+    }
+
     private Record buildRecord(ResultSet resultSet) throws SQLException, DAOException {
         int id = resultSet.getInt(SqlTables.RECORD_ID);
         String header = resultSet.getString(SqlTables.RECORD_HEADER);
@@ -167,6 +204,7 @@ public class RecordDAO extends AbstractDAO<Record> {
         Category category = CategoryDAO.getInstance().getById(resultSet.getInt(SqlTables.RECORD_CATEGORY_ID));
         User user = UserDAO.getInstance().getById(resultSet.getInt(SqlTables.RECORD_USER_ID));
         List<Tag> tagList = TagDAO.getInstance().getTagsForRecord(resultSet.getInt("id"));
-        return EntityConstructor.buildRecord(id, header, body, timestamp, category, user, tagList);
+        return new Record(id, header, body, timestamp, category, user, tagList);
     }
+
 }

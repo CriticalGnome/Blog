@@ -4,7 +4,6 @@ import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
-import com.criticalgnome.blog.utils.EntityConstructor;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -38,7 +37,7 @@ public class RecordDAOTest {
         Category category = CategoryDAO.getInstance().getById(1);
         User user = UserDAO.getInstance().getById(1);
         List<Tag> tagList = new ArrayList<>();
-        expected = EntityConstructor.buildRecord(maxId + 1, "Test Header", "Test Body", null, category, user, tagList);
+        expected = new Record(maxId + 1, "Test Header", "Test Body", null, category, user, tagList);
         RecordDAO.getInstance().create(expected);
         actual = RecordDAO.getInstance().getById(expected.getId());
         expected.setTimestamp(actual.getTimestamp());

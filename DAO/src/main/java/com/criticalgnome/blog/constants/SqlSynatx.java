@@ -18,10 +18,12 @@ public class SqlSynatx {
     // Record table
     public static final String INSERT_INTO_RECORD_VALUES = "INSERT INTO record (id, header, body, category_id, user_id) VALUES (?, ?, ?, ?, ?);";
     public static final String SELECT_FROM_RECORD = "SELECT * FROM record;";
+    public static final String SELECT_FROM_RECORD_BY_PAGE = "SELECT * FROM record ORDER BY id DESC LIMIT ? OFFSET ?;";
     public static final String SELECT_FROM_RECORD_WHERE = "SELECT * FROM record WHERE id = ?;";
     public static final String UPDATE_RECORD_SET_WHERE = "UPDATE record SET header = ?, body = ?, category_id = ?, user_id = ? WHERE id = ?;";
     public static final String DELETE_FROM_RECORD_WHERE = "DELETE FROM record WHERE id = ?;";
     public static final String SELECT_MAX_FROM_RECORD = "SELECT max(id) FROM record;";
+    public static final String SELECT_COUNT_FROM_RECORD = "SELECT count(*) FROM record;";
     // Role table
     public static final String INSERT_INTO_ROLE_VALUES = "INSERT INTO role (id, name) VALUES (?, ?);";
     public static final String SELECT_FROM_ROLE = "SELECT * FROM role;";

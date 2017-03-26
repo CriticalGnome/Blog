@@ -7,8 +7,6 @@ import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.utils.ConnectionPool;
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
-import com.criticalgnome.blog.utils.EntityConstructor;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -188,6 +186,6 @@ public class UserDAO extends AbstractDAO<User> {
         String firstName = resultSet.getString(SqlTables.USER_FIRST_NAME);
         String lastName = resultSet.getString(SqlTables.USER_LAST_NAME);
         Role role = RoleDAO.getInstance().getById(resultSet.getInt(SqlTables.USER_ROLE_ID));
-        return EntityConstructor.buildUser(id, email, password,nickName, firstName, lastName, role);
+        return new User(id, email, password,nickName, firstName, lastName, role);
     }
 }

@@ -4,8 +4,8 @@ import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.dao.implement.UserDAO;
 import com.criticalgnome.blog.entities.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.criticalgnome.blog.utils.Alert;
+import com.criticalgnome.blog.utils.MD5;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,19 +25,22 @@ public class ActionLogin implements Action {
         HttpSession session = request.getSession();
         String page = null;
         String email = request.getParameter("email");
-        String password = ActionRegister.md5Encode(request.getParameter("password"));
+        String password = MD5.md5Encode(request.getParameter("password"));
         try {
             User user = UserDAO.getInstance().getByEmailAndPassword(email, password);
             if (user != null) {
                 session.setAttribute("user", user);
-                session.setAttribute("message", "Login");
+                Alert alert = new Alert("alert-success", "You are logged in");
+                session.setAttribute("alert", alert);
                 page = "index.jsp";
             } else {
-                session.setAttribute("message", "fail");
+                Alert alert =  new Alert("alert-danger", "Wrong login or password");
+                session.setAttribute("alert", alert);
                 page = "login.jsp";
             }
         } catch (DAOException e) {
-            session.setAttribute("message", e.getMessage());
+            Alert alert = new Alert("alert-danger", e.getMessage());
+            session.setAttribute("alert", alert);
             page = "error.jsp";
         }
         return page;

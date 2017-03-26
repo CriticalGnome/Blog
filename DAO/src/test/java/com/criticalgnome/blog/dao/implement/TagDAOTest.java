@@ -1,7 +1,6 @@
 package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.entities.Tag;
-import com.criticalgnome.blog.utils.EntityConstructor;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -31,7 +30,7 @@ public class TagDAOTest {
     @Test
     public void stage2_createAndGetByIdTest() throws Exception {
         int maxId = TagDAO.getInstance().getMaxId();
-        expected = EntityConstructor.buildTag(maxId + 1, "Test Role");
+        expected = new Tag(maxId + 1, "Test Role");
         TagDAO.getInstance().create(expected);
         actual = TagDAO.getInstance().getById(expected.getId());
         Assert.assertEquals("Create and read test not valid", expected, actual);

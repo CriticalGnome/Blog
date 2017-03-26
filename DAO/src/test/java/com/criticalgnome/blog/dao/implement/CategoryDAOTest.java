@@ -1,7 +1,6 @@
 package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.entities.Category;
-import com.criticalgnome.blog.utils.EntityConstructor;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
@@ -29,7 +28,7 @@ public class CategoryDAOTest {
     @Test
     public void stage2_createAndGetByIdTest() throws Exception {
         int maxId = CategoryDAO.getInstance().getMaxId();
-        expected = EntityConstructor.buildCategory(maxId + 1, "Test Role", null);
+        expected = new Category(maxId + 1, "Test Category", null);
         CategoryDAO.getInstance().create(expected);
         actual = CategoryDAO.getInstance().getById(expected.getId());
         Assert.assertEquals("Create and read test not valid", expected, actual);

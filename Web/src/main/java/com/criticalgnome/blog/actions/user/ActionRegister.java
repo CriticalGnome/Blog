@@ -5,18 +5,14 @@ import com.criticalgnome.blog.dao.implement.UserDAO;
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DAOException;
-import com.criticalgnome.blog.utils.EntityConstructor;
+import com.criticalgnome.blog.utils.MD5;
+import com.criticalgnome.blog.utils.RegexChecker;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Project Blog
@@ -31,7 +27,7 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
         String page = null;
         Boolean error = false;
         String email = request.getParameter("email");
-        String password = md5Encode(request.getParameter("password"));
+        String password = MD5.md5Encode(request.getParameter("password"));
         String nickName = request.getParameter("nickName");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -58,7 +54,7 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
             error = true;
             request.setAttribute("nickNameClass", "has-error");
             request.setAttribute("nickNameMessage", "Nickname cannot be empty");
-        } else if (!checkNickNameWithRegExp(nickName)) {
+        } else if (!RegexChecker.checkNickNameWithRegExp(nickName)) {
             error = true;
             request.setAttribute("nickNameClass", "has-error");
             request.setAttribute("nickNameMessage", "Nickname must contain letters and digits only");
@@ -72,7 +68,7 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
             error = true;
             request.setAttribute("firstNameClass", "has-error");
             request.setAttribute("firstNameMessage", "First name cannot be empty");
-        } else if (!checkNameWithRegExp(firstName)) {
+        } else if (!RegexChecker.checkNameWithRegExp(firstName)) {
             error = true;
             request.setAttribute("firstNameClass", "has-error");
             request.setAttribute("firstNameMessage", "First name must contain letters only");
@@ -86,7 +82,7 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
             error = true;
             request.setAttribute("lastNameClass", "has-error");
             request.setAttribute("lastNameMessage", "Last name cannot be empty");
-        } else if (!checkNameWithRegExp(lastName)) {
+        } else if (!RegexChecker.checkNameWithRegExp(lastName)) {
             error = true;
             request.setAttribute("lastNameClass", "has-error");
             request.setAttribute("lastNameMessage", "Last name must contain letters only");
@@ -101,7 +97,7 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
             try {
                 Role role = RoleDAO.getInstance().getById(5);
                 int id = UserDAO.getInstance().getMaxId() + 1;
-                User user = EntityConstructor.buildUser(id, email, password, nickName, firstName, lastName, role);
+                User user = new User(id, email, password, nickName, firstName, lastName, role);
                 UserDAO.getInstance().create(user);
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
@@ -124,32 +120,4 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
         return page;
     }
 
-    private static boolean checkNickNameWithRegExp(String s){
-        Pattern p = Pattern.compile("^[а-яА-ЯёЁa-zA-Z0-9]+$");
-        Matcher m = p.matcher(s);
-        return m.matches();
-    }
-    private static boolean checkNameWithRegExp(String s){
-        Pattern p = Pattern.compile("^[а-яА-ЯёЁa-zA-Z]+$");
-        Matcher m = p.matcher(s);
-        return m.matches();
-    }
-    public static String md5Encode(String input) {
-        String result = input;
-        if(input != null) {
-            MessageDigest md = null;
-            try {
-                md = MessageDigest.getInstance("MD5");
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-            md.update(input.getBytes());
-            BigInteger hash = new BigInteger(1, md.digest());
-            result = hash.toString(16);
-            while(result.length() < 32) {
-                result = "0" + result;
-            }
-        }
-        return result;
-    }
 }

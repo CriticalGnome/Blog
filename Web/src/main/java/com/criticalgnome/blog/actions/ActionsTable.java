@@ -1,6 +1,8 @@
 package com.criticalgnome.blog.actions;
 
+import com.criticalgnome.blog.actions.content.ActionEditRecord;
 import com.criticalgnome.blog.actions.content.ActionMainpage;
+import com.criticalgnome.blog.actions.content.ActionSaveRecord;
 import com.criticalgnome.blog.actions.locale.ActionChangeLocale;
 import com.criticalgnome.blog.actions.user.ActionLogin;
 import com.criticalgnome.blog.actions.user.ActionLogout;
@@ -17,6 +19,8 @@ public enum ActionsTable {
     LOGIN {{ this.action = new ActionLogin(); }},
     LOGOUT {{ this.action = new ActionLogout(); }},
     REGISTER {{ this.action = new ActionRegister(); }},
+    EDITRECORD {{ this.action = new ActionEditRecord(); }},
+    SAVERECORD {{ this.action = new ActionSaveRecord(); }},
     CHANGELOCALE {{ this.action = new ActionChangeLocale(); }};
 
     Action action;

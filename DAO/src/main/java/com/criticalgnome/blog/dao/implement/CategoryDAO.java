@@ -6,7 +6,6 @@ import com.criticalgnome.blog.dao.AbstractDAO;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.utils.ConnectionPool;
 import com.criticalgnome.blog.entities.Category;
-import com.criticalgnome.blog.utils.EntityConstructor;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -206,6 +205,6 @@ public class CategoryDAO extends AbstractDAO<Category> {
         if (resultSet.getInt(SqlTables.CATEGORY_CATEGORY_ID) != 0) {
             category = getById(resultSet.getInt(SqlTables.CATEGORY_CATEGORY_ID));
         }
-        return EntityConstructor.buildCategory(id, name, category);
+        return new Category(id, name, category);
     }
 }

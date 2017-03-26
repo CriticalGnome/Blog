@@ -2,7 +2,6 @@ package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
-import com.criticalgnome.blog.utils.EntityConstructor;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class UserDAOTest {
     public void stage2_createAndGetByIdTest() throws Exception {
         int maxId = UserDAO.getInstance().getMaxId();
         Role role = RoleDAO.getInstance().getById(1);
-        expected = EntityConstructor.buildUser(maxId + 1, "me@my.com", "qwerty", "Tester", "Test", "User", role);
+        expected = new User(maxId + 1, "me@my.com", "qwerty", "Tester", "Test", "User", role);
         UserDAO.getInstance().create(expected);
         actual = UserDAO.getInstance().getById(expected.getId());
         Assert.assertEquals("Create and read test not valid", expected, actual);

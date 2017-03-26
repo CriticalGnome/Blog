@@ -6,7 +6,6 @@ import com.criticalgnome.blog.dao.AbstractDAO;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.utils.ConnectionPool;
 import com.criticalgnome.blog.entities.Role;
-import com.criticalgnome.blog.utils.EntityConstructor;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -152,6 +151,6 @@ public class RoleDAO extends AbstractDAO<Role> {
     private Role buildRole(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(SqlTables.ROLE_ID);
         String name = resultSet.getString(SqlTables.ROLE_NAME);
-        return EntityConstructor.buildRole(id, name);
+        return new Role(id, name);
     }
 }

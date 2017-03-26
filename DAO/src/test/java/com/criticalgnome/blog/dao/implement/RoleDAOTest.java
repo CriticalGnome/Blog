@@ -1,7 +1,6 @@
 package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.entities.Role;
-import com.criticalgnome.blog.utils.EntityConstructor;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
@@ -29,7 +28,7 @@ public class RoleDAOTest {
     @Test
     public void stage2_createAndGetByIdTest() throws Exception {
         int maxId = RoleDAO.getInstance().getMaxId();
-        expected = EntityConstructor.buildRole(maxId + 1, "Test Role");
+        expected = new Role(maxId + 1, "Test Role");
         RoleDAO.getInstance().create(expected);
         actual = RoleDAO.getInstance().getById(expected.getId());
         Assert.assertEquals("Create and read test not valid", expected, actual);
