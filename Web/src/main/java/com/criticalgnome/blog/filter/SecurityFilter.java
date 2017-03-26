@@ -24,7 +24,8 @@ public class SecurityFilter implements Filter {
         HttpSession session = httpRequest.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null || user.getRole().getId() != 1) {
-            request.getRequestDispatcher("access-denied.jsp").forward(request, response);
+            session.setAttribute("message", "You have no permission to access this area");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
         chain.doFilter(request, response);
     }

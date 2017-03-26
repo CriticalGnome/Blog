@@ -34,7 +34,8 @@ public class SqlSynatx {
     // Tag table
     public static final String INSERT_INTO_TAG_VALUES = "INSERT INTO tag (id, name) VALUES (?, ?);";
     public static final String SELECT_FROM_TAG = "SELECT * FROM tag;";
-    public static final String SELECT_FROM_TAG_WHERE = "SELECT * FROM tag WHERE id = ?;";
+    public static final String SELECT_FROM_TAG_WHERE_ID = "SELECT * FROM tag WHERE id = ?;";
+    public static final String SELECT_FROM_TAG_WHERE_NAME = "SELECT * FROM tag WHERE name = ?;";
     public static final String UPDATE_TAG_SET_WHERE = "UPDATE tag SET name = ? WHERE id = ?;";
     public static final String DELETE_FROM_TAG_WHERE = "DELETE FROM tag WHERE id = ?;";
     public static final String SELECT_MAX_FROM_TAG = "SELECT max(id) FROM tag;";
@@ -47,4 +48,8 @@ public class SqlSynatx {
     public static final String UPDATE_USER_SET_WHERE = "UPDATE user SET email = ?, password = ?, nick_name = ?, first_name = ?, last_name = ?, role_id = ? WHERE id = ?;";
     public static final String DELETE_FROM_USER_WHERE = "DELETE FROM user WHERE id = ?;";
     public static final String SELECT_MAX_FROM_USER = "SELECT max(id) FROM user;";
+    // Record_has_tag table
+    public static final java.lang.String DELETE_OLD_TAGS = "DELETE FROM record_has_tag WHERE record_id = ?;";
+    public static final java.lang.String ADD_TAGS_TO_RECORD = "INSERT INTO record_has_tag (record_id, tag_id) VALUES (?, ?);";
+    public static final java.lang.String CLEAR_TAGS_BEFORE_DELETE_RECORD = "DELETE FROM record_has_tag WHERE record_id = ?;";
 }

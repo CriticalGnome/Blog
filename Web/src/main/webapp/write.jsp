@@ -1,11 +1,13 @@
-<%--@elvariable id="tagString" type="java.lang.String"--%>
-<%--@elvariable id="record" type="com.criticalgnome.blog.entities.Record"--%>
+<%--@elvariable id="user" type="com.criticalgnome.blog.entities.User"--%>
 <%--@elvariable id="categories" type="java.util.List"--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ include file="inc/uselocale.jsp" %>
+<c:if test="${empty categories}">
+    <c:redirect url="controller?action=writerecord"/>
+</c:if>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -13,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <title><fmt:message key="edit.title"/></title>
+    <title><fmt:message key="write.title"/></title>
 </head>
 <body>
 <%@ include file="inc/navbar.jsp"%>
@@ -22,36 +24,30 @@
         <div class="col-md-10 col-md-offset-1">
             <form action="controller" method="post">
                 <input type="hidden" name="action" value="saverecord">
-                <input type="hidden" name="mode" value="update">
-                <input type="hidden" name="id" value="${record.id}">
-                <input type="hidden" name="author" value="${record.author.id}">
+                <input type="hidden" name="mode" value="create">
+                <input type="hidden" name="id" value="0">
+                <input type="hidden" name="author" value="${user.id}">
                 <div class="form-group">
                     <label for="header"><fmt:message key="edit.form.header"/></label>
-                    <input type="text" id="header" name="header" class="form-control" value="${record.header}">
+                    <input type="text" id="header" name="header" class="form-control" value="">
                 </div>
                 <div class="form-group">
                     <label for="categoryId"><fmt:message key="edit.form.category"/></label>
                     <select id="categoryId" name="categoryId" class="form-control">
                         <c:forEach items="${categories}" var="category">
-                            <c:if test="${record.category.id == category.id}">
-                                <option value="${category.id}" selected>${category.name}</option>
-                            </c:if>
-                            <c:if test="${record.category.id != category.id}">
-                                <option value="${category.id}">${category.name}</option>
-                            </c:if>
+                            <option value="${category.id}">${category.name}</option>
                         </c:forEach>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="body"><fmt:message key="edit.form.maintext"/></label>
-                    <textarea id="body" name="body" rows="10" class="form-control">${record.body}</textarea>
+                    <textarea id="body" name="body" rows="10" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tags"><fmt:message key="edit.form.tags"/></label>
-                    <input type="text" id="tags" name="tags" class="form-control" value="${tagString}">
+                    <input type="text" id="tags" name="tags" class="form-control" value="">
                 </div>
                 <button type="submit" id="submit" name="submit" class="btn btn-primary"><fmt:message key="edit.form.save"/></button>
-                <button type="reset" id="reset" name="reset" class="btn btn-warning"><fmt:message key="edit.form.reset"/></button>
             </form>
         </div>
     </div>

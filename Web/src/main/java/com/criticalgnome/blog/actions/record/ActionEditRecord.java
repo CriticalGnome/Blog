@@ -1,9 +1,10 @@
-package com.criticalgnome.blog.actions.content;
+package com.criticalgnome.blog.actions.record;
 
 import com.criticalgnome.blog.dao.implement.CategoryDAO;
 import com.criticalgnome.blog.dao.implement.RecordDAO;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
+import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DAOException;
 
@@ -55,8 +56,17 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
             session.setAttribute("message", "You have no permission to edit this record");
             return "error.jsp";
         }
+        StringBuilder tagString = new StringBuilder();
+        for (Tag tag : record.getTags()){
+            tagString.append(",").append(tag.getName());
+        }
+        if (tagString.length() > 0) {
+            tagString.deleteCharAt(0);
+        }
+        System.out.println(tagString);
         request.setAttribute("record", record);
         request.setAttribute("categories", categoryList);
+        request.setAttribute("tagString", tagString.toString());
         request.getRequestDispatcher("edit.jsp").forward(request, response);
 
         return null;

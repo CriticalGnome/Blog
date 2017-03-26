@@ -8,8 +8,7 @@ package com.criticalgnome.blog.actions.locale;
  */
 public enum LocalesTable {
     DEFAULT {{ locale="locale_en_US"; }},
-    RU {{ locale="locale_ru_RU"; }},
-    BY {{ locale="locale_by_BY"; }};
+    RU {{ locale="locale_ru_RU"; }};
     String locale;
     public String getLocale() {
         return locale;

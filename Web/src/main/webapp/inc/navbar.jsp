@@ -16,6 +16,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="about.jsp">About</a></li>
+                <c:if test="${not empty user}">
+                    <li><a href="write.jsp">New entry</a></li>
+                </c:if>
                 <c:if test="${not empty user and user.role.id == 1}">
                     <li><a href="adminarea.jsp">Adminpanel</a></li>
                 </c:if>

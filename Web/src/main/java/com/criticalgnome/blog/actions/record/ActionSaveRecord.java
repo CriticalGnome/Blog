@@ -1,7 +1,8 @@
-package com.criticalgnome.blog.actions.content;
+package com.criticalgnome.blog.actions.record;
 
 import com.criticalgnome.blog.dao.implement.CategoryDAO;
 import com.criticalgnome.blog.dao.implement.RecordDAO;
+import com.criticalgnome.blog.dao.implement.TagDAO;
 import com.criticalgnome.blog.dao.implement.UserDAO;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
@@ -45,15 +46,30 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             int id = Integer.parseInt(request.getParameter("id"));
             String header = request.getParameter("header");
             String body = request.getParameter("body");
+            String tagString = request.getParameter("tags");
+            String[] tagArray = tagString.split(",");
+            List<Tag> tags = new ArrayList<>();
+            for (String tagName : tagArray) {
+                Tag tag = TagDAO.getInstance().getOrCreateTagByName(tagName.toUpperCase().trim());
+                tags.add(tag);
+            }
             Category category = CategoryDAO.getInstance().getById(Integer.parseInt(request.getParameter("categoryId")));
             User author = UserDAO.getInstance().getById(Integer.parseInt(request.getParameter("author")));
             Calendar calendar = Calendar.getInstance();
             Date now = calendar.getTime();
             Timestamp timestamp = new Timestamp(now.getTime());
-            List<Tag> tags = new ArrayList<>();
             Record record = new Record(id, header, body, timestamp, category, author, tags);
-            RecordDAO.getInstance().update(record);
-            Alert alert = new Alert("alert-success", "Record updated");
+            Alert alert = null;
+            if (request.getParameter("mode").equals("update")) {
+                RecordDAO.getInstance().update(record);
+                alert = new Alert("alert-success", "Record updated");
+            }
+            if (request.getParameter("mode").equals("create")) {
+                id = RecordDAO.getInstance().getMaxId() + 1;
+                record.setId(id);
+                RecordDAO.getInstance().create(record);
+                alert = new Alert("alert-success", "Record saved");
+            }
             session.setAttribute("alert", alert);
             page = "index.jsp";
         } catch (DAOException e) {

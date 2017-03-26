@@ -81,7 +81,7 @@ public class TagDAO extends AbstractDAO<Tag> {
         Tag tag = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM_TAG_WHERE);
+            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM_TAG_WHERE_ID);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -89,6 +89,30 @@ public class TagDAO extends AbstractDAO<Tag> {
             }
         } catch (SQLException e) {
             logger.log(Level.FATAL, "MySQL fatal error in getById method");
+            throw new DAOException("MySQL Error", e);
+        } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
+        }
+        return tag;
+    }
+
+    public Tag getOrCreateTagByName(String tagName) throws DAOException {
+        Tag tag = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SqlSynatx.SELECT_FROM_TAG_WHERE_NAME);
+            preparedStatement.setString(1, tagName);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                tag = buildTag(resultSet);
+            }
+            if (tag == null) {
+                int id = getMaxId() + 1;
+                tag = new Tag(id, tagName);
+                create(tag);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.FATAL, "MySQL fatal error in getOrCreateTagByName method");
             throw new DAOException("MySQL Error", e);
         } finally {
             ConnectionPool.getInstance().releaseConnection(connection);

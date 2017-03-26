@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<%@ include file="inc/uselocale.jsp" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -13,7 +14,6 @@
 <body>
 <%@ include file="inc/navbar.jsp"%>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<%@ include file="inc/footer.jsp" %>
 </body>
 </html>

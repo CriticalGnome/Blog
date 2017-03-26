@@ -54,6 +54,7 @@ public class RecordDAO extends AbstractDAO<Record> {
             preparedStatement.setInt(4, record.getCategory().getId());
             preparedStatement.setInt(5, record.getAuthor().getId());
             preparedStatement.executeUpdate();
+            updateTagsForRecord(record);
             logger.log(Level.INFO, "Created new record \"{}\" [{}]", record.getHeader(), record.getId());
         } catch (SQLException e) {
             logger.log(Level.FATAL, "MySQL fatal error in create method");
@@ -133,6 +134,7 @@ public class RecordDAO extends AbstractDAO<Record> {
             preparedStatement.setInt(4, record.getAuthor().getId());
             preparedStatement.setInt(5, record.getId());
             preparedStatement.executeUpdate();
+            updateTagsForRecord(record);
             logger.log(Level.INFO, "Update record: {} [{}]", record.getHeader(), record.getId());
         } catch (SQLException e) {
             logger.log(Level.FATAL, "MySQL fatal error in update method");
@@ -146,6 +148,9 @@ public class RecordDAO extends AbstractDAO<Record> {
     public void remove(int id) throws DAOException {
         try {
             connection = ConnectionPool.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SqlSynatx.CLEAR_TAGS_BEFORE_DELETE_RECORD);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement(SqlSynatx.DELETE_FROM_RECORD_WHERE);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
@@ -195,6 +200,27 @@ public class RecordDAO extends AbstractDAO<Record> {
         }
         return count;
     }
+
+    private void updateTagsForRecord(Record record) throws DAOException {
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SqlSynatx.DELETE_OLD_TAGS);
+            preparedStatement.setInt(1,record.getId());
+            preparedStatement.executeUpdate();
+            for (Tag tag : record.getTags()) {
+                preparedStatement = connection.prepareStatement(SqlSynatx.ADD_TAGS_TO_RECORD);
+                preparedStatement.setInt(1, record.getId());
+                preparedStatement.setInt(2, tag.getId());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            logger.log(Level.FATAL, "MySQL fatal error in updateTags method");
+            throw new DAOException("MySQL Error", e);
+        } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
+        }
+    }
+
 
     private Record buildRecord(ResultSet resultSet) throws SQLException, DAOException {
         int id = resultSet.getInt(SqlTables.RECORD_ID);
