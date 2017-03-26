@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Project Blog
@@ -42,6 +39,7 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page;
         HttpSession session = request.getSession();
+        ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             String header = request.getParameter("header");
@@ -62,19 +60,18 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             Alert alert = null;
             if (request.getParameter("mode").equals("update")) {
                 RecordDAO.getInstance().update(record);
-                alert = new Alert("alert-success", "Record updated");
+                alert = new Alert("alert-success", bundle.getString("alert.record.updated"));
             }
             if (request.getParameter("mode").equals("create")) {
                 id = RecordDAO.getInstance().getMaxId() + 1;
                 record.setId(id);
                 RecordDAO.getInstance().create(record);
-                alert = new Alert("alert-success", "Record saved");
+                alert = new Alert("alert-success", bundle.getString("alert.record.saved"));
             }
             session.setAttribute("alert", alert);
             page = "index.jsp";
         } catch (DAOException e) {
-            Alert alert = new Alert("alert-danger", e.getMessage());
-            session.setAttribute("alert", alert);
+            session.setAttribute("message", e.getMessage());
             page = "error.jsp";
         }
         return page;

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 /**
  * Project Blog
@@ -23,24 +24,24 @@ public class ActionLogin implements Action {
 
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String page = null;
+        ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
+        String page;
         String email = request.getParameter("email");
         String password = MD5.md5Encode(request.getParameter("password"));
         try {
             User user = UserDAO.getInstance().getByEmailAndPassword(email, password);
             if (user != null) {
                 session.setAttribute("user", user);
-                Alert alert = new Alert("alert-success", "You are logged in");
+                Alert alert = new Alert("alert-success", bundle.getString("alert.loggedin"));
                 session.setAttribute("alert", alert);
                 page = "index.jsp";
             } else {
-                Alert alert =  new Alert("alert-danger", "Wrong login or password");
+                Alert alert =  new Alert("alert-danger", bundle.getString("alert.wronglogin"));
                 session.setAttribute("alert", alert);
                 page = "login.jsp";
             }
         } catch (DAOException e) {
-            Alert alert = new Alert("alert-danger", e.getMessage());
-            session.setAttribute("alert", alert);
+            session.setAttribute("message", e.getMessage());
             page = "error.jsp";
         }
         return page;

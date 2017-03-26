@@ -1,3 +1,5 @@
+<%--@elvariable id="alert" type="com.criticalgnome.blog.utils.Alert"--%>
+<%--@elvariable id="user" type="com.criticalgnome.blog.entities.User"--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -6,33 +8,33 @@
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only"><fmt:message key="navbar.toggle"/></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.jsp">Blog</a>
+            <a class="navbar-brand" href="index.jsp"><fmt:message key="navbar.name"/></a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="about.jsp">About</a></li>
+                <li><a href="about.jsp"><fmt:message key="navbar.about"/></a></li>
                 <c:if test="${not empty user}">
-                    <li><a href="write.jsp">New entry</a></li>
+                    <li><a href="write.jsp"><fmt:message key="navbar.newrecord"/></a></li>
                 </c:if>
                 <c:if test="${not empty user and user.role.id == 1}">
-                    <li><a href="adminarea.jsp">Adminpanel</a></li>
+                    <li><a href="adminarea.jsp"><fmt:message key="navbar.adminpanel"/></a></li>
                 </c:if>
             </ul>
             <c:if test="${empty user}">
                 <form action="login.jsp" class="navbar-form navbar-right">
-                    <button type="submit" class="btn btn-default">Sign in</button>
+                    <button type="submit" class="btn btn-default"><fmt:message key="navbar.signin"/></button>
                 </form>
             </c:if>
             <c:if test="${not empty user}">
                 <form action="controller" class="navbar-form navbar-right">
-                    Welcome, ${user.nickName}
+                    <fmt:message key="navbar.welcome"/>, ${user.nickName}
                     <input type="hidden" name="action" value="logout">
-                    <button type="submit" class="btn btn-default">Sign out</button>
+                    <button type="submit" class="btn btn-default"><fmt:message key="navbar.signout"/></button>
                 </form>
             </c:if>
         </div>

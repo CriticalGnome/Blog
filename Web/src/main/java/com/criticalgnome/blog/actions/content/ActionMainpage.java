@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +22,7 @@ import java.util.List;
 public class ActionMainpage implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Record> records = new ArrayList<Record>();
+        List<Record> records;
         String page = null;
         int pageNumber = 1;
         int pageCapacity = SiteConstants.RECORDS_ON_PAGE;

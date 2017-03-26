@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 /**
  * Project Blog
@@ -26,6 +27,8 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
 
         String page = null;
         Boolean error = false;
+        HttpSession session = request.getSession();
+        ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
         String email = request.getParameter("email");
         String password = MD5.md5Encode(request.getParameter("password"));
         String nickName = request.getParameter("nickName");
@@ -35,7 +38,7 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
         if (email.equals("")) {
             error = true;
             request.setAttribute("emailClass", "has-error");
-            request.setAttribute("emailMessage", "Email cannot be empty");
+            request.setAttribute("emailMessage", bundle.getString("register.hint.empty.email"));
         } else {
             request.setAttribute("emailClass", "has-success");
             request.setAttribute("emailValue", email);
@@ -44,7 +47,7 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
         if (password.equals("")) {
             error = true;
             request.setAttribute("passwordClass", "has-error");
-            request.setAttribute("passwordMessage", "Password cannot be empty");
+            request.setAttribute("passwordMessage", bundle.getString("register.hint.empty.password"));
         } else {
             request.setAttribute("passwordClass", "has-success");
             request.setAttribute("passwordValue", password);
@@ -53,11 +56,11 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
         if (nickName.equals("")) {
             error = true;
             request.setAttribute("nickNameClass", "has-error");
-            request.setAttribute("nickNameMessage", "Nickname cannot be empty");
+            request.setAttribute("nickNameMessage", bundle.getString("register.hint.empty.nickname"));
         } else if (!RegexChecker.checkNickNameWithRegExp(nickName)) {
             error = true;
             request.setAttribute("nickNameClass", "has-error");
-            request.setAttribute("nickNameMessage", "Nickname must contain letters and digits only");
+            request.setAttribute("nickNameMessage", bundle.getString("register.hint.wrong.nickname"));
             request.setAttribute("nickNameValue", nickName);
         } else {
             request.setAttribute("nickNameClass", "has-success");
@@ -67,11 +70,11 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
         if (firstName.equals("")) {
             error = true;
             request.setAttribute("firstNameClass", "has-error");
-            request.setAttribute("firstNameMessage", "First name cannot be empty");
+            request.setAttribute("firstNameMessage", bundle.getString("register.hint.empty.firstname"));
         } else if (!RegexChecker.checkNameWithRegExp(firstName)) {
             error = true;
             request.setAttribute("firstNameClass", "has-error");
-            request.setAttribute("firstNameMessage", "First name must contain letters only");
+            request.setAttribute("firstNameMessage", bundle.getString("register.hint.wrong.firstname"));
             request.setAttribute("firstNameValue", firstName);
         } else {
             request.setAttribute("firstNameClass", "has-success");
@@ -81,11 +84,11 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
         if (lastName.equals("")) {
             error = true;
             request.setAttribute("lastNameClass", "has-error");
-            request.setAttribute("lastNameMessage", "Last name cannot be empty");
+            request.setAttribute("lastNameMessage", bundle.getString("register.hint.empty.lastname"));
         } else if (!RegexChecker.checkNameWithRegExp(lastName)) {
             error = true;
             request.setAttribute("lastNameClass", "has-error");
-            request.setAttribute("lastNameMessage", "Last name must contain letters only");
+            request.setAttribute("lastNameMessage", bundle.getString("register.hint.wrong.lastname"));
             request.setAttribute("lastNameValue", lastName);
         } else {
             request.setAttribute("lastNameClass", "has-success");
@@ -99,19 +102,18 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
                 int id = UserDAO.getInstance().getMaxId() + 1;
                 User user = new User(id, email, password, nickName, firstName, lastName, role);
                 UserDAO.getInstance().create(user);
-                HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 page = "index.jsp";
             } catch (DAOException e) {
                 if (e.getCause().toString().contains("email")) {
                     request.setAttribute("emailClass", "has-error");
-                    request.setAttribute("emailMessage", "Email already registered");
+                    request.setAttribute("emailMessage", bundle.getString("register.hint.taken.email"));
                     request.setAttribute("emailValue", email);
                     request.getRequestDispatcher("register.jsp").forward(request, response);
                 }
                 if (e.getCause().toString().contains("nick")) {
                     request.setAttribute("nickNameClass", "has-error");
-                    request.setAttribute("nickNameMessage", "Nickname already taken");
+                    request.setAttribute("nickNameMessage", bundle.getString("register.hint.taken.nickname"));
                     request.setAttribute("nickNameValue", nickName);
                     request.getRequestDispatcher("register.jsp").forward(request, response);
                 }

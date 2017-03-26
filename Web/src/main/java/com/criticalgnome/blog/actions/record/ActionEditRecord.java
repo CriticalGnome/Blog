@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Project Blog
@@ -34,13 +34,14 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Record record = null;
-        List<Category> categoryList = new ArrayList<Category>();
+        Record record;
+        List<Category> categoryList;
         if (request.getParameter("id") == null) {
             return "index.jsp";
         }
         int recordId = Integer.parseInt(request.getParameter("id"));
         HttpSession session = request.getSession();
+        ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
         if (session.getAttribute("user") == null) {
             return "index.jsp";
         }
@@ -53,7 +54,7 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
             return "error.jsp";
         }
         if (user.getRole().getId() > 2 && !user.getId().equals(record.getAuthor().getId())) {
-            session.setAttribute("message", "You have no permission to edit this record");
+            session.setAttribute("message", bundle.getString("error.in.edit"));
             return "error.jsp";
         }
         StringBuilder tagString = new StringBuilder();
