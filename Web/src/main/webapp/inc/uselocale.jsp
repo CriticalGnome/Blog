@@ -10,4 +10,5 @@
 </c:if>
 <c:if test="${empty sessionScope.locale}" >
     <fmt:setBundle basename="locale_en_US" />
+    <c:set var="locale" value="locale_en_US" scope="session"/>
 </c:if>

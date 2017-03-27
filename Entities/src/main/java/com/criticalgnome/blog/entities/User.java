@@ -11,16 +11,16 @@ import java.io.Serializable;
  * @author CriticalGnome
  */
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class User extends Entity implements Serializable {
 
-    @NonNull private Integer id;
-    @NonNull private String email;
-    @NonNull private String password;
-    @NonNull private String nickName;
-    @NonNull private String firstName;
-    @NonNull private String lastName;
-    @NonNull private Role role;
+    private Integer id;
+    private String email;
+    private String password;
+    private String nickName;
+    private String firstName;
+    private String lastName;
+    private Role role;
 }

@@ -11,11 +11,11 @@ import java.io.Serializable;
  * @author CriticalGnome
  */
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Tag extends Entity implements Serializable {
 
-    @NonNull private Integer id;
-    @NonNull private String name;
+    private Integer id;
+    private String name;
 }

@@ -9,7 +9,10 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,7 +40,10 @@ public class RecordDAOTest {
         Category category = CategoryDAO.getInstance().getById(1);
         User user = UserDAO.getInstance().getById(1);
         List<Tag> tagList = new ArrayList<>();
-        expected = new Record(maxId + 1, "Test Header", "Test Body", null, category, user, tagList);
+        Calendar calendar = Calendar.getInstance();
+        Date now = calendar.getTime();
+        Timestamp timestamp = new Timestamp(now.getTime());
+        expected = new Record(maxId + 1, "Test Header", "Test Body", timestamp, category, user, tagList);
         RecordDAO.getInstance().create(expected);
         actual = RecordDAO.getInstance().getById(expected.getId());
         expected.setTimestamp(actual.getTimestamp());

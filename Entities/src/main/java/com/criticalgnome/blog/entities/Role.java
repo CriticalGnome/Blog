@@ -12,10 +12,10 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Role extends Entity implements Serializable {
 
-    @NonNull private Integer id;
-    @NonNull private String name;
+    private Integer id;
+    private String name;
 }

@@ -14,15 +14,15 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Record extends Entity implements Serializable {
 
-    @NonNull private Integer id;
-    @NonNull private String header;
-    @NonNull private String body;
-    @NonNull private Timestamp timestamp;
-    @NonNull private Category category;
-    @NonNull private User author;
-    @NonNull private List<Tag> tags;
+    private Integer id;
+    private String header;
+    private String body;
+    private Timestamp timestamp;
+    private Category category;
+    private User author;
+    private List<Tag> tags;
 }
