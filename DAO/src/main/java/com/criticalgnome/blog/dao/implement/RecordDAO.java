@@ -32,6 +32,9 @@ public class RecordDAO extends AbstractDAO<Record> {
 
     private RecordDAO() {}
 
+    /**
+     * Singleton
+     */
     public static RecordDAO getInstance() {
         if (instance == null) {
             synchronized (RecordDAO.class) {
@@ -43,6 +46,11 @@ public class RecordDAO extends AbstractDAO<Record> {
         return instance;
     }
 
+    /**
+     * Create new record
+     * @param record record object
+     * @throws DAOException custom exception
+     */
     @Override
     public void create(Record record) throws DAOException {
         try {
@@ -64,6 +72,11 @@ public class RecordDAO extends AbstractDAO<Record> {
         }
     }
 
+    /**
+     * Get list of all records
+     * @return list
+     * @throws DAOException custom exception
+     */
     @Override
     public List<Record> getAll() throws DAOException {
         List<Record> recordList = new ArrayList<>();

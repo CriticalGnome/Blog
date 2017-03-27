@@ -13,8 +13,8 @@ import java.util.List;
  * @author CriticalGnome
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Record extends Entity implements Serializable {
 
