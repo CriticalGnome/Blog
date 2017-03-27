@@ -17,19 +17,23 @@ import com.criticalgnome.blog.actions.user.ActionRegister;
  * @author CriticalGnome
  */
 public enum ActionsTable {
-    MAINPAGE {{ this.action = new ActionMainpage(); }},
-    LOGIN {{ this.action = new ActionLogin(); }},
-    LOGOUT {{ this.action = new ActionLogout(); }},
-    REGISTER {{ this.action = new ActionRegister(); }},
-    WRITERECORD {{ this.action = new ActionWriteRecord(); }},
-    EDITRECORD {{ this.action = new ActionEditRecord(); }},
-    SAVERECORD {{ this.action = new ActionSaveRecord(); }},
-    DELETERECORD {{ this.action = new ActionDeleteRecord(); }},
-    CHANGELOCALE {{ this.action = new ActionChangeLocale(); }};
+    MAINPAGE (new ActionMainpage()),
+    LOGIN (new ActionLogin()),
+    LOGOUT (new ActionLogout()),
+    REGISTER (new ActionRegister()),
+    WRITERECORD (new ActionWriteRecord()),
+    EDITRECORD (new ActionEditRecord()),
+    SAVERECORD (new ActionSaveRecord()),
+    DELETERECORD (new ActionDeleteRecord()),
+    CHANGELOCALE (new ActionChangeLocale());
 
     Action action;
 
     public Action getCommand() {
         return action;
+    }
+
+    ActionsTable(Action action) {
+        this.action = action;
     }
 }

@@ -7,10 +7,16 @@ package com.criticalgnome.blog.actions.locale;
  * @author CriticalGnome
  */
 public enum LocalesTable {
-    DEFAULT {{ locale="locale_en_US"; }},
-    RU {{ locale="locale_ru_RU"; }};
+    DEFAULT ("locale_en_US"),
+    RU ("locale_ru_RU");
+
     String locale;
+
     public String getLocale() {
         return locale;
+    }
+
+    LocalesTable(String locale) {
+        this.locale = locale;
     }
 }
