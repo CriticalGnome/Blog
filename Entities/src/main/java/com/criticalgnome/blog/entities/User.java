@@ -33,6 +33,6 @@ public class User extends Pojo implements Serializable {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "role_id")
+    @ManyToOne(cascade = CascadeType.PERSIST) @JoinColumn(name = "role_id")
     private Role role;
 }
