@@ -20,7 +20,7 @@ public class Category extends Pojo implements Serializable {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
     @Column
     private String name;
     @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "id")

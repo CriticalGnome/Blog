@@ -2,7 +2,7 @@ package com.criticalgnome.blog.actions.user;
 
 import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.exceptions.DAOException;
-import com.criticalgnome.blog.dao.implement.UserDAO;
+import com.criticalgnome.blog.dao.implement.UserDAOold;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.utils.Alert;
 import com.criticalgnome.blog.utils.MD5;
@@ -29,7 +29,7 @@ public class ActionLogin implements Action {
         String email = request.getParameter("email");
         String password = MD5.md5Encode(request.getParameter("password"));
         try {
-            User user = UserDAO.getInstance().getByEmailAndPassword(email, password);
+            User user = UserDAOold.getInstance().getByEmailAndPassword(email, password);
             if (user != null) {
                 session.setAttribute("user", user);
                 Alert alert = new Alert("alert-success", bundle.getString("alert.loggedin"));

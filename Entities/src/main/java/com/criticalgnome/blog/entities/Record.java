@@ -22,7 +22,7 @@ import java.util.List;
 public class Record extends Pojo implements Serializable {
 
     @Id @GeneratedValue
-    private Integer id;
+    private Long id;
     @Column
     private String header;
     @Column

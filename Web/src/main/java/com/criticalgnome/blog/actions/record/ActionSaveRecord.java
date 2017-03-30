@@ -1,9 +1,9 @@
 package com.criticalgnome.blog.actions.record;
 
-import com.criticalgnome.blog.dao.implement.CategoryDAO;
-import com.criticalgnome.blog.dao.implement.RecordDAO;
-import com.criticalgnome.blog.dao.implement.TagDAO;
-import com.criticalgnome.blog.dao.implement.UserDAO;
+import com.criticalgnome.blog.dao.implement.CategoryDAOold;
+import com.criticalgnome.blog.dao.implement.RecordDAOold;
+import com.criticalgnome.blog.dao.implement.TagDAOold;
+import com.criticalgnome.blog.dao.implement.UserDAOold;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
@@ -48,24 +48,24 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             String[] tagArray = tagString.split(",");
             List<Tag> tags = new ArrayList<>();
             for (String tagName : tagArray) {
-                Tag tag = TagDAO.getInstance().getOrCreateTagByName(tagName.toUpperCase().trim());
+                Tag tag = TagDAOold.getInstance().getOrCreateTagByName(tagName.toUpperCase().trim());
                 tags.add(tag);
             }
-            Category category = CategoryDAO.getInstance().getById(Integer.parseInt(request.getParameter("categoryId")));
-            User author = UserDAO.getInstance().getById(Integer.parseInt(request.getParameter("author")));
+            Category category = CategoryDAOold.getInstance().getById(Integer.parseInt(request.getParameter("categoryId")));
+            User author = UserDAOold.getInstance().getById(Integer.parseInt(request.getParameter("author")));
             Calendar calendar = Calendar.getInstance();
             Date now = calendar.getTime();
             Timestamp timestamp = new Timestamp(now.getTime());
             Record record = new Record(id, header, body, timestamp, category, author, tags);
             Alert alert = null;
             if (request.getParameter("mode").equals("update")) {
-                RecordDAO.getInstance().update(record);
+                RecordDAOold.getInstance().update(record);
                 alert = new Alert("alert-success", bundle.getString("alert.record.updated"));
             }
             if (request.getParameter("mode").equals("create")) {
-                id = RecordDAO.getInstance().getMaxId() + 1;
+                id = RecordDAOold.getInstance().getMaxId() + 1;
                 record.setId(id);
-                RecordDAO.getInstance().create(record);
+                RecordDAOold.getInstance().create(record);
                 alert = new Alert("alert-success", bundle.getString("alert.record.saved"));
             }
             session.setAttribute("alert", alert);

@@ -15,45 +15,45 @@ import java.util.List;
  * @author CriticalGnome
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TagDAOTest {
+public class TagDaoTestOld {
 
     private static Tag actual;
     private static Tag expected;
 
     @Test
     public void stage1_getInstanceTest() {
-        TagDAO instance1 = TagDAO.getInstance();
-        TagDAO instance2 = TagDAO.getInstance();
+        TagDAOold instance1 = TagDAOold.getInstance();
+        TagDAOold instance2 = TagDAOold.getInstance();
         Assert.assertEquals("Not singleton", instance1.hashCode(), instance2.hashCode());
     }
 
     @Test
     public void stage2_createAndGetByIdTest() throws Exception {
-        int maxId = TagDAO.getInstance().getMaxId();
+        int maxId = TagDAOold.getInstance().getMaxId();
         expected = new Tag(maxId + 1, "Test Role");
-        TagDAO.getInstance().create(expected);
-        actual = TagDAO.getInstance().getById(expected.getId());
+        TagDAOold.getInstance().create(expected);
+        actual = TagDAOold.getInstance().getById(expected.getId());
         Assert.assertEquals("Create and read test not valid", expected, actual);
     }
 
     @Test
     public void stage3_getAllTest() throws Exception {
-        List<Tag> roleList = TagDAO.getInstance().getAll();
+        List<Tag> roleList = TagDAOold.getInstance().getAll();
         Assert.assertTrue("GetAll test not valid", roleList.size() > 0);
     }
 
     @Test
     public void stage4_updateTest() throws Exception {
         expected.setName("Test2");
-        TagDAO.getInstance().update(expected);
-        actual = TagDAO.getInstance().getById(expected.getId());
+        TagDAOold.getInstance().update(expected);
+        actual = TagDAOold.getInstance().getById(expected.getId());
         Assert.assertEquals("Update test not valid", expected, actual);
     }
 
     @Test
     public void stage5_removeTest() throws Exception {
-        TagDAO.getInstance().remove(expected.getId());
-        actual = TagDAO.getInstance().getById(expected.getId());
+        TagDAOold.getInstance().remove(expected.getId());
+        actual = TagDAOold.getInstance().getById(expected.getId());
         Assert.assertNull("Remove test not valid", actual);
     }
 }

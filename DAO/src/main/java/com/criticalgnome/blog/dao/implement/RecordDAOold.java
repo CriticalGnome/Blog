@@ -2,7 +2,7 @@ package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.constants.SqlSynatx;
 import com.criticalgnome.blog.constants.SqlTables;
-import com.criticalgnome.blog.dao.AbstractDAO;
+import com.criticalgnome.blog.dao.AbstractDAOold;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.utils.ConnectionPool;
 import com.criticalgnome.blog.entities.Category;
@@ -25,18 +25,18 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class RecordDAO extends AbstractDAO<Record> {
+public class RecordDAOold extends AbstractDAOold<Record> {
 
-    private static volatile RecordDAO instance;
-    private static final Logger logger = LogManager.getLogger(RecordDAO.class);
+    private static volatile RecordDAOold instance;
+    private static final Logger logger = LogManager.getLogger(RecordDAOold.class);
 
-    private RecordDAO() {}
+    private RecordDAOold() {}
 
-    public static RecordDAO getInstance() {
+    public static RecordDAOold getInstance() {
         if (instance == null) {
-            synchronized (RecordDAO.class) {
+            synchronized (RecordDAOold.class) {
                 if (instance == null) {
-                    instance = new RecordDAO();
+                    instance = new RecordDAOold();
                 }
             }
         }
@@ -227,9 +227,9 @@ public class RecordDAO extends AbstractDAO<Record> {
         String header = resultSet.getString(SqlTables.RECORD_HEADER);
         String body = resultSet.getString(SqlTables.RECORD_BODY);
         Timestamp timestamp = resultSet.getTimestamp(SqlTables.RECORD_DATE);
-        Category category = CategoryDAO.getInstance().getById(resultSet.getInt(SqlTables.RECORD_CATEGORY_ID));
-        User user = UserDAO.getInstance().getById(resultSet.getInt(SqlTables.RECORD_USER_ID));
-        List<Tag> tagList = TagDAO.getInstance().getTagsForRecord(resultSet.getInt("id"));
+        Category category = CategoryDAOold.getInstance().getById(resultSet.getInt(SqlTables.RECORD_CATEGORY_ID));
+        User user = UserDAOold.getInstance().getById(resultSet.getInt(SqlTables.RECORD_USER_ID));
+        List<Tag> tagList = TagDAOold.getInstance().getTagsForRecord(resultSet.getInt("id"));
         return new Record(id, header, body, timestamp, category, user, tagList);
     }
 

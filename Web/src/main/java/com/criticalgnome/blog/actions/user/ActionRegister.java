@@ -1,7 +1,7 @@
 package com.criticalgnome.blog.actions.user;
 
-import com.criticalgnome.blog.dao.implement.RoleDAO;
-import com.criticalgnome.blog.dao.implement.UserDAO;
+import com.criticalgnome.blog.dao.implement.RoleDAOold;
+import com.criticalgnome.blog.dao.implement.UserDAOold;
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DAOException;
@@ -98,10 +98,10 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
             request.getRequestDispatcher("register.jsp").forward(request, response);
         } else {
             try {
-                Role role = RoleDAO.getInstance().getById(5);
-                int id = UserDAO.getInstance().getMaxId() + 1;
+                Role role = RoleDAOold.getInstance().getById(5);
+                int id = UserDAOold.getInstance().getMaxId() + 1;
                 User user = new User(id, email, password, nickName, firstName, lastName, role);
-                UserDAO.getInstance().create(user);
+                UserDAOold.getInstance().create(user);
                 session.setAttribute("user", user);
                 page = "index.jsp";
             } catch (DAOException e) {

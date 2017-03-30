@@ -2,7 +2,7 @@ package com.criticalgnome.blog.actions.content;
 
 import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.constants.SiteConstants;
-import com.criticalgnome.blog.dao.implement.RecordDAO;
+import com.criticalgnome.blog.dao.implement.RecordDAOold;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.exceptions.DAOException;
 
@@ -34,8 +34,8 @@ public class ActionMainpage implements Action {
             pageNumber = Integer.parseInt(request.getParameter("page"));
         }
         try {
-            records = RecordDAO.getInstance().getRecordsByPage(pageNumber, pageCapacity);
-            int recordsCount = RecordDAO.getInstance().getRecordsCount();
+            records = RecordDAOold.getInstance().getRecordsByPage(pageNumber, pageCapacity);
+            int recordsCount = RecordDAOold.getInstance().getRecordsCount();
             if (pageNumber > 1) {
                 leftPage = "controller?action=mainpage&page=" + (pageNumber - 1);
                 leftPageClass = "";

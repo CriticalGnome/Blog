@@ -1,7 +1,7 @@
 package com.criticalgnome.blog.actions.record;
 
-import com.criticalgnome.blog.dao.implement.CategoryDAO;
-import com.criticalgnome.blog.dao.implement.RecordDAO;
+import com.criticalgnome.blog.dao.implement.CategoryDAOold;
+import com.criticalgnome.blog.dao.implement.RecordDAOold;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
@@ -47,8 +47,8 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
         }
         User user = (User) session.getAttribute("user");
         try {
-            record = RecordDAO.getInstance().getById(recordId);
-            categoryList = CategoryDAO.getInstance().getAll();
+            record = RecordDAOold.getInstance().getById(recordId);
+            categoryList = CategoryDAOold.getInstance().getAll();
         } catch (DAOException e) {
             session.setAttribute("message", e.getMessage());
             return "error.jsp";

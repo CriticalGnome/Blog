@@ -1,7 +1,6 @@
 package com.criticalgnome.blog.actions.record;
 
-import com.criticalgnome.blog.dao.implement.CategoryDAO;
-import com.criticalgnome.blog.dao.implement.RecordDAO;
+import com.criticalgnome.blog.dao.implement.CategoryDAOold;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.exceptions.DAOException;
 
@@ -25,7 +24,7 @@ public class ActionWriteRecord implements com.criticalgnome.blog.actions.Action 
         HttpSession session = request.getSession();
         List<Category> categoryList = new ArrayList<Category>();
         try {
-            categoryList = CategoryDAO.getInstance().getAll();
+            categoryList = CategoryDAOold.getInstance().getAll();
         } catch (DAOException e) {
             session.setAttribute("message", e.getMessage());
             return "error.jsp";

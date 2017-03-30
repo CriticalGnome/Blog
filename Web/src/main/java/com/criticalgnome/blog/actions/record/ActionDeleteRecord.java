@@ -1,6 +1,6 @@
 package com.criticalgnome.blog.actions.record;
 
-import com.criticalgnome.blog.dao.implement.RecordDAO;
+import com.criticalgnome.blog.dao.implement.RecordDAOold;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.utils.Alert;
@@ -30,7 +30,7 @@ public class ActionDeleteRecord implements com.criticalgnome.blog.actions.Action
         }
         try {
             int id = Integer.parseInt(request.getParameter("id"));
-            RecordDAO.getInstance().remove(id);
+            RecordDAOold.getInstance().remove(id);
         } catch (DAOException e) {
             session.setAttribute("message", bundle.getString("error.in.delete"));
             return "error.jsp";

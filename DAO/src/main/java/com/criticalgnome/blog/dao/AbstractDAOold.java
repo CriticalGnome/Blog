@@ -1,7 +1,6 @@
 package com.criticalgnome.blog.dao;
 
 import com.criticalgnome.blog.entities.Pojo;
-import org.hibernate.Session;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,10 +12,8 @@ import java.sql.ResultSet;
  *
  * @author CriticalGnome
  */
-public abstract class AbstractDAO<T extends Pojo> implements DAO<T> {
+public abstract class AbstractDAOold<T extends Pojo> implements Dao<T> {
     protected Connection connection;
     protected PreparedStatement preparedStatement;
     protected ResultSet resultSet;
-
-    protected Session session;
 }

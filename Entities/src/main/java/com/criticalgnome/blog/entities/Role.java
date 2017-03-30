@@ -20,7 +20,7 @@ import java.io.Serializable;
 public class Role extends Pojo implements Serializable {
 
     @Id @GeneratedValue
-    private Integer id;
+    private Long id;
     @Column
     private String name;
 }

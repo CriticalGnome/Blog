@@ -2,7 +2,7 @@ package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.constants.SqlSynatx;
 import com.criticalgnome.blog.constants.SqlTables;
-import com.criticalgnome.blog.dao.AbstractDAO;
+import com.criticalgnome.blog.dao.AbstractDAOold;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.utils.ConnectionPool;
 import com.criticalgnome.blog.entities.Category;
@@ -21,21 +21,21 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class CategoryDAO extends AbstractDAO<Category> {
+public class CategoryDAOold extends AbstractDAOold<Category> {
 
-    private static volatile CategoryDAO instance;
-    private static final Logger logger = LogManager.getLogger(CategoryDAO.class);
+    private static volatile CategoryDAOold instance;
+    private static final Logger logger = LogManager.getLogger(CategoryDAOold.class);
 
-    private CategoryDAO(){}
+    private CategoryDAOold(){}
 
     /**
      * Singleton
      */
-    public static CategoryDAO getInstance() {
+    public static CategoryDAOold getInstance() {
         if (instance == null) {
-            synchronized (CategoryDAO.class) {
+            synchronized (CategoryDAOold.class) {
                 if (instance == null) {
-                    instance = new CategoryDAO();
+                    instance = new CategoryDAOold();
                 }
             }
         }

@@ -2,7 +2,7 @@ package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.constants.SqlSynatx;
 import com.criticalgnome.blog.constants.SqlTables;
-import com.criticalgnome.blog.dao.AbstractDAO;
+import com.criticalgnome.blog.dao.AbstractDAOold;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.utils.ConnectionPool;
 import com.criticalgnome.blog.entities.Role;
@@ -21,18 +21,18 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class RoleDAO extends AbstractDAO<Role> {
+public class RoleDAOold extends AbstractDAOold<Role> {
 
-    private static volatile RoleDAO instance;
-    private static final Logger logger = LogManager.getLogger(RoleDAO.class);
+    private static volatile RoleDAOold instance;
+    private static final Logger logger = LogManager.getLogger(RoleDAOold.class);
 
-    private RoleDAO() {}
+    private RoleDAOold() {}
 
-    public static RoleDAO getInstance() {
+    public static RoleDAOold getInstance() {
         if (instance == null) {
-            synchronized (RoleDAO.class) {
+            synchronized (RoleDAOold.class) {
                 if (instance == null) {
-                    instance = new RoleDAO();
+                    instance = new RoleDAOold();
                 }
             }
         }
