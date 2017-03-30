@@ -6,7 +6,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Project Blog
@@ -38,6 +40,10 @@ public class Record extends Pojo implements Serializable {
     private Category category;
     @ManyToOne(cascade = CascadeType.PERSIST) @JoinColumn(name = "author_id")
     private User author;
-    @ManyToMany
-    private List<Tag> tags;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "record_has_tag",
+            joinColumns = {@JoinColumn(name = "record_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id")}
+            )
+    private Set<Tag> tags = new HashSet<Tag>();
 }
