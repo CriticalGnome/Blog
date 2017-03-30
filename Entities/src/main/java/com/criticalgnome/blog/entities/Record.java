@@ -34,9 +34,9 @@ public class Record extends Pojo implements Serializable {
     private Timestamp createdAt;
     @Column(name = "modified_at", insertable = false)
     private Timestamp modifiedAt;
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "category_id")
+    @ManyToOne(cascade = CascadeType.PERSIST) @JoinColumn(name = "category_id")
     private Category category;
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "author_id")
+    @ManyToOne(cascade = CascadeType.PERSIST) @JoinColumn(name = "author_id")
     private User author;
     @ManyToMany
     private List<Tag> tags;
