@@ -1,7 +1,7 @@
 package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.dao.AbstractDao;
-import com.criticalgnome.blog.entities.Role;
+import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
@@ -15,17 +15,17 @@ import org.hibernate.HibernateException;
  * @author CriticalGnome
  */
 @Log4j2
-public class RoleDao extends AbstractDao<Role> {
+public class TagDao extends AbstractDao<Tag> {
 
-    private static volatile RoleDao instance;
+    private static volatile TagDao instance;
 
-    private RoleDao() {}
+    private TagDao() {}
 
-    public static RoleDao getInstance() {
+    public static TagDao getInstance() {
         if (instance == null) {
-            synchronized (RoleDao.class) {
+            synchronized (TagDao.class) {
                 if (instance == null) {
-                    instance = new RoleDao();
+                    instance = new TagDao();
                 }
             }
         }
@@ -33,17 +33,17 @@ public class RoleDao extends AbstractDao<Role> {
     }
 
     @Override
-    public Long create(Role role) throws DAOException {
+    public Long create(Tag tag) throws DAOException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
-            Long id = (Long) session.save(role);
+            Long id = (Long) session.save(tag);
             session.getTransaction().commit();
-            log.log(Level.INFO, "New role created [{}] {}", role.getId(), role.getName());
+            log.log(Level.INFO, "New tag created [{}] {}", tag.getId(), tag.getName());
             return id;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in create role method";
+            String message = "Fatal error in create tag method";
             log.log(Level.ERROR, message);
             throw new DAOException(message, e);
         } finally {
@@ -52,16 +52,16 @@ public class RoleDao extends AbstractDao<Role> {
     }
 
     @Override
-    public Role getById(Long id) throws DAOException {
+    public Tag getById(Long id) throws DAOException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
-            Role role = (Role) session.get(Role.class, id);
+            Tag tag = (Tag) session.get(Tag.class, id);
             session.getTransaction().commit();
-            return role;
+            return tag;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in get role method";
+            String message = "Fatal error in get tag method";
             log.log(Level.ERROR, message);
             throw new DAOException(message, e);
         } finally {
@@ -71,16 +71,16 @@ public class RoleDao extends AbstractDao<Role> {
     }
 
     @Override
-    public void update(Role role) throws DAOException {
+    public void update(Tag tag) throws DAOException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
-            session.update(role);
+            session.update(tag);
             session.getTransaction().commit();
-            log.log(Level.INFO, "Role updated [{}] {}", role.getId(), role.getName());
+            log.log(Level.INFO, "Tag updated [{}] {}", tag.getId(), tag.getName());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in update role method";
+            String message = "Fatal error in update tag method";
             log.log(Level.ERROR, message);
             throw new DAOException(message, e);
         } finally {
@@ -91,15 +91,15 @@ public class RoleDao extends AbstractDao<Role> {
     @Override
     public void remove(Long id) throws DAOException {
         try {
-            Role role = getById(id);
+            Tag tag = getById(id);
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
-            session.delete(role);
+            session.delete(tag);
             session.getTransaction().commit();
-            log.log(Level.INFO, "Role removed [{}] {}", role.getId(), role.getName());
+            log.log(Level.INFO, "Tag removed [{}] {}", tag.getId(), tag.getName());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in remove role method";
+            String message = "Fatal error in remove tag method";
             log.log(Level.ERROR, message);
             throw new DAOException(message, e);
         } finally {

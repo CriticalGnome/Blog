@@ -1,6 +1,6 @@
 package com.criticalgnome.blog.dao.implement;
 
-import com.criticalgnome.blog.entities.Role;
+import com.criticalgnome.blog.entities.Tag;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -13,31 +13,31 @@ import org.junit.runners.MethodSorters;
  * @author CriticalGnome
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class RoleDaoTest {
+public class TagDaoTest {
 
-    private static Role expected;
-    private static Role actual;
+    private static Tag expected;
+    private static Tag actual;
 
     @Test
     public void test1() throws Exception {
-        expected = new Role(null, "Test role");
-        Long id = RoleDao.getInstance().create(expected);
-        actual = RoleDao.getInstance().getById(id);
+        expected = new Tag(null, "Test tag");
+        Long id = TagDao.getInstance().create(expected);
+        actual = TagDao.getInstance().getById(id);
         Assert.assertEquals("Not equal", expected, actual);
     }
 
     @Test
     public void test2() throws Exception {
-        expected.setName("New name for role");
-        RoleDao.getInstance().update(expected);
-        actual = RoleDao.getInstance().getById(expected.getId());
+        expected.setName("New name for tag");
+        TagDao.getInstance().update(expected);
+        actual = TagDao.getInstance().getById(expected.getId());
         Assert.assertEquals("Not equal", expected, actual);
     }
 
     @Test
     public void test3() throws Exception {
-        RoleDao.getInstance().remove(expected.getId());
-        actual = RoleDao.getInstance().getById(expected.getId());
+        TagDao.getInstance().remove(expected.getId());
+        actual = TagDao.getInstance().getById(expected.getId());
         Assert.assertNull("Not deleted", actual);
     }
 
