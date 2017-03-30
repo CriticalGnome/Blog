@@ -5,6 +5,9 @@ import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.implement.CategoryService;
+import com.criticalgnome.blog.services.implement.RecordService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +40,7 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
         if (request.getParameter("id") == null) {
             return "index.jsp";
         }
-        int recordId = Integer.parseInt(request.getParameter("id"));
+        Long recordId = Long.parseLong(request.getParameter("id"));
         HttpSession session = request.getSession();
         ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
         if (session.getAttribute("user") == null) {
@@ -45,9 +48,9 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
         }
         User user = (User) session.getAttribute("user");
         try {
-            record = RecordDAOold.getInstance().getById(recordId);
-            categoryList = CategoryDAOold.getInstance().getAll();
-        } catch (DAOException e) {
+            record = RecordService.getInstance().getById(recordId);
+            categoryList = CategoryService.getInstance().getAll();
+        } catch (DAOException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
             return "error.jsp";
         }

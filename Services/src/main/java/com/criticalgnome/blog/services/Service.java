@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface Service<T extends Pojo> {
 
-    void create(T pojo) throws DAOException, ServiceException;
+    Long create(T pojo) throws DAOException, ServiceException;
     T getById(Long id) throws DAOException, ServiceException;
     void update(T pojo) throws DAOException, ServiceException;
     void remove(Long id) throws DAOException, ServiceException;

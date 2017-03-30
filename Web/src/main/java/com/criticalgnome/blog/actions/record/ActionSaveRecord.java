@@ -5,6 +5,11 @@ import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.implement.CategoryService;
+import com.criticalgnome.blog.services.implement.RecordService;
+import com.criticalgnome.blog.services.implement.TagService;
+import com.criticalgnome.blog.services.implement.UserService;
 import com.criticalgnome.blog.utils.Alert;
 
 import javax.servlet.ServletException;
@@ -37,36 +42,35 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
         HttpSession session = request.getSession();
         ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
         try {
-            int id = Integer.parseInt(request.getParameter("id"));
+            Long id = Long.parseLong(request.getParameter("id"));
             String header = request.getParameter("header");
             String body = request.getParameter("body");
             String tagString = request.getParameter("tags");
             String[] tagArray = tagString.split(",");
-            List<Tag> tags = new ArrayList<>();
+            Set<Tag> tags = new HashSet<Tag>();
             for (String tagName : tagArray) {
-                Tag tag = TagDAOold.getInstance().getOrCreateTagByName(tagName.toUpperCase().trim());
+                Tag tag = TagService.getInstance().getOrCreateTagByName(tagName.toUpperCase().trim());
                 tags.add(tag);
             }
-            Category category = CategoryDAOold.getInstance().getById(Integer.parseInt(request.getParameter("categoryId")));
-            User author = UserDAOold.getInstance().getById(Integer.parseInt(request.getParameter("author")));
+            Category category = CategoryService.getInstance().getById(Long.parseLong(request.getParameter("categoryId")));
+            User author = UserService.getInstance().getById(Long.parseLong(request.getParameter("author")));
             Calendar calendar = Calendar.getInstance();
             Date now = calendar.getTime();
             Timestamp timestamp = new Timestamp(now.getTime());
-            Record record = new Record(id, header, body, timestamp, category, author, tags);
+            Record record = new Record(id, header, body, timestamp, timestamp, category, author, tags);
             Alert alert = null;
             if (request.getParameter("mode").equals("update")) {
-                RecordDAOold.getInstance().update(record);
+                RecordService.getInstance().update(record);
                 alert = new Alert("alert-success", bundle.getString("alert.record.updated"));
             }
             if (request.getParameter("mode").equals("create")) {
-                id = RecordDAOold.getInstance().getMaxId() + 1;
-                record.setId(id);
-                RecordDAOold.getInstance().create(record);
+                record.setId(null);
+                RecordService.getInstance().create(record);
                 alert = new Alert("alert-success", bundle.getString("alert.record.saved"));
             }
             session.setAttribute("alert", alert);
             page = "index.jsp";
-        } catch (DAOException e) {
+        } catch (DAOException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
             page = "error.jsp";
         }
