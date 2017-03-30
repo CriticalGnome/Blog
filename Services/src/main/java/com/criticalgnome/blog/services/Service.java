@@ -1,6 +1,6 @@
 package com.criticalgnome.blog.services;
 
-import com.criticalgnome.blog.entities.Entity;
+import com.criticalgnome.blog.entities.Pojo;
 import com.criticalgnome.blog.exceptions.DAOException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public interface Service<T extends Entity> {
+public interface Service<T extends Pojo> {
 
     void create(T entity) throws DAOException, ServiceException;
     List<T> getAll() throws DAOException, ServiceException;

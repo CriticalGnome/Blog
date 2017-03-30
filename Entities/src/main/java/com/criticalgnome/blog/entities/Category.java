@@ -2,6 +2,7 @@ package com.criticalgnome.blog.entities;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -13,11 +14,16 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class Category extends Entity implements Serializable {
+@Entity
+@Table(name = "category")
+public class Category extends Pojo implements Serializable {
 
+    @Id
+    @GeneratedValue
     private Integer id;
+    @Column
     private String name;
+    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "id")
     private Category category;
 
 }

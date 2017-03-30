@@ -2,6 +2,7 @@ package com.criticalgnome.blog.entities;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -14,8 +15,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Role extends Entity implements Serializable {
+@Entity
+@Table(name = "role")
+public class Role extends Pojo implements Serializable {
 
+    @Id @GeneratedValue
     private Integer id;
+    @Column
     private String name;
 }

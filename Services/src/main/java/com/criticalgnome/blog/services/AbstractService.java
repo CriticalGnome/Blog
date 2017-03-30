@@ -1,6 +1,6 @@
 package com.criticalgnome.blog.services;
 
-import com.criticalgnome.blog.entities.Entity;
+import com.criticalgnome.blog.entities.Pojo;
 
 /**
  * Project Blog
@@ -8,6 +8,6 @@ import com.criticalgnome.blog.entities.Entity;
  *
  * @author CriticalGnome
  */
-public abstract class AbstractService<T extends Entity> implements Service<T> {
+public abstract class AbstractService<T extends Pojo> implements Service<T> {
 
 }

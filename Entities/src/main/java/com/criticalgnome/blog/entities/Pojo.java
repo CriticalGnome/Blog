@@ -11,6 +11,6 @@ import java.io.Serializable;
  * @author CriticalGnome
  */
 @Data
-public abstract class Entity implements Serializable {
+public abstract class Pojo implements Serializable {
 
 }
