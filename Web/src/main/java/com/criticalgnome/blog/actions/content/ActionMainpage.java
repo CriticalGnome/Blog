@@ -2,7 +2,6 @@ package com.criticalgnome.blog.actions.content;
 
 import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.constants.SiteConstants;
-import com.criticalgnome.blog.dao.implement.RecordDAOold;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.exceptions.DAOException;
 

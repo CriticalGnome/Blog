@@ -1,6 +1,5 @@
 package com.criticalgnome.blog.actions.record;
 
-import com.criticalgnome.blog.dao.implement.CategoryDAOold;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.exceptions.DAOException;
 

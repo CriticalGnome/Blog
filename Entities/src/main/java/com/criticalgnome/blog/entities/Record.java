@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -18,8 +19,10 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "record")
+@Table(name = "records")
 public class Record extends Pojo implements Serializable {
+
+    private static final long SerialVersionUID = 1L;
 
     @Id @GeneratedValue
     private Long id;
@@ -27,11 +30,13 @@ public class Record extends Pojo implements Serializable {
     private String header;
     @Column
     private String body;
-    @Column
-    private Timestamp timestamp;
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "id")
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
+    @Column(name = "modified_at", insertable = false)
+    private Timestamp modifiedAt;
+    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "category_id")
     private Category category;
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "id")
+    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "author_id")
     private User author;
     @ManyToMany
     private List<Tag> tags;

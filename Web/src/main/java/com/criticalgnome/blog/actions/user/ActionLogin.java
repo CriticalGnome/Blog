@@ -2,7 +2,6 @@ package com.criticalgnome.blog.actions.user;
 
 import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.exceptions.DAOException;
-import com.criticalgnome.blog.dao.implement.UserDAOold;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.utils.Alert;
 import com.criticalgnome.blog.utils.MD5;

@@ -1,9 +1,5 @@
 package com.criticalgnome.blog.actions.record;
 
-import com.criticalgnome.blog.dao.implement.CategoryDAOold;
-import com.criticalgnome.blog.dao.implement.RecordDAOold;
-import com.criticalgnome.blog.dao.implement.TagDAOold;
-import com.criticalgnome.blog.dao.implement.UserDAOold;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;

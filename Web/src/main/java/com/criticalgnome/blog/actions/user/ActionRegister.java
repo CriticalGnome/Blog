@@ -1,7 +1,5 @@
 package com.criticalgnome.blog.actions.user;
 
-import com.criticalgnome.blog.dao.implement.RoleDAOold;
-import com.criticalgnome.blog.dao.implement.UserDAOold;
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DAOException;

@@ -16,8 +16,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name="tag")
+@Table(name="tags")
 public class Tag extends Pojo implements Serializable {
+
+    private static final long SerialVersionUID = 1L;
 
     @Id @GeneratedValue
     private Long id;

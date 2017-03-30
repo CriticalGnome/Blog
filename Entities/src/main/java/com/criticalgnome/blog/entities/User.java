@@ -16,8 +16,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "tag")
+@Table(name = "users")
 public class User extends Pojo implements Serializable {
+
+    private static final long SerialVersionUID = 1L;
 
     @Id @GeneratedValue
     private Long id;
@@ -31,6 +33,6 @@ public class User extends Pojo implements Serializable {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "id")
+    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "role_id")
     private Role role;
 }

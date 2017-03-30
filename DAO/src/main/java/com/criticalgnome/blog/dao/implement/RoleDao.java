@@ -20,6 +20,21 @@ import java.util.List;
 @Log4j2
 public class RoleDao extends AbstractDao<Role> {
 
+    private static volatile RoleDao instance;
+
+    private RoleDao() {}
+
+    public static RoleDao getInstance() {
+        if (instance == null) {
+            synchronized (RoleDao.class) {
+                if (instance == null) {
+                    instance = new RoleDao();
+                }
+            }
+        }
+        return instance;
+    }
+
     @Override
     public Long create(Role role) throws DAOException {
         try {
@@ -76,10 +91,8 @@ public class RoleDao extends AbstractDao<Role> {
     @Override
     public void remove(Long id) throws DAOException {
         try {
-            session = HibernateConnector.getInstance().getSession();
-            session.beginTransaction();
             Role role = getById(id);
-            session.getTransaction().commit();
+            session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
             session.delete(role);
             session.getTransaction().commit();
