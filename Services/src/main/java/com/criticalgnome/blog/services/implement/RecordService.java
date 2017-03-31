@@ -2,10 +2,12 @@ package com.criticalgnome.blog.services.implement;
 
 import com.criticalgnome.blog.dao.implement.RecordDao;
 import com.criticalgnome.blog.entities.Record;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.AbstractService;
 import lombok.extern.log4j.Log4j2;
+
+import java.util.List;
 
 /**
  * Project Blog
@@ -32,22 +34,30 @@ public class RecordService extends AbstractService<Record> {
     }
 
     @Override
-    public Long create(Record record) throws DAOException, ServiceException {
+    public Long create(Record record) throws DaoException, ServiceException {
         return RecordDao.getInstance().create(record);
     }
 
     @Override
-    public Record getById(Long id) throws DAOException, ServiceException {
+    public Record getById(Long id) throws DaoException, ServiceException {
         return RecordDao.getInstance().getById(id);
     }
 
     @Override
-    public void update(Record record) throws DAOException, ServiceException {
+    public void update(Record record) throws DaoException, ServiceException {
         RecordDao.getInstance().update(record);
     }
 
     @Override
-    public void remove(Long id) throws DAOException, ServiceException {
+    public void remove(Long id) throws DaoException, ServiceException {
         RecordDao.getInstance().remove(id);
+    }
+
+    public List<Record> getRecordsByPage(int pageNumber, int pageCapacity) throws DaoException, ServiceException {
+        return RecordDao.getInstance().getRecordsByPage(pageNumber, pageCapacity);
+    }
+
+    public int getRecordsCount() throws DaoException, ServiceException {
+        return RecordDao.getInstance().getRecordsCount();
     }
 }

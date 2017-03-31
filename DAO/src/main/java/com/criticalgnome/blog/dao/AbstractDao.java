@@ -1,6 +1,7 @@
 package com.criticalgnome.blog.dao;
 
 import com.criticalgnome.blog.entities.Pojo;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 
 /**
@@ -11,4 +12,5 @@ import org.hibernate.Session;
  */
 public abstract class AbstractDao<T extends Pojo> implements Dao<T> {
     protected Session session;
+    protected Criteria criteria;
 }

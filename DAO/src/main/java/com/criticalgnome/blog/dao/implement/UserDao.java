@@ -1,12 +1,14 @@
 package com.criticalgnome.blog.dao.implement;
 
+import com.criticalgnome.blog.constants.SqlTables;
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.User;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Project Blog
@@ -33,7 +35,7 @@ public class UserDao extends AbstractDao<User> {
     }
 
     @Override
-    public Long create(User user) throws DAOException {
+    public Long create(User user) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -45,14 +47,14 @@ public class UserDao extends AbstractDao<User> {
             session.getTransaction().rollback();
             String message = "Fatal error in create user method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public User getById(Long id) throws DAOException {
+    public User getById(Long id) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -63,14 +65,14 @@ public class UserDao extends AbstractDao<User> {
             session.getTransaction().rollback();
             String message = "Fatal error in get user method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public void update(User user) throws DAOException {
+    public void update(User user) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -81,14 +83,14 @@ public class UserDao extends AbstractDao<User> {
             session.getTransaction().rollback();
             String message = "Fatal error in update user method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public void remove(Long id) throws DAOException {
+    public void remove(Long id) throws DaoException {
         try {
             User user = getById(id);
             session = HibernateConnector.getInstance().getSession();
@@ -100,7 +102,23 @@ public class UserDao extends AbstractDao<User> {
             session.getTransaction().rollback();
             String message = "Fatal error in remove user method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
+        } finally {
+            session.close();
+        }
+    }
+
+    public User getByEmailAndPassword(String email, String password) throws DaoException {
+        try {
+            session = HibernateConnector.getInstance().getSession();
+            return (User) session.createCriteria(User.class)
+                    .add(Restrictions.like(SqlTables.USER_EMAIL, email))
+                    .add(Restrictions.like(SqlTables.USER_PASSWORD, password))
+                    .uniqueResult();
+        } catch (HibernateException e) {
+            String message = "Fatal error in remove user method";
+            log.log(Level.ERROR, message);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }

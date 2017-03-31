@@ -2,7 +2,7 @@ package com.criticalgnome.blog.services.implement;
 
 import com.criticalgnome.blog.dao.implement.TagDao;
 import com.criticalgnome.blog.entities.Tag;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.AbstractService;
 import lombok.extern.log4j.Log4j2;
@@ -32,22 +32,31 @@ public class TagService extends AbstractService<Tag> {
     }
 
     @Override
-    public Long create(Tag tag) throws DAOException, ServiceException {
+    public Long create(Tag tag) throws DaoException, ServiceException {
         return TagDao.getInstance().create(tag);
     }
 
     @Override
-    public Tag getById(Long id) throws DAOException, ServiceException {
+    public Tag getById(Long id) throws DaoException, ServiceException {
         return TagDao.getInstance().getById(id);
     }
 
     @Override
-    public void update(Tag tag) throws DAOException, ServiceException {
+    public void update(Tag tag) throws DaoException, ServiceException {
         TagDao.getInstance().update(tag);
     }
 
     @Override
-    public void remove(Long id) throws DAOException, ServiceException {
+    public void remove(Long id) throws DaoException, ServiceException {
         TagDao.getInstance().remove(id);
+    }
+
+    public Tag getOrCreateTagByName(String tagName) throws DaoException, ServiceException {
+        Tag tag = TagDao.getInstance().getByName(tagName);
+        if (tag == null) {
+            tag = new Tag(null, tagName);
+            Long id = TagService.getInstance().create(tag);
+        }
+        return tag;
     }
 }

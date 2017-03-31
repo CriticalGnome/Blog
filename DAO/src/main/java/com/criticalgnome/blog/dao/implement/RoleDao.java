@@ -2,7 +2,7 @@ package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.Role;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
@@ -33,7 +33,7 @@ public class RoleDao extends AbstractDao<Role> {
     }
 
     @Override
-    public Long create(Role role) throws DAOException {
+    public Long create(Role role) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -45,14 +45,14 @@ public class RoleDao extends AbstractDao<Role> {
             session.getTransaction().rollback();
             String message = "Fatal error in create role method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public Role getById(Long id) throws DAOException {
+    public Role getById(Long id) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -63,7 +63,7 @@ public class RoleDao extends AbstractDao<Role> {
             session.getTransaction().rollback();
             String message = "Fatal error in get role method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
@@ -71,7 +71,7 @@ public class RoleDao extends AbstractDao<Role> {
     }
 
     @Override
-    public void update(Role role) throws DAOException {
+    public void update(Role role) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -82,14 +82,14 @@ public class RoleDao extends AbstractDao<Role> {
             session.getTransaction().rollback();
             String message = "Fatal error in update role method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public void remove(Long id) throws DAOException {
+    public void remove(Long id) throws DaoException {
         try {
             Role role = getById(id);
             session = HibernateConnector.getInstance().getSession();
@@ -101,7 +101,7 @@ public class RoleDao extends AbstractDao<Role> {
             session.getTransaction().rollback();
             String message = "Fatal error in remove role method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }

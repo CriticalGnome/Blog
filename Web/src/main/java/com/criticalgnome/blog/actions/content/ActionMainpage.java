@@ -3,7 +3,9 @@ package com.criticalgnome.blog.actions.content;
 import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Record;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
+import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.implement.RecordService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,8 +35,12 @@ public class ActionMainpage implements Action {
             pageNumber = Integer.parseInt(request.getParameter("page"));
         }
         try {
-            records = RecordDAOold.getInstance().getRecordsByPage(pageNumber, pageCapacity);
-            int recordsCount = RecordDAOold.getInstance().getRecordsCount();
+            records = RecordService.getInstance().getRecordsByPage(pageNumber, pageCapacity);
+            int recordsCount = RecordService.getInstance().getRecordsCount();
+            if (recordsCount == 0) {
+                Record record = new Record(null, null, "No items", null, null, null, null, null);
+                records.add(record);
+            }
             if (pageNumber > 1) {
                 leftPage = "controller?action=mainpage&page=" + (pageNumber - 1);
                 leftPageClass = "";
@@ -55,7 +61,7 @@ public class ActionMainpage implements Action {
             request.setAttribute("rightPage", rightPage);
             request.setAttribute("rightPageClass", rightPageClass);
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } catch (DAOException e) {
+        } catch (DaoException | ServiceException e) {
             HttpSession session = request.getSession();
             session.setAttribute("message", e.getMessage());
             page = "error.jsp";

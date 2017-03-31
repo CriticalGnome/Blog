@@ -3,11 +3,14 @@ package com.criticalgnome.blog.dao.implement;
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.Projections;
+
+import java.util.List;
 
 /**
  * Project Blog
@@ -34,7 +37,7 @@ public class RecordDao extends AbstractDao<Record> {
     }
 
     @Override
-    public Long create(Record record) throws DAOException {
+    public Long create(Record record) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -46,14 +49,14 @@ public class RecordDao extends AbstractDao<Record> {
             session.getTransaction().rollback();
             String message = "Fatal error in create record method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public Record getById(Long id) throws DAOException {
+    public Record getById(Long id) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -71,14 +74,14 @@ public class RecordDao extends AbstractDao<Record> {
             session.getTransaction().rollback();
             String message = "Fatal error in get record method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public void update(Record record) throws DAOException {
+    public void update(Record record) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -88,14 +91,14 @@ public class RecordDao extends AbstractDao<Record> {
             session.getTransaction().rollback();
             String message = "Fatal error in update record method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public void remove(Long id) throws DAOException {
+    public void remove(Long id) throws DaoException {
         try {
             Record record = getById(id);
             session = HibernateConnector.getInstance().getSession();
@@ -106,7 +109,40 @@ public class RecordDao extends AbstractDao<Record> {
             session.getTransaction().rollback();
             String message = "Fatal error in remove record method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
+        } finally {
+            session.close();
+        }
+    }
+
+    public List<Record> getRecordsByPage(int pageNumber, int pageCapacity) throws DaoException {
+        try {
+            session = HibernateConnector.getInstance().getSession();
+            return (List<Record>) session.createCriteria(Record.class)
+                    .setFirstResult(pageNumber)
+                    .setMaxResults(pageCapacity)
+                    .list();
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            String message = "Fatal error in pagination method";
+            log.log(Level.ERROR, message);
+            throw new DaoException(message, e);
+        } finally {
+            session.close();
+        }
+    }
+
+    public int getRecordsCount() throws DaoException {
+        try{
+            session = HibernateConnector.getInstance().getSession();
+            return (int) session.createCriteria(Record.class)
+                    .setProjection(Projections.rowCount())
+                    .uniqueResult();
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            String message = "Fatal error in count method";
+            log.log(Level.ERROR, message);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }

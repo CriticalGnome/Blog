@@ -4,7 +4,7 @@ import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.implement.CategoryService;
 import com.criticalgnome.blog.services.implement.RecordService;
@@ -50,7 +50,7 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
         try {
             record = RecordService.getInstance().getById(recordId);
             categoryList = CategoryService.getInstance().getAll();
-        } catch (DAOException | ServiceException e) {
+        } catch (DaoException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
             return "error.jsp";
         }
@@ -65,7 +65,6 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
         if (tagString.length() > 0) {
             tagString.deleteCharAt(0);
         }
-        System.out.println(tagString);
         request.setAttribute("record", record);
         request.setAttribute("categories", categoryList);
         request.setAttribute("tagString", tagString.toString());

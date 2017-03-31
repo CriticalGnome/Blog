@@ -4,7 +4,7 @@ import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.implement.CategoryService;
 import com.criticalgnome.blog.services.implement.RecordService;
@@ -49,7 +49,7 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             String[] tagArray = tagString.split(",");
             Set<Tag> tags = new HashSet<Tag>();
             for (String tagName : tagArray) {
-                Tag tag = TagService.getInstance().getOrCreateTagByName(tagName.toUpperCase().trim());
+                Tag tag = TagService.getInstance().getOrCreateTagByName(tagName.trim());
                 tags.add(tag);
             }
             Category category = CategoryService.getInstance().getById(Long.parseLong(request.getParameter("categoryId")));
@@ -70,7 +70,7 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             }
             session.setAttribute("alert", alert);
             page = "index.jsp";
-        } catch (DAOException | ServiceException e) {
+        } catch (DaoException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
             page = "error.jsp";
         }

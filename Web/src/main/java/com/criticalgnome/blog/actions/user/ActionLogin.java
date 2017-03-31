@@ -1,11 +1,11 @@
 package com.criticalgnome.blog.actions.user;
 
 import com.criticalgnome.blog.actions.Action;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.entities.User;
+import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.implement.UserService;
 import com.criticalgnome.blog.utils.Alert;
-import com.criticalgnome.blog.utils.MD5;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +25,9 @@ public class ActionLogin implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
-        String page;
+        String page = null;
         String email = request.getParameter("email");
-        String password = MD5.md5Encode(request.getParameter("password"));
+        String password = request.getParameter("password");
         try {
             User user = UserService.getInstance().getByEmailAndPassword(email, password);
             if (user != null) {
@@ -40,7 +40,7 @@ public class ActionLogin implements Action {
                 session.setAttribute("alert", alert);
                 page = "login.jsp";
             }
-        } catch (DAOException e) {
+        } catch (DaoException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
             page = "error.jsp";
         }

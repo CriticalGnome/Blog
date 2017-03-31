@@ -6,11 +6,11 @@ package com.criticalgnome.blog.exceptions;
  *
  * @author CriticalGnome
  */
-public class DAOException extends Exception {
-    public DAOException(String msg) {
+public class DaoException extends Exception {
+    public DaoException(String msg) {
         super(msg);
     }
-    public DAOException(String msg, Throwable e) {
+    public DaoException(String msg, Throwable e) {
         super(msg, e);
     }
 }

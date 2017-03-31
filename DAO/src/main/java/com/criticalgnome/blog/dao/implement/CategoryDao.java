@@ -2,11 +2,13 @@ package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.Category;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.hibernate.HibernateException;
+
+import java.util.List;
 
 /**
  * Project Blog
@@ -33,7 +35,7 @@ public class CategoryDao extends AbstractDao<Category> {
     }
 
     @Override
-    public Long create(Category category) throws DAOException {
+    public Long create(Category category) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -45,14 +47,14 @@ public class CategoryDao extends AbstractDao<Category> {
             session.getTransaction().rollback();
             String message = "Fatal error in create category method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public Category getById(Long id) throws DAOException {
+    public Category getById(Long id) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -63,14 +65,14 @@ public class CategoryDao extends AbstractDao<Category> {
             session.getTransaction().rollback();
             String message = "Fatal error in get category method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public void update(Category category) throws DAOException {
+    public void update(Category category) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -81,14 +83,14 @@ public class CategoryDao extends AbstractDao<Category> {
             session.getTransaction().rollback();
             String message = "Fatal error in update category method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public void remove(Long id) throws DAOException {
+    public void remove(Long id) throws DaoException {
         try {
             Category category = getById(id);
             session = HibernateConnector.getInstance().getSession();
@@ -100,7 +102,21 @@ public class CategoryDao extends AbstractDao<Category> {
             session.getTransaction().rollback();
             String message = "Fatal error in remove category method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
+        } finally {
+            session.close();
+        }
+    }
+
+    public List<Category> getAll() throws DaoException {
+        try {
+            session = HibernateConnector.getInstance().getSession();
+            return session.createCriteria(Category.class)
+                    .list();
+        } catch (HibernateException e) {
+            String message = "Fatal error in getAll method";
+            log.log(Level.ERROR, message);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }

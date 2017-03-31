@@ -1,9 +1,7 @@
 package com.criticalgnome.blog.dao;
 
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.entities.Pojo;
-
-import java.util.List;
 
 /**
  * Project Blog
@@ -12,8 +10,8 @@ import java.util.List;
  * @author CriticalGnome
  */
 public interface Dao<T extends Pojo> {
-    Long create(T pojo) throws DAOException;
-    T getById(Long id) throws DAOException;
-    void update(T pojo) throws DAOException;
-    void remove(Long id) throws DAOException;
+    Long create(T pojo) throws DaoException;
+    T getById(Long id) throws DaoException;
+    void update(T pojo) throws DaoException;
+    void remove(Long id) throws DaoException;
 }

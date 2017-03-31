@@ -2,7 +2,7 @@ package com.criticalgnome.blog.actions.user;
 
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.implement.RoleService;
 import com.criticalgnome.blog.services.implement.UserService;
@@ -31,7 +31,7 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
         HttpSession session = request.getSession();
         ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
         String email = request.getParameter("email");
-        String password = MD5.md5Encode(request.getParameter("password"));
+        String password = request.getParameter("password");
         String nickName = request.getParameter("nickName");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -99,12 +99,12 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
             request.getRequestDispatcher("register.jsp").forward(request, response);
         } else {
             try {
-                Role role = RoleService.getInstance().getById(5L);
+                Role role = RoleService.getInstance().getById(4L);
                 User user = new User(null, email, password, nickName, firstName, lastName, role);
                 UserService.getInstance().create(user);
                 session.setAttribute("user", user);
                 page = "index.jsp";
-            } catch (DAOException | ServiceException e) {
+            } catch (DaoException | ServiceException e) {
                 if (e.getCause().toString().contains("email")) {
                     request.setAttribute("emailClass", "has-error");
                     request.setAttribute("emailMessage", bundle.getString("register.hint.taken.email"));

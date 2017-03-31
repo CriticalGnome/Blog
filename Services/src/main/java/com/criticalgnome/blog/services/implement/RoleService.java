@@ -9,7 +9,7 @@ package com.criticalgnome.blog.services.implement;
 
 import com.criticalgnome.blog.dao.implement.RoleDao;
 import com.criticalgnome.blog.entities.Role;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.AbstractService;
 import lombok.extern.log4j.Log4j2;
@@ -39,22 +39,22 @@ public class RoleService extends AbstractService<Role> {
     }
 
     @Override
-    public Long create(Role role) throws DAOException, ServiceException {
+    public Long create(Role role) throws DaoException, ServiceException {
         return RoleDao.getInstance().create(role);
     }
 
     @Override
-    public Role getById(Long id) throws DAOException, ServiceException {
+    public Role getById(Long id) throws DaoException, ServiceException {
         return RoleDao.getInstance().getById(id);
     }
 
     @Override
-    public void update(Role role) throws DAOException, ServiceException {
+    public void update(Role role) throws DaoException, ServiceException {
         RoleDao.getInstance().update(role);
     }
 
     @Override
-    public void remove(Long id) throws DAOException, ServiceException {
+    public void remove(Long id) throws DaoException, ServiceException {
         RoleDao.getInstance().remove(id);
     }
 }

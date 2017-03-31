@@ -1,12 +1,14 @@
 package com.criticalgnome.blog.dao.implement;
 
+import com.criticalgnome.blog.constants.SqlTables;
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.Tag;
-import com.criticalgnome.blog.exceptions.DAOException;
+import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Project Blog
@@ -33,7 +35,7 @@ public class TagDao extends AbstractDao<Tag> {
     }
 
     @Override
-    public Long create(Tag tag) throws DAOException {
+    public Long create(Tag tag) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -45,14 +47,14 @@ public class TagDao extends AbstractDao<Tag> {
             session.getTransaction().rollback();
             String message = "Fatal error in create tag method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public Tag getById(Long id) throws DAOException {
+    public Tag getById(Long id) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -63,7 +65,7 @@ public class TagDao extends AbstractDao<Tag> {
             session.getTransaction().rollback();
             String message = "Fatal error in get tag method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
@@ -71,7 +73,7 @@ public class TagDao extends AbstractDao<Tag> {
     }
 
     @Override
-    public void update(Tag tag) throws DAOException {
+    public void update(Tag tag) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
@@ -82,14 +84,14 @@ public class TagDao extends AbstractDao<Tag> {
             session.getTransaction().rollback();
             String message = "Fatal error in update tag method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public void remove(Long id) throws DAOException {
+    public void remove(Long id) throws DaoException {
         try {
             Tag tag = getById(id);
             session = HibernateConnector.getInstance().getSession();
@@ -101,10 +103,24 @@ public class TagDao extends AbstractDao<Tag> {
             session.getTransaction().rollback();
             String message = "Fatal error in remove tag method";
             log.log(Level.ERROR, message);
-            throw new DAOException(message, e);
+            throw new DaoException(message, e);
         } finally {
             session.close();
         }
     }
 
+    public Tag getByName(String tagName) throws DaoException {
+        try {
+            session = HibernateConnector.getInstance().getSession();
+            return (Tag) session.createCriteria(Tag.class)
+                    .add(Restrictions.like(SqlTables.TAG_NAME, tagName))
+                    .uniqueResult();
+        } catch (HibernateException e) {
+            String message = "Fatal error in getByName method";
+            log.log(Level.ERROR, message);
+            throw new DaoException(message, e);
+        } finally {
+            session.close();
+        }
+    }
 }
