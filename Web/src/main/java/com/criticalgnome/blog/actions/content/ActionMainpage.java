@@ -37,10 +37,6 @@ public class ActionMainpage implements Action {
         try {
             records = RecordService.getInstance().getRecordsByPage(pageNumber, pageCapacity);
             int recordsCount = RecordService.getInstance().getRecordsCount();
-            if (recordsCount == 0) {
-                Record record = new Record(null, null, "No items", null, null, null, null, null);
-                records.add(record);
-            }
             if (pageNumber > 1) {
                 leftPage = "controller?action=mainpage&page=" + (pageNumber - 1);
                 leftPageClass = "";
