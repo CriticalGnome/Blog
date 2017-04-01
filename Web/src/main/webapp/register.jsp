@@ -25,6 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
     <title><fmt:message key="register.title"/></title>
 </head>
 <body>
