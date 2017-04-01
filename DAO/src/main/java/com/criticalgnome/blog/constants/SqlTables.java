@@ -16,7 +16,8 @@ public class SqlTables {
     public static final String RECORD_ID = "id";
     public static final String RECORD_HEADER = "header";
     public static final String RECORD_BODY = "body";
-    public static final String RECORD_DATE = "date";
+    public static final String RECORD_CREATED = "created_at";
+    public static final String MODIFIED_CREATED = "modified_at";
     public static final String RECORD_CATEGORY_ID = "category_id";
     public static final String RECORD_USER_ID = "user_id";
     // Role table

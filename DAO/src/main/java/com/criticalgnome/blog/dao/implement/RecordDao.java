@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.dao.implement;
 
+import com.criticalgnome.blog.constants.SqlTables;
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
@@ -8,6 +9,7 @@ import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 
 import java.util.List;
@@ -61,13 +63,8 @@ public class RecordDao extends AbstractDao<Record> {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
             Record record = (Record) session.get(Record.class, id);
+            int i = record.getTags().size();
             session.getTransaction().commit();
-            if (record != null) {
-                for (Tag t : record.getTags()) {
-                    Tag tag = t;
-                    break;
-                }
-            }
             return record;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
@@ -117,16 +114,19 @@ public class RecordDao extends AbstractDao<Record> {
     public List<Record> getRecordsByPage(int pageOffset, int pageCapacity) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
+            session.beginTransaction();
             List<Record> records = (List<Record>) session.createCriteria(Record.class)
                     .setMaxResults(pageCapacity)
                     .setFirstResult(pageOffset)
+//                    .addOrder(Order.desc(SqlTables.RECORD_CREATED))
                     .list();
             for (Record record : records) { int i = record.getTags().size(); }
+            session.getTransaction().commit();
             return records;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             String message = "Fatal error in pagination method";
-            log.log(Level.ERROR, message);
+            log.log(Level.ERROR, message, e);
             throw new DaoException(message, e);
         } finally {
             session.close();
