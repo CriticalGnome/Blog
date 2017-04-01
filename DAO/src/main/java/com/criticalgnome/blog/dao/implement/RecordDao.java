@@ -62,10 +62,9 @@ public class RecordDao extends AbstractDao<Record> {
             session.beginTransaction();
             Record record = (Record) session.get(Record.class, id);
             session.getTransaction().commit();
-            Tag tag = null;
             if (record != null) {
                 for (Tag t : record.getTags()) {
-                    tag = t;
+                    Tag tag = t;
                     break;
                 }
             }
@@ -115,13 +114,15 @@ public class RecordDao extends AbstractDao<Record> {
         }
     }
 
-    public List<Record> getRecordsByPage(int pageNumber, int pageCapacity) throws DaoException {
+    public List<Record> getRecordsByPage(int pageOffset, int pageCapacity) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
-            return (List<Record>) session.createCriteria(Record.class)
-                    .setFirstResult(pageNumber)
+            List<Record> records = (List<Record>) session.createCriteria(Record.class)
                     .setMaxResults(pageCapacity)
+                    .setFirstResult(pageOffset)
                     .list();
+            for (Record record : records) { int i = record.getTags().size(); }
+            return records;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             String message = "Fatal error in pagination method";
@@ -135,9 +136,9 @@ public class RecordDao extends AbstractDao<Record> {
     public int getRecordsCount() throws DaoException {
         try{
             session = HibernateConnector.getInstance().getSession();
-            return (int) session.createCriteria(Record.class)
+            return Integer.parseInt(session.createCriteria(Record.class)
                     .setProjection(Projections.rowCount())
-                    .uniqueResult();
+                    .uniqueResult().toString());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             String message = "Fatal error in count method";

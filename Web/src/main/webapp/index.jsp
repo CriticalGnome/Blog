@@ -9,9 +9,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ include file="inc/uselocale.jsp" %>
-<%-- c:if test="${empty records}">
+<c:if test="${empty records}">
     <c:redirect url="controller?action=mainpage"/>
-</c:if --%>
+</c:if>
 <html lang="en">
 
 <head>

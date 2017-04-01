@@ -54,7 +54,8 @@ public class RecordService extends AbstractService<Record> {
     }
 
     public List<Record> getRecordsByPage(int pageNumber, int pageCapacity) throws DaoException, ServiceException {
-        List<Record> records = RecordDao.getInstance().getRecordsByPage(pageNumber, pageCapacity);
+        int pageOffset = pageCapacity * pageNumber - pageCapacity;
+        List<Record> records = RecordDao.getInstance().getRecordsByPage(pageOffset, pageCapacity);
         if (records.size() == 0) {
             Record record = new Record(null, null, "No items", null, null, null, null, null);
             records.add(record);
