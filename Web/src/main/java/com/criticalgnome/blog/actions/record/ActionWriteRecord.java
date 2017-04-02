@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.actions.record;
 
+import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,12 +23,12 @@ public class ActionWriteRecord implements com.criticalgnome.blog.actions.Action 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        List<Category> categoryList = new ArrayList<Category>();
+        List<Category> categoryList;
         try {
             categoryList = CategoryService.getInstance().getAll();
         } catch (DaoException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
-            return "error.jsp";
+            return SiteConstants.ERROR_PAGE;
         }
         request.setAttribute("categories", categoryList);
         request.getRequestDispatcher("write.jsp").forward(request, response);

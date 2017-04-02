@@ -1,6 +1,7 @@
 package com.criticalgnome.blog.actions.user;
 
 import com.criticalgnome.blog.actions.Action;
+import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.ServiceException;
@@ -25,7 +26,7 @@ public class ActionLogin implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
-        String page = null;
+        String page;
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         try {
@@ -42,7 +43,7 @@ public class ActionLogin implements Action {
             }
         } catch (DaoException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
-            page = "error.jsp";
+            page = SiteConstants.ERROR_PAGE;
         }
         return page;
     }

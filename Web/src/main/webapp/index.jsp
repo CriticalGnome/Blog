@@ -32,7 +32,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><b>${record.header}</b></h3>
-                        <c:if test="${(not empty user and user.role.id < 3) or (not empty user and user.id == record.author.id)}">
+                        <c:if test="${(not empty user and user.role.name != 'Administrator' and user.role.name != 'Editor') or (not empty user and user.id == record.author.id)}">
                             <a href="controller?action=editrecord&id=${record.id}">
                                 <button type="button" class="btn btn-success btn-xs">
                                     <fmt:message key="index.record.edit"/>

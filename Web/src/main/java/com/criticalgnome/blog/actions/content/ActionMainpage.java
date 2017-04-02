@@ -21,6 +21,7 @@ import java.util.List;
  * @author CriticalGnome
  */
 public class ActionMainpage implements Action {
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Record> records;
@@ -60,7 +61,7 @@ public class ActionMainpage implements Action {
         } catch (DaoException | ServiceException e) {
             HttpSession session = request.getSession();
             session.setAttribute("message", e.getMessage());
-            page = "error.jsp";
+            page = SiteConstants.ERROR_PAGE;
         }
         return page;
     }

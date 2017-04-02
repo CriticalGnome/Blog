@@ -6,7 +6,7 @@ package com.criticalgnome.blog.actions.locale;
  *
  * @author CriticalGnome
  */
-public class LocaleFactory {
+class LocaleFactory {
     static String getLocale(String key) {
         String locale;
         LocalesTable entry = LocalesTable.valueOf(key.toUpperCase());

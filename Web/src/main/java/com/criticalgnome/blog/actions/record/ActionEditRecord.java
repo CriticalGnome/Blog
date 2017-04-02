@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.actions.record;
 
+import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
@@ -52,11 +53,11 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
             categoryList = CategoryService.getInstance().getAll();
         } catch (DaoException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
-            return "error.jsp";
+            return SiteConstants.ERROR_PAGE;
         }
-        if (user.getRole().getId() > 2 && !user.getId().equals(record.getAuthor().getId())) {
+        if (!user.getRole().getName().equals("Administrator") && !user.getRole().getName().equals("Editor") && !user.getId().equals(record.getAuthor().getId())) {
             session.setAttribute("message", bundle.getString("error.in.edit"));
-            return "error.jsp";
+            return SiteConstants.ERROR_PAGE;
         }
         StringBuilder tagString = new StringBuilder();
         for (Tag tag : record.getTags()){

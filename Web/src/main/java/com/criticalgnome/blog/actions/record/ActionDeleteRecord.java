@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.actions.record;
 
+import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
@@ -34,7 +35,7 @@ public class ActionDeleteRecord implements com.criticalgnome.blog.actions.Action
             RecordService.getInstance().remove(id);
         } catch (DaoException | ServiceException e) {
             session.setAttribute("message", bundle.getString("error.in.delete"));
-            return "error.jsp";
+            return SiteConstants.ERROR_PAGE;
         }
         Alert alert = new Alert("alert-info", bundle.getString("alert.record.deleted"));
         session.setAttribute("alert", alert);

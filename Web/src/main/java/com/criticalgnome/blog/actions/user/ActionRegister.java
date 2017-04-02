@@ -6,7 +6,6 @@ import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.implement.RoleService;
 import com.criticalgnome.blog.services.implement.UserService;
-import com.criticalgnome.blog.utils.MD5;
 import com.criticalgnome.blog.utils.RegexChecker;
 
 import javax.servlet.ServletException;

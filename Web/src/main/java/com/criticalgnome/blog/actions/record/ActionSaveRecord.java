@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.actions.record;
 
+import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
@@ -47,7 +48,7 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             String body = request.getParameter("body");
             String tagString = request.getParameter("tags");
             String[] tagArray = tagString.split(",");
-            Set<Tag> tags = new HashSet<Tag>();
+            Set<Tag> tags = new HashSet<>();
             for (String tagName : tagArray) {
                 Tag tag = TagService.getInstance().getOrCreateTagByName(tagName.trim());
                 tags.add(tag);
@@ -72,7 +73,7 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             page = "index.jsp";
         } catch (DaoException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
-            page = "error.jsp";
+            page = SiteConstants.ERROR_PAGE;
         }
         return page;
     }

@@ -8,4 +8,5 @@ package com.criticalgnome.blog.constants;
  */
 public class SiteConstants {
     public static final int RECORDS_ON_PAGE = 10;
+    public static final String ERROR_PAGE = "error.jsp";
 }

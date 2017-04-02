@@ -14,10 +14,9 @@ public class ActionFactory {
     /**
      * Return current Action based on 'action' parameter
      * @param request HttpServletRequest
-     * @param responce HttpServletResponse
      * @return action
      */
-    public static Action getAction(HttpServletRequest request, HttpServletResponse responce) {
+    public static Action getAction(HttpServletRequest request) {
         Action action;
         ActionsTable entry = ActionsTable.valueOf(request.getParameter("action").toUpperCase());
         action = entry.getCommand();
