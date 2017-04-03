@@ -22,6 +22,10 @@ public class UserDao extends AbstractDao<User> {
 
     private UserDao() {}
 
+    /**
+     * Singleton pattern
+     * @return dao instance
+     */
     public static UserDao getInstance() {
         if (instance == null) {
             synchronized (UserDao.class) {
@@ -33,6 +37,12 @@ public class UserDao extends AbstractDao<User> {
         return instance;
     }
 
+    /**
+     * Create new row in table
+     * @param user object
+     * @return id for created row
+     * @throws DaoException custom exception
+     */
     @Override
     public Long create(User user) throws DaoException {
         try {
@@ -52,6 +62,12 @@ public class UserDao extends AbstractDao<User> {
         }
     }
 
+    /**
+     * Get one row from table by id
+     * @param id row id
+     * @return row object
+     * @throws DaoException custom exception
+     */
     @Override
     public User getById(Long id) throws DaoException {
         try {
@@ -70,6 +86,11 @@ public class UserDao extends AbstractDao<User> {
         }
     }
 
+    /**
+     * Update object data in table
+     * @param user object
+     * @throws DaoException custom exception
+     */
     @Override
     public void update(User user) throws DaoException {
         try {
@@ -88,6 +109,11 @@ public class UserDao extends AbstractDao<User> {
         }
     }
 
+    /**
+     * Remove row from table by id
+     * @param id id
+     * @throws DaoException custom exception
+     */
     @Override
     public void remove(Long id) throws DaoException {
         try {
@@ -107,6 +133,13 @@ public class UserDao extends AbstractDao<User> {
         }
     }
 
+    /**
+     * Get one row from table by email and password
+     * @param email user email
+     * @param password user password
+     * @return row object or null if email/password not valid
+     * @throws DaoException custom exception
+     */
     public User getByEmailAndPassword(String email, String password) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();

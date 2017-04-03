@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.actions;
 
+import com.criticalgnome.blog.actions.content.ActionChangePagination;
 import com.criticalgnome.blog.actions.record.ActionDeleteRecord;
 import com.criticalgnome.blog.actions.record.ActionEditRecord;
 import com.criticalgnome.blog.actions.content.ActionMainpage;
@@ -18,6 +19,7 @@ import com.criticalgnome.blog.actions.user.ActionRegister;
  */
 public enum ActionsTable {
     MAINPAGE (new ActionMainpage()),
+    CHANGEPAGINATION (new ActionChangePagination()),
     LOGIN (new ActionLogin()),
     LOGOUT (new ActionLogout()),
     REGISTER (new ActionRegister()),

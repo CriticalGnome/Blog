@@ -23,6 +23,10 @@ public class CategoryDao extends AbstractDao<Category> {
 
     private CategoryDao() {}
 
+    /**
+     * Singleton pattern
+     * @return dao instance
+     */
     public static CategoryDao getInstance() {
         if (instance == null) {
             synchronized (CategoryDao.class) {
@@ -34,6 +38,12 @@ public class CategoryDao extends AbstractDao<Category> {
         return instance;
     }
 
+    /**
+     * Create new row in table
+     * @param category object
+     * @return id for created row
+     * @throws DaoException custom exception
+     */
     @Override
     public Long create(Category category) throws DaoException {
         try {
@@ -53,6 +63,12 @@ public class CategoryDao extends AbstractDao<Category> {
         }
     }
 
+    /**
+     * Get one row from table by id
+     * @param id row id
+     * @return row object
+     * @throws DaoException custom exception
+     */
     @Override
     public Category getById(Long id) throws DaoException {
         try {
@@ -71,6 +87,11 @@ public class CategoryDao extends AbstractDao<Category> {
         }
     }
 
+    /**
+     * Update object data in table
+     * @param category object
+     * @throws DaoException custom exception
+     */
     @Override
     public void update(Category category) throws DaoException {
         try {
@@ -89,6 +110,11 @@ public class CategoryDao extends AbstractDao<Category> {
         }
     }
 
+    /**
+     * Remove row from table by id
+     * @param id id
+     * @throws DaoException custom exception
+     */
     @Override
     public void remove(Long id) throws DaoException {
         try {
@@ -108,11 +134,16 @@ public class CategoryDao extends AbstractDao<Category> {
         }
     }
 
+    /**
+     * Get list of all categories
+     * @return list
+     * @throws DaoException custom exception
+     */
     public List<Category> getAll() throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
-            return session.createCriteria(Category.class)
-                    .list();
+            criteria = session.createCriteria(Category.class);
+            return criteria.list();
         } catch (HibernateException e) {
             String message = "Fatal error in getAll method";
             log.log(Level.ERROR, message);

@@ -21,6 +21,10 @@ public class RoleDao extends AbstractDao<Role> {
 
     private RoleDao() {}
 
+    /**
+     * Singleton pattern
+     * @return dao instance
+     */
     public static RoleDao getInstance() {
         if (instance == null) {
             synchronized (RoleDao.class) {
@@ -32,6 +36,12 @@ public class RoleDao extends AbstractDao<Role> {
         return instance;
     }
 
+    /**
+     * Create new row in table
+     * @param role object
+     * @return id for created row
+     * @throws DaoException custom exception
+     */
     @Override
     public Long create(Role role) throws DaoException {
         try {
@@ -51,6 +61,12 @@ public class RoleDao extends AbstractDao<Role> {
         }
     }
 
+    /**
+     * Get one row from table by id
+     * @param id row id
+     * @return row object
+     * @throws DaoException custom exception
+     */
     @Override
     public Role getById(Long id) throws DaoException {
         try {
@@ -70,6 +86,11 @@ public class RoleDao extends AbstractDao<Role> {
 
     }
 
+    /**
+     * Update object data in table
+     * @param role object
+     * @throws DaoException custom exception
+     */
     @Override
     public void update(Role role) throws DaoException {
         try {
@@ -88,6 +109,11 @@ public class RoleDao extends AbstractDao<Role> {
         }
     }
 
+    /**
+     * Remove row from table by id
+     * @param id id
+     * @throws DaoException custom exception
+     */
     @Override
     public void remove(Long id) throws DaoException {
         try {

@@ -6,6 +6,7 @@ import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -25,6 +26,10 @@ public class RecordDao extends AbstractDao<Record> {
 
     private RecordDao() {}
 
+    /**
+     * Singleton pattern
+     * @return dao instance
+     */
     public static RecordDao getInstance() {
         if (instance == null) {
             synchronized (RecordDao.class) {
@@ -36,6 +41,12 @@ public class RecordDao extends AbstractDao<Record> {
         return instance;
     }
 
+    /**
+     * Create new row in Records table
+     * @param record new object
+     * @return id for created row
+     * @throws DaoException custom exception
+     */
     @Override
     public Long create(Record record) throws DaoException {
         try {
@@ -55,6 +66,12 @@ public class RecordDao extends AbstractDao<Record> {
         }
     }
 
+    /**
+     * Get one row from table by id
+     * @param id row id
+     * @return row object
+     * @throws DaoException custom exception
+     */
     @Override
     public Record getById(Long id) throws DaoException {
         try {
@@ -74,6 +91,11 @@ public class RecordDao extends AbstractDao<Record> {
         }
     }
 
+    /**
+     * Update object data in table
+     * @param record object
+     * @throws DaoException custom exception
+     */
     @Override
     public void update(Record record) throws DaoException {
         try {
@@ -91,6 +113,11 @@ public class RecordDao extends AbstractDao<Record> {
         }
     }
 
+    /**
+     * Remove row from table by id
+     * @param id id
+     * @throws DaoException custom exception
+     */
     @Override
     public void remove(Long id) throws DaoException {
         try {
@@ -109,15 +136,24 @@ public class RecordDao extends AbstractDao<Record> {
         }
     }
 
+    /**
+     * Main page big query with parameters
+     * @param pageOffset   row offset
+     * @param pageCapacity row limit
+     * @return list of records
+     * @throws DaoException custom exception
+     */
     public List<Record> getRecordsByPage(int pageOffset, int pageCapacity) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
-            List<Record> records = (List<Record>) session.createCriteria(Record.class)
-                    .setMaxResults(pageCapacity)
-                    .setFirstResult(pageOffset)
-                    .addOrder(Order.desc("createdAt"))
-                    .list();
+            criteria = session.createCriteria(Record.class);
+            // Pagination
+            criteria.setMaxResults(pageCapacity);
+            criteria.setFirstResult(pageOffset);
+            // Sort order
+            criteria.addOrder(Order.desc("createdAt"));
+            List<Record> records = (List<Record>) criteria.list();
             for (Record record : records) { int i = record.getTags().size(); }
             session.getTransaction().commit();
             return records;
@@ -131,6 +167,11 @@ public class RecordDao extends AbstractDao<Record> {
         }
     }
 
+    /**
+     * get total count of all rows in table
+     * @return count
+     * @throws DaoException custom exception
+     */
     public int getRecordsCount() throws DaoException {
         try{
             session = HibernateConnector.getInstance().getSession();

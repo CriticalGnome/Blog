@@ -23,6 +23,10 @@ public class TagDao extends AbstractDao<Tag> {
 
     private TagDao() {}
 
+    /**
+     * Singleton pattern
+     * @return dao instance
+     */
     public static TagDao getInstance() {
         if (instance == null) {
             synchronized (TagDao.class) {
@@ -34,6 +38,12 @@ public class TagDao extends AbstractDao<Tag> {
         return instance;
     }
 
+    /**
+     * Create new row in table
+     * @param tag object
+     * @return id for created row
+     * @throws DaoException custom exception
+     */
     @Override
     public Long create(Tag tag) throws DaoException {
         try {
@@ -53,6 +63,12 @@ public class TagDao extends AbstractDao<Tag> {
         }
     }
 
+    /**
+     * Get one row from table by id
+     * @param id row id
+     * @return row object
+     * @throws DaoException custom exception
+     */
     @Override
     public Tag getById(Long id) throws DaoException {
         try {
@@ -72,6 +88,11 @@ public class TagDao extends AbstractDao<Tag> {
 
     }
 
+    /**
+     * Update object data in table
+     * @param tag object
+     * @throws DaoException custom exception
+     */
     @Override
     public void update(Tag tag) throws DaoException {
         try {
@@ -90,6 +111,11 @@ public class TagDao extends AbstractDao<Tag> {
         }
     }
 
+    /**
+     * Remove row from table by id
+     * @param id id
+     * @throws DaoException custom exception
+     */
     @Override
     public void remove(Long id) throws DaoException {
         try {
@@ -109,6 +135,12 @@ public class TagDao extends AbstractDao<Tag> {
         }
     }
 
+    /**
+     * Get one row from table by name
+     * @param tagName tag mane
+     * @return row object
+     * @throws DaoException custom exception
+     */
     public Tag getByName(String tagName) throws DaoException {
         try {
             session = HibernateConnector.getInstance().getSession();

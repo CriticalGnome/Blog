@@ -24,10 +24,11 @@ public class ActionMainpage implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         List<Record> records;
         String page = null;
-        int pageNumber = SiteConstants.PAGE;
-        int pageCapacity = SiteConstants.RECORDS_PER_PAGE;
+        int pageNumber = SiteConstants.DEFAULT_PAGE;
+        int recordsPerPage = SiteConstants.RECORDS_PER_PAGE;
         String leftPage;
         String leftPageClass;
         String rightPage;
@@ -35,31 +36,18 @@ public class ActionMainpage implements Action {
         if (request.getParameter("page") != null) {
             pageNumber = Integer.parseInt(request.getParameter("page"));
         }
+        if (session.getAttribute("recordsPerPage") != null) {
+            recordsPerPage = (int) session.getAttribute("recordsPerPage");
+        }
         try {
-            records = RecordService.getInstance().getRecordsByPage(pageNumber, pageCapacity);
+            records = RecordService.getInstance().getRecordsByPage(pageNumber, recordsPerPage);
             int recordsCount = RecordService.getInstance().getRecordsCount();
-            if (pageNumber > 1) {
-                leftPage = "controller?action=mainpage&page=" + (pageNumber - 1);
-                leftPageClass = "";
-            } else {
-                leftPage = "#";
-                leftPageClass = " disabled";
-            }
-            if (recordsCount >= pageNumber * pageCapacity) {
-                rightPage = "controller?action=mainpage&page=" + (pageNumber + 1);
-                rightPageClass = "";
-            } else {
-                rightPage = "#";
-                rightPageClass = " disabled";
-            }
             request.setAttribute("records", records);
-            request.setAttribute("leftPage", leftPage);
-            request.setAttribute("leftPageClass", leftPageClass);
-            request.setAttribute("rightPage", rightPage);
-            request.setAttribute("rightPageClass", rightPageClass);
+            request.setAttribute("pageNumber", pageNumber);
+            request.setAttribute("recordsPerPage", recordsPerPage);
+            request.setAttribute("recordsCount", recordsCount);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (DaoException | ServiceException e) {
-            HttpSession session = request.getSession();
             session.setAttribute("message", e.getMessage());
             page = SiteConstants.ERROR_PAGE;
         }
