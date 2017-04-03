@@ -26,8 +26,8 @@ public class ActionMainpage implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Record> records;
         String page = null;
-        int pageNumber = 1;
-        int pageCapacity = SiteConstants.RECORDS_ON_PAGE;
+        int pageNumber = SiteConstants.PAGE;
+        int pageCapacity = SiteConstants.RECORDS_PER_PAGE;
         String leftPage;
         String leftPageClass;
         String rightPage;

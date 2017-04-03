@@ -44,7 +44,7 @@ public class Record extends Pojo implements Serializable {
             joinColumns = {@JoinColumn(name = "record_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")}
             )
-    private Set<Tag> tags = new HashSet<Tag>();
+    private Set<Tag> tags = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

@@ -1,9 +1,7 @@
 package com.criticalgnome.blog.dao.implement;
 
-import com.criticalgnome.blog.constants.SqlTables;
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.Record;
-import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
@@ -118,7 +116,7 @@ public class RecordDao extends AbstractDao<Record> {
             List<Record> records = (List<Record>) session.createCriteria(Record.class)
                     .setMaxResults(pageCapacity)
                     .setFirstResult(pageOffset)
-//                    .addOrder(Order.desc(SqlTables.RECORD_CREATED))
+                    .addOrder(Order.desc("createdAt"))
                     .list();
             for (Record record : records) { int i = record.getTags().size(); }
             session.getTransaction().commit();

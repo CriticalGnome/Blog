@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><b>${record.header}</b></h3>
+                        <h3 class="panel-title"><b>${record.header}</b></h3><p><small>${record.createdAt}</small></p>
                         <c:if test="${(not empty user and user.role.name != 'Administrator' and user.role.name != 'Editor') or (not empty user and user.id == record.author.id)}">
                             <a href="controller?action=editrecord&id=${record.id}">
                                 <button type="button" class="btn btn-success btn-xs">

@@ -1,6 +1,5 @@
 package com.criticalgnome.blog.dao.implement;
 
-import com.criticalgnome.blog.constants.SqlTables;
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.exceptions.DaoException;
@@ -8,6 +7,7 @@ import com.criticalgnome.blog.utils.HibernateConnector;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.hibernate.HibernateException;
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -113,8 +113,12 @@ public class TagDao extends AbstractDao<Tag> {
         try {
             session = HibernateConnector.getInstance().getSession();
             return (Tag) session.createCriteria(Tag.class)
-                    .add(Restrictions.like(SqlTables.TAG_NAME, tagName))
+                    .add(Restrictions.like("name", tagName))
                     .uniqueResult();
+        } catch (NonUniqueResultException e) {
+            String message = "Duplicates detected it TAG table";
+            log.log(Level.ERROR, message);
+            throw new DaoException(message, e);
         } catch (HibernateException e) {
             String message = "Fatal error in getByName method";
             log.log(Level.ERROR, message);

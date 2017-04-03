@@ -1,6 +1,5 @@
 package com.criticalgnome.blog.dao.implement;
 
-import com.criticalgnome.blog.constants.SqlTables;
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
@@ -112,8 +111,8 @@ public class UserDao extends AbstractDao<User> {
         try {
             session = HibernateConnector.getInstance().getSession();
             return (User) session.createCriteria(User.class)
-                    .add(Restrictions.like(SqlTables.USER_EMAIL, email))
-                    .add(Restrictions.like(SqlTables.USER_PASSWORD, password))
+                    .add(Restrictions.like("email", email))
+                    .add(Restrictions.like("password", password))
                     .uniqueResult();
         } catch (HibernateException e) {
             String message = "Fatal error in remove user method";
