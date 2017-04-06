@@ -29,10 +29,6 @@ public class ActionMainpage implements Action {
         String page = null;
         int pageNumber = SiteConstants.DEFAULT_PAGE;
         int recordsPerPage = SiteConstants.RECORDS_PER_PAGE;
-        String leftPage;
-        String leftPageClass;
-        String rightPage;
-        String rightPageClass;
         if (request.getParameter("page") != null) {
             pageNumber = Integer.parseInt(request.getParameter("page"));
         }

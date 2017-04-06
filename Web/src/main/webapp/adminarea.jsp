@@ -18,6 +18,12 @@
 <div class="container">
     <div class="row">
         <h1><fmt:message key="adminarea.header"/></h1>
+        <ul>
+            <%--@elvariable id="categories" type="java.util.List"--%>
+            <c:forEach items="${categories}" var="category">
+                <li>${category.name}
+            </c:forEach>
+        </ul>
     </div>
 </div>
 <%@ include file="inc/footer.jsp" %>

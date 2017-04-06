@@ -23,7 +23,7 @@ public class RecordDaoTest {
 
     @Test
     public void test1() throws Exception {
-        Set<Tag> tags = new HashSet<Tag>();
+        Set<Tag> tags = new HashSet<>();
         expected = new Record(
                 null,
                 "Header",
@@ -52,5 +52,16 @@ public class RecordDaoTest {
         RecordDao.getInstance().remove(expected.getId());
         actual = RecordDao.getInstance().getById(expected.getId());
         Assert.assertNull("Not deleted", actual);
+    }
+
+    @Test
+    public void test4() throws Exception {
+        int count1 = RecordDao.getInstance().getRecordsCount();
+        Long i = RecordDao.getInstance().create(expected);
+        int count2 = RecordDao.getInstance().getRecordsCount();
+        RecordDao.getInstance().remove(expected.getId());
+        int count3 = RecordDao.getInstance().getRecordsCount();
+        Assert.assertEquals("Not valid", count1 + 1, count2);
+        Assert.assertEquals("Not valid", count2 - 1, count3);
     }
 }

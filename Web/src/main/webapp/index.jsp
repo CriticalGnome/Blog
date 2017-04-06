@@ -45,12 +45,12 @@
                         </c:if>
                     </div>
                     <div class="panel-body">
-                        <h6><b><fmt:message key="index.record.category"/>: ${record.category.name}</b></h6>
+                        <h6><b><fmt:message key="index.record.category"/>: <a href="controller?action=showcategory&id=${record.category.id}" style="color: #1b569c; text-decoration: none;">${record.category.name}</a></b></h6>
                             ${record.body}
                         <br>
                         <hr>
                         <c:forEach items="${record.tags}" var="tag">
-                            <span class="badge">${tag.name}</span>
+                            <span class="badge"><a href="controller?action=showtag&id=${tag.id}" style="color: white; text-decoration: none;">${tag.name}</a></span>
                         </c:forEach>
                     </div>
                     <div class="panel-footer">

@@ -78,7 +78,9 @@ public class RecordDao extends AbstractDao<Record> {
             session = HibernateConnector.getInstance().getSession();
             session.beginTransaction();
             Record record = (Record) session.get(Record.class, id);
-            int i = record.getTags().size();
+            if (record != null) {
+                int i = record.getTags().size();
+            }
             session.getTransaction().commit();
             return record;
         } catch (HibernateException e) {
@@ -168,7 +170,7 @@ public class RecordDao extends AbstractDao<Record> {
     }
 
     /**
-     * get total count of all rows in table
+     * Get total count of all rows in table
      * @return count
      * @throws DaoException custom exception
      */

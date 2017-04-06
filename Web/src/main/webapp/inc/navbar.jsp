@@ -22,7 +22,7 @@
                     <li><a href="write.jsp"><fmt:message key="navbar.newrecord"/></a></li>
                 </c:if>
                 <c:if test="${not empty user and user.role.id == 1}">
-                    <li><a href="adminarea.jsp"><fmt:message key="navbar.adminpanel"/></a></li>
+                    <li><a href="controller?action=adminarea"><fmt:message key="navbar.adminpanel"/></a></li>
                 </c:if>
             </ul>
             <c:if test="${empty user}">

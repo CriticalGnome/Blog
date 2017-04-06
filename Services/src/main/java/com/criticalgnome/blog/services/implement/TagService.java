@@ -6,6 +6,7 @@ import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.AbstractService;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Project Blog
@@ -54,6 +55,8 @@ public class TagService extends AbstractService<Tag> {
     public Tag getOrCreateTagByName(String tagName) throws DaoException, ServiceException {
         Tag tag = TagDao.getInstance().getByName(tagName);
         if (tag == null) {
+            tagName = StringUtils.lowerCase(tagName);
+            tagName = StringUtils.capitalize(tagName);
             tag = new Tag(null, tagName);
             Long id = TagService.getInstance().create(tag);
         }
