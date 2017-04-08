@@ -1,6 +1,8 @@
 package com.criticalgnome.blog.services;
 
 import com.criticalgnome.blog.entities.Pojo;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * Project Blog
@@ -9,5 +11,6 @@ import com.criticalgnome.blog.entities.Pojo;
  * @author CriticalGnome
  */
 public abstract class AbstractService<T extends Pojo> implements Service<T> {
-
+    protected Session session;
+    protected Transaction transaction;
 }
