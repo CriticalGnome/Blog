@@ -55,9 +55,7 @@ public class TagDao extends AbstractDao<Tag> {
             return id;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in create tag method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(TagDao.class, "Fatal error in create tag method", e);
         } finally {
             session.close();
         }
@@ -79,9 +77,7 @@ public class TagDao extends AbstractDao<Tag> {
             return tag;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in get tag method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(TagDao.class, "Fatal error in get tag method", e);
         } finally {
             session.close();
         }
@@ -103,9 +99,7 @@ public class TagDao extends AbstractDao<Tag> {
             log.log(Level.INFO, "Tag updated [{}] {}", tag.getId(), tag.getName());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in update tag method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(TagDao.class, "Fatal error in update tag method", e);
         } finally {
             session.close();
         }
@@ -127,9 +121,7 @@ public class TagDao extends AbstractDao<Tag> {
             log.log(Level.INFO, "Tag removed [{}] {}", tag.getId(), tag.getName());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in remove tag method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(TagDao.class, "Fatal error in remove tag method", e);
         } finally {
             session.close();
         }
@@ -152,9 +144,7 @@ public class TagDao extends AbstractDao<Tag> {
             log.log(Level.ERROR, message);
             throw new DaoException(message, e);
         } catch (HibernateException e) {
-            String message = "Fatal error in getByName method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(TagDao.class, "Fatal error in getByName method", e);
         } finally {
             session.close();
         }

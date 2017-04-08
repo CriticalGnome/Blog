@@ -54,9 +54,7 @@ public class UserDao extends AbstractDao<User> {
             return id;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in create user method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(UserDao.class, "Fatal error in create user method", e);
         } finally {
             session.close();
         }
@@ -78,9 +76,7 @@ public class UserDao extends AbstractDao<User> {
             return user;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in get user method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(UserDao.class, "Fatal error in get user method", e);
         } finally {
             session.close();
         }
@@ -101,9 +97,7 @@ public class UserDao extends AbstractDao<User> {
             log.log(Level.INFO, "User updated [{}] {}", user.getId(), user.getNickName());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in update user method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(UserDao.class, "Fatal error in update user method", e);
         } finally {
             session.close();
         }
@@ -125,9 +119,7 @@ public class UserDao extends AbstractDao<User> {
             log.log(Level.INFO, "User removed [{}] {}", user.getId(), user.getNickName());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in remove user method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(UserDao.class, "Fatal error in remove user method", e);
         } finally {
             session.close();
         }
@@ -148,9 +140,7 @@ public class UserDao extends AbstractDao<User> {
                     .add(Restrictions.like("password", password))
                     .uniqueResult();
         } catch (HibernateException e) {
-            String message = "Fatal error in remove user method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(UserDao.class, "Fatal error in remove user method", e);
         } finally {
             session.close();
         }

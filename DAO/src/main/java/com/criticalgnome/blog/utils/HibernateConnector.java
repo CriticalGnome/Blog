@@ -43,6 +43,12 @@ public class HibernateConnector {
         return session;
     }
 
+    public void releaseSession(Session session) throws HibernateException {
+        if (session != null) {
+            session.close();
+        }
+    }
+
     private void reconnect() throws HibernateException {
         this.factory = cfg.buildSessionFactory(builder.build());
     }

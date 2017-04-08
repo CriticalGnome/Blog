@@ -58,9 +58,7 @@ public class RecordDao extends AbstractDao<Record> {
             return id;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in create record method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(RecordDao.class, "Fatal error in create record method", e);
         } finally {
             session.close();
         }
@@ -85,9 +83,7 @@ public class RecordDao extends AbstractDao<Record> {
             return record;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in get record method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(RecordDao.class, "Fatal error in get record method", e);
         } finally {
             session.close();
         }
@@ -107,9 +103,7 @@ public class RecordDao extends AbstractDao<Record> {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in update record method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(RecordDao.class, "Fatal error in update record method", e);
         } finally {
             session.close();
         }
@@ -130,9 +124,7 @@ public class RecordDao extends AbstractDao<Record> {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in remove record method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(RecordDao.class, "Fatal error in remove record method", e);
         } finally {
             session.close();
         }
@@ -161,9 +153,7 @@ public class RecordDao extends AbstractDao<Record> {
             return records;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in pagination method";
-            log.log(Level.ERROR, message, e);
-            throw new DaoException(message, e);
+            throw new DaoException(RecordDao.class, "Fatal error in pagination method", e);
         } finally {
             session.close();
         }
@@ -182,9 +172,7 @@ public class RecordDao extends AbstractDao<Record> {
                     .uniqueResult().toString());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in count method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(RecordDao.class, "Fatal error in count method", e);
         } finally {
             session.close();
         }

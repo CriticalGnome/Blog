@@ -53,9 +53,7 @@ public class RoleDao extends AbstractDao<Role> {
             return id;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in create role method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(RoleDao.class, "Fatal error in create role method", e);
         } finally {
             session.close();
         }
@@ -77,9 +75,7 @@ public class RoleDao extends AbstractDao<Role> {
             return role;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in get role method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(RoleDao.class, "Fatal error in get role method", e);
         } finally {
             session.close();
         }
@@ -101,9 +97,7 @@ public class RoleDao extends AbstractDao<Role> {
             log.log(Level.INFO, "Role updated [{}] {}", role.getId(), role.getName());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in update role method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(RoleDao.class, "Fatal error in update role method", e);
         } finally {
             session.close();
         }
@@ -125,9 +119,7 @@ public class RoleDao extends AbstractDao<Role> {
             log.log(Level.INFO, "Role removed [{}] {}", role.getId(), role.getName());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            String message = "Fatal error in remove role method";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(RoleDao.class, "Fatal error in remove role method", e);
         } finally {
             session.close();
         }

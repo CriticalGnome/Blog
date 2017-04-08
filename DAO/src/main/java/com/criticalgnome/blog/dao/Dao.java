@@ -2,6 +2,7 @@ package com.criticalgnome.blog.dao;
 
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.entities.Pojo;
+import org.hibernate.Transaction;
 
 /**
  * Project Blog
