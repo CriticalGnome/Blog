@@ -5,7 +5,7 @@ import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.AbstractService;
-import com.criticalgnome.blog.utils.HibernateConnector;
+import com.criticalgnome.blog.utils.HibernateUtil;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
@@ -20,10 +20,9 @@ import java.util.List;
 public class CategoryService extends AbstractService<Category> {
 
     private static volatile CategoryService instance;
-    private HibernateConnector connector = HibernateConnector.getInstance();
     private CategoryDao categoryDao = CategoryDao.getInstance();
 
-    private CategoryService() {}
+    private CategoryService() {};
 
     public static CategoryService getInstance() {
         if (instance == null) {
@@ -40,7 +39,7 @@ public class CategoryService extends AbstractService<Category> {
     public Long create(Category category) throws DaoException, ServiceException {
         Long id;
         try {
-            session = connector.getSession();
+            session = util.getSession();
             transaction = session.beginTransaction();
             id = categoryDao.create(category);
             transaction.commit();
@@ -55,7 +54,7 @@ public class CategoryService extends AbstractService<Category> {
     public Category getById(Long id) throws DaoException, ServiceException {
         Category category;
         try {
-            session = connector.getSession();
+            session = util.getSession();
             transaction = session.beginTransaction();
             category = categoryDao.getById(id);
             transaction.commit();
@@ -69,7 +68,7 @@ public class CategoryService extends AbstractService<Category> {
     @Override
     public void update(Category category) throws DaoException, ServiceException {
         try {
-            session = connector.getSession();
+            session = util.getSession();
             transaction = session.beginTransaction();
             categoryDao.update(category);
             transaction.commit();
@@ -82,7 +81,7 @@ public class CategoryService extends AbstractService<Category> {
     @Override
     public void remove(Long id) throws DaoException, ServiceException {
         try {
-            session = connector.getSession();
+            session = util.getSession();
             transaction = session.beginTransaction();
             categoryDao.remove(id);
             transaction.commit();
@@ -95,7 +94,7 @@ public class CategoryService extends AbstractService<Category> {
     public List<Category> getAll() throws DaoException, ServiceException {
         List<Category> categories;
         try {
-            session = connector.getSession();
+            session = util.getSession();
             transaction = session.beginTransaction();
             categories = categoryDao.getAll();
             transaction.commit();

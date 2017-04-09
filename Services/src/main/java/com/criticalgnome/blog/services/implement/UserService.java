@@ -18,6 +18,7 @@ import lombok.extern.log4j.Log4j2;
 public class UserService extends AbstractService<User> {
 
     private static volatile UserService instance;
+    private UserDao userDao = UserDao.getInstance();
 
     private UserService() {}
 
@@ -35,25 +36,71 @@ public class UserService extends AbstractService<User> {
     @Override
     public Long create(User user) throws DaoException, ServiceException {
         user.setPassword(MD5.md5Encode(user.getPassword()));
-        return UserDao.getInstance().create(user);
+        Long id;
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            id = userDao.create(user);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(UserService.class, "Transaction failed in create method", e);
+        }
+        return id;
     }
 
     @Override
     public User getById(Long id) throws DaoException, ServiceException {
-        return UserDao.getInstance().getById(id);
+        User user;
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            user = userDao.getById(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(UserService.class, "Transaction failed in getById method", e);
+        }
+        return user;
     }
 
     @Override
     public void update(User user) throws DaoException, ServiceException {
-        UserDao.getInstance().update(user);
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            userDao.update(user);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(UserService.class, "Transaction failed in update method", e);
+        }
     }
 
     @Override
     public void remove(Long id) throws DaoException, ServiceException {
-        UserDao.getInstance().remove(id);
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            userDao.remove(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(UserService.class, "Transaction failed in remove method", e);
+        }
     }
 
     public User getByEmailAndPassword(String email, String password) throws DaoException, ServiceException {
-        return UserDao.getInstance().getByEmailAndPassword(email, MD5.md5Encode(password));
+        User user;
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            user = userDao.getByEmailAndPassword(email, MD5.md5Encode(password));
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(UserService.class, "Transaction failed in getByEmailAndPassword method", e);
+        }
+        return user;
     }
 }

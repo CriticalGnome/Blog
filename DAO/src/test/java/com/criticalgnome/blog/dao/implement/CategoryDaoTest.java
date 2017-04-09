@@ -1,13 +1,11 @@
 package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.entities.Category;
-import com.criticalgnome.blog.utils.HibernateConnector;
+import com.criticalgnome.blog.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 /**
  * Project Blog
@@ -15,23 +13,23 @@ import org.junit.runners.MethodSorters;
  *
  * @author CriticalGnome
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CategoryDaoTest {
 
-    private HibernateConnector connector = HibernateConnector.getInstance();
     private CategoryDao categoryDao = CategoryDao.getInstance();
 
     @Test
     public void categoryDaoTesting() throws Exception {
 
-        // Open session
-        Session session = connector.getSession();
+        // Begin
+        Session session = HibernateUtil.getInstance().getSession();
+        Transaction transaction;
+        Category expected = new Category(null, "New category", null);
+        Category actual;
 
         // Create new category and subcategory
-        Category expected = new Category(null, "New category", null);
-        Transaction transaction = session.beginTransaction();
+        transaction = session.beginTransaction();
         categoryDao.create(expected);
-        Category actual = categoryDao.getById(expected.getId());
+        actual = categoryDao.getById(expected.getId());
         transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
 
@@ -46,11 +44,11 @@ public class CategoryDaoTest {
         // Remove category and subcategory
         transaction = session.beginTransaction();
         categoryDao.remove(expected.getId());
-        actual = CategoryDao.getInstance().getById(expected.getId());
+        actual = categoryDao.getById(expected.getId());
         transaction.commit();
         Assert.assertNull("Not deleted", actual);
 
-        // Release session
-        connector.releaseSession(session);
+        // End
+        HibernateUtil.getInstance().releaseSession(session);
     }
 }

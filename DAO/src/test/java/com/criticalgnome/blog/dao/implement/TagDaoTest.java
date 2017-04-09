@@ -1,10 +1,11 @@
 package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.entities.Tag;
+import com.criticalgnome.blog.utils.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 /**
  * Project Blog
@@ -12,33 +13,43 @@ import org.junit.runners.MethodSorters;
  *
  * @author CriticalGnome
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TagDaoTest {
 
-    private static Tag expected;
-    private static Tag actual;
+    private TagDao tagDao = TagDao.getInstance();
 
     @Test
-    public void test1() throws Exception {
-        expected = new Tag(null, "Test tag");
-        Long id = TagDao.getInstance().create(expected);
-        actual = TagDao.getInstance().getById(id);
+    public void tagDaoTesting() throws Exception {
+
+    // Begin
+        Session session = HibernateUtil.getInstance().getSession();
+        Transaction transaction;
+        Tag expected = new Tag(null, "Test tag");
+        Tag actual;
+
+        // Create new tag
+        transaction = session.beginTransaction();
+        Long id = tagDao.create(expected);
+        actual = tagDao.getById(id);
+        transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
-    }
 
-    @Test
-    public void test2() throws Exception {
+        // Update tag
         expected.setName("New name for tag");
-        TagDao.getInstance().update(expected);
-        actual = TagDao.getInstance().getById(expected.getId());
+        transaction = session.beginTransaction();
+        tagDao.update(expected);
+        actual = tagDao.getById(expected.getId());
+        transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
-    }
 
-    @Test
-    public void test3() throws Exception {
-        TagDao.getInstance().remove(expected.getId());
-        actual = TagDao.getInstance().getById(expected.getId());
+        // Remove tag
+        transaction = session.beginTransaction();
+        tagDao.remove(expected.getId());
+        actual = tagDao.getById(expected.getId());
+        transaction.commit();
         Assert.assertNull("Not deleted", actual);
+
+        // End
+        HibernateUtil.getInstance().releaseSession(session);
     }
 
 }

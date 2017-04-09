@@ -2,6 +2,9 @@ package com.criticalgnome.blog.dao.implement;
 
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
+import com.criticalgnome.blog.utils.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -16,40 +19,46 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserDaoTest {
 
-    private static User expected;
-    private static User actual;
-    private static Role role;
+    private RoleDao roleDao = RoleDao.getInstance();
+    private UserDao userDao = UserDao.getInstance();
 
     @Test
-    public void test1() throws Exception {
-        role = new Role(null, "Test role");
-        RoleDao.getInstance().create(role);
-        expected = new User(
-                null,
-                "me@my.com",
-                "qwerty",
-                "Sergey",
-                "Kalinovsky",
-                "CriticalGnome",
-                role);
-        UserDao.getInstance().create(expected);
-        actual = UserDao.getInstance().getById(expected.getId());
+    public void userDaoTesting() throws Exception {
+
+        // Begin
+        Session session = HibernateUtil.getInstance().getSession();
+        Transaction transaction;
+        Role role = new Role(null, "Test role");
+        User expected = new User(null,"me@my.com","qwerty","John","Doe","Dude",role);
+        User actual;
+
+        // Create new user
+        transaction = session.beginTransaction();
+        roleDao.create(role);
+        userDao.create(expected);
+        actual = userDao.getById(expected.getId());
+        transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
-    }
 
-    @Test
-    public void test2() throws Exception {
-        expected.setEmail("lord.skiminok@gmail.com");
-        UserDao.getInstance().update(expected);
-        actual = UserDao.getInstance().getById(expected.getId());
+        // Update User
+        expected.setEmail("bill.gates@microsoft.com");
+        expected.setFirstName("Bill");
+        expected.setLastName("Gates");
+        transaction = session.beginTransaction();
+        userDao.update(expected);
+        actual = userDao.getById(expected.getId());
+        transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
-    }
 
-    @Test
-    public void test3() throws Exception {
-        UserDao.getInstance().remove(expected.getId());
-        RoleDao.getInstance().remove(role.getId());
-        actual = UserDao.getInstance().getById(expected.getId());
+        // Remove record
+        transaction = session.beginTransaction();
+        userDao.remove(expected.getId());
+        roleDao.remove(role.getId());
+        actual = userDao.getById(expected.getId());
+        transaction.commit();
         Assert.assertNull("Not deleted", actual);
+
+        // End
+        HibernateUtil.getInstance().releaseSession(session);
     }
 }

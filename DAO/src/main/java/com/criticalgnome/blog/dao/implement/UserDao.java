@@ -3,9 +3,8 @@ package com.criticalgnome.blog.dao.implement;
 import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
-import com.criticalgnome.blog.utils.HibernateConnector;
+import com.criticalgnome.blog.utils.HibernateUtil;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
@@ -20,7 +19,9 @@ public class UserDao extends AbstractDao<User> {
 
     private static volatile UserDao instance;
 
-    private UserDao() {}
+    private UserDao() {
+        super(User.class);
+    }
 
     /**
      * Singleton pattern
@@ -38,94 +39,6 @@ public class UserDao extends AbstractDao<User> {
     }
 
     /**
-     * Create new row in table
-     * @param user object
-     * @return id for created row
-     * @throws DaoException custom exception
-     */
-    @Override
-    public Long create(User user) throws DaoException {
-        try {
-            session = HibernateConnector.getInstance().getSession();
-            session.beginTransaction();
-            Long id = (Long) session.save(user);
-            session.getTransaction().commit();
-            log.log(Level.INFO, "New user created [{}] {}", user.getId(), user.getNickName());
-            return id;
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-            throw new DaoException(UserDao.class, "Fatal error in create user method", e);
-        } finally {
-            session.close();
-        }
-    }
-
-    /**
-     * Get one row from table by id
-     * @param id row id
-     * @return row object
-     * @throws DaoException custom exception
-     */
-    @Override
-    public User getById(Long id) throws DaoException {
-        try {
-            session = HibernateConnector.getInstance().getSession();
-            session.beginTransaction();
-            User user = (User) session.get(User.class, id);
-            session.getTransaction().commit();
-            return user;
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-            throw new DaoException(UserDao.class, "Fatal error in get user method", e);
-        } finally {
-            session.close();
-        }
-    }
-
-    /**
-     * Update object data in table
-     * @param user object
-     * @throws DaoException custom exception
-     */
-    @Override
-    public void update(User user) throws DaoException {
-        try {
-            session = HibernateConnector.getInstance().getSession();
-            session.beginTransaction();
-            session.update(user);
-            session.getTransaction().commit();
-            log.log(Level.INFO, "User updated [{}] {}", user.getId(), user.getNickName());
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-            throw new DaoException(UserDao.class, "Fatal error in update user method", e);
-        } finally {
-            session.close();
-        }
-    }
-
-    /**
-     * Remove row from table by id
-     * @param id id
-     * @throws DaoException custom exception
-     */
-    @Override
-    public void remove(Long id) throws DaoException {
-        try {
-            User user = getById(id);
-            session = HibernateConnector.getInstance().getSession();
-            session.beginTransaction();
-            session.delete(user);
-            session.getTransaction().commit();
-            log.log(Level.INFO, "User removed [{}] {}", user.getId(), user.getNickName());
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-            throw new DaoException(UserDao.class, "Fatal error in remove user method", e);
-        } finally {
-            session.close();
-        }
-    }
-
-    /**
      * Get one row from table by email and password
      * @param email user email
      * @param password user password
@@ -134,15 +47,13 @@ public class UserDao extends AbstractDao<User> {
      */
     public User getByEmailAndPassword(String email, String password) throws DaoException {
         try {
-            session = HibernateConnector.getInstance().getSession();
+            session = HibernateUtil.getInstance().getSession();
             return (User) session.createCriteria(User.class)
                     .add(Restrictions.like("email", email))
                     .add(Restrictions.like("password", password))
                     .uniqueResult();
         } catch (HibernateException e) {
             throw new DaoException(UserDao.class, "Fatal error in remove user method", e);
-        } finally {
-            session.close();
         }
     }
 }

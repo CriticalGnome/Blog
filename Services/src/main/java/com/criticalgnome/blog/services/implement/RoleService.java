@@ -24,6 +24,7 @@ import lombok.extern.log4j.Log4j2;
 public class RoleService extends AbstractService<Role> {
 
     private static volatile RoleService instance;
+    private RoleDao roleDao = RoleDao.getInstance();
 
     private RoleService() {}
 
@@ -40,21 +41,57 @@ public class RoleService extends AbstractService<Role> {
 
     @Override
     public Long create(Role role) throws DaoException, ServiceException {
-        return RoleDao.getInstance().create(role);
+        Long id;
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            id = roleDao.create(role);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(RoleService.class, "Transaction failed in create method", e);
+        }
+        return id;
     }
 
     @Override
     public Role getById(Long id) throws DaoException, ServiceException {
-        return RoleDao.getInstance().getById(id);
+        Role role;
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            role = roleDao.getById(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(RoleService.class, "Transaction failed in getById method", e);
+        }
+        return role;
     }
 
     @Override
     public void update(Role role) throws DaoException, ServiceException {
-        RoleDao.getInstance().update(role);
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            roleDao.update(role);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(RoleService.class, "Transaction failed in update method", e);
+        }
     }
 
     @Override
     public void remove(Long id) throws DaoException, ServiceException {
-        RoleDao.getInstance().remove(id);
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            roleDao.remove(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(RoleService.class, "Transaction failed in remove method", e);
+        }
     }
 }

@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 public class TagService extends AbstractService<Tag> {
 
     private static volatile TagService instance;
+    private TagDao tagDao = TagDao.getInstance();
 
     private TagService() {}
 
@@ -34,31 +35,83 @@ public class TagService extends AbstractService<Tag> {
 
     @Override
     public Long create(Tag tag) throws DaoException, ServiceException {
-        return TagDao.getInstance().create(tag);
+        Long id;
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            id = tagDao.create(tag);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(TagService.class, "Transaction failed in create method", e);
+        }
+        return id;
     }
 
     @Override
     public Tag getById(Long id) throws DaoException, ServiceException {
-        return TagDao.getInstance().getById(id);
+        Tag tag;
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            tag = tagDao.getById(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(TagService.class, "Transaction failed in getById method", e);
+        }
+        return tag;
     }
 
     @Override
     public void update(Tag tag) throws DaoException, ServiceException {
-        TagDao.getInstance().update(tag);
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            tagDao.update(tag);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(TagService.class, "Transaction failed in update method", e);
+        }
     }
 
     @Override
     public void remove(Long id) throws DaoException, ServiceException {
-        TagDao.getInstance().remove(id);
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            tagDao.remove(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(TagService.class, "Transaction failed in remove method", e);
+        }
     }
 
     public Tag getOrCreateTagByName(String tagName) throws DaoException, ServiceException {
-        Tag tag = TagDao.getInstance().getByName(tagName);
-        if (tag == null) {
-            tagName = StringUtils.lowerCase(tagName);
-            tagName = StringUtils.capitalize(tagName);
-            tag = new Tag(null, tagName);
-            Long id = TagService.getInstance().create(tag);
+        Tag tag = null;
+        try {
+            session = util.getSession();
+            transaction = session.beginTransaction();
+            tag = tagDao.getByName(tagName);
+            transaction.commit();
+            if (tag == null) {
+                tagName = StringUtils.lowerCase(tagName);
+                tagName = StringUtils.capitalize(tagName);
+                tag = new Tag(null, tagName);
+                try {
+                    transaction = session.beginTransaction();
+                    Long id = tagDao.create(tag);
+                    transaction.commit();
+                } catch (DaoException e) {
+                    transaction.rollback();
+                    throw new ServiceException(TagService.class, "Transaction failed in createTagByName method", e);
+                }
+            }
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(TagService.class, "Transaction failed in getOrCreateTagByName method", e);
         }
         return tag;
     }

@@ -7,11 +7,14 @@ import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.implement.CategoryService;
 import com.criticalgnome.blog.services.implement.RecordService;
+import com.criticalgnome.blog.utils.CategoryLine;
+import com.criticalgnome.blog.utils.GetCategoriesList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,10 +29,12 @@ public class ActionAdminArea implements Action {
 
         try {
             List<Category> categories = CategoryService.getInstance().getAll();
+            List<CategoryLine> categoryLines = new ArrayList<>();
+            categoryLines = GetCategoriesList.getSubcategories(categoryLines, categories, null, "");
             List<Record> records = RecordService.getInstance().getRecordsByPage(1,5);
             int recordsCount = RecordService.getInstance().getRecordsCount();
 
-            request.setAttribute("categories", categories);
+            request.setAttribute("categoryLines", categoryLines);
             request.setAttribute("records", records);
             request.setAttribute("recordsCount", recordsCount);
             request.getRequestDispatcher("adminarea.jsp").forward(request, response);

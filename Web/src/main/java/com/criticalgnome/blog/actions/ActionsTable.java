@@ -1,6 +1,9 @@
 package com.criticalgnome.blog.actions;
 
+import com.criticalgnome.blog.actions.admin.ActionAddCategory;
 import com.criticalgnome.blog.actions.admin.ActionAdminArea;
+import com.criticalgnome.blog.actions.admin.ActionDeleteCategory;
+import com.criticalgnome.blog.actions.admin.ActionEditCategory;
 import com.criticalgnome.blog.actions.content.ActionChangePagination;
 import com.criticalgnome.blog.actions.record.ActionDeleteRecord;
 import com.criticalgnome.blog.actions.record.ActionEditRecord;
@@ -28,6 +31,9 @@ public enum ActionsTable {
     EDITRECORD (new ActionEditRecord()),
     SAVERECORD (new ActionSaveRecord()),
     DELETERECORD (new ActionDeleteRecord()),
+    ADDCATEGORY (new ActionAddCategory()),
+    EDITCATEGORY (new ActionEditCategory()),
+    DELETECATEGORY (new ActionDeleteCategory()),
     ADMINAREA (new ActionAdminArea()),
     CHANGELOCALE (new ActionChangeLocale());
 
