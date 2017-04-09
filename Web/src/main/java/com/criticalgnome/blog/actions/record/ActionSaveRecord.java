@@ -43,7 +43,12 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
         HttpSession session = request.getSession();
         ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
         try {
-            Long id = Long.parseLong(request.getParameter("id"));
+            Long id;
+            if (request.getParameter("id").equals("")) {
+                id = null;
+            } else {
+                id = Long.parseLong(request.getParameter("id"));
+            }
             String header = request.getParameter("header");
             String body = request.getParameter("body");
             String tagString = request.getParameter("tags");
@@ -54,20 +59,23 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
                 tags.add(tag);
             }
             Category category = CategoryService.getInstance().getById(Long.parseLong(request.getParameter("categoryId")));
-            User author = UserService.getInstance().getById(Long.parseLong(request.getParameter("author")));
+            User author;
+            if (request.getParameter("author").equals("")) {
+                author = (User) session.getAttribute("user");
+            } else {
+                author = UserService.getInstance().getById(Long.parseLong(request.getParameter("author")));
+            }
             Calendar calendar = Calendar.getInstance();
             Date now = calendar.getTime();
             Timestamp timestamp = new Timestamp(now.getTime());
             Record record = new Record(id, header, body, timestamp, timestamp, category, author, tags);
             Alert alert = null;
-            if (request.getParameter("mode").equals("update")) {
-                RecordService.getInstance().update(record);
-                alert = new Alert("alert-success", bundle.getString("alert.record.updated"));
-            }
-            if (request.getParameter("mode").equals("create")) {
-                record.setId(null);
+            if (id  == null) {
                 RecordService.getInstance().create(record);
                 alert = new Alert("alert-success", bundle.getString("alert.record.saved"));
+            } else {
+                RecordService.getInstance().update(record);
+                alert = new Alert("alert-success", bundle.getString("alert.record.updated"));
             }
             session.setAttribute("alert", alert);
             page = "index.jsp";

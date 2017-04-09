@@ -4,7 +4,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<c:if test="${empty categoryLines}">
+    <c:redirect url="controller?action=adminarea"/>
+</c:if>
 <%@ include file="inc/uselocale.jsp" %>
 <html lang="en">
 <head>

@@ -1,5 +1,6 @@
-package com.criticalgnome.blog.actions.record;
+package com.criticalgnome.blog.actions.category;
 
+import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.exceptions.DaoException;
@@ -18,26 +19,34 @@ import java.util.List;
 
 /**
  * Project Blog
- * Created on 26.03.2017.
+ * Created on 08.04.2017.
  *
  * @author CriticalGnome
  */
-public class ActionWriteRecord implements com.criticalgnome.blog.actions.Action {
+public class ActionAddCategory implements Action {
+    /**
+     * Return target page
+     *
+     * @param request  http request
+     * @param response http response
+     * @return action
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        List<Category> categories;
-        List<CategoryLine> categoryLines = new ArrayList<>();
         try {
-            categories = CategoryService.getInstance().getAll();
+            List<Category> categories = CategoryService.getInstance().getAll();
+            List<CategoryLine> categoryLines = new ArrayList<>();
             categoryLines = GetCategoriesList.getSubcategories(categoryLines, categories, null, "");
+            request.setAttribute("categoryLines", categoryLines);
+            request.getRequestDispatcher("category.jsp").forward(request, response);
+
         } catch (DaoException | ServiceException e) {
+            HttpSession session = request.getSession();
             session.setAttribute("message", e.getMessage());
             return SiteConstants.ERROR_PAGE;
         }
-        request.setAttribute("categoryLines", categoryLines);
-        request.getRequestDispatcher("record.jsp").forward(request, response);
-
         return null;
     }
 }

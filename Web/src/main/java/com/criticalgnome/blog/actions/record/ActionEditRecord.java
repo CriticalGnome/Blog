@@ -9,12 +9,15 @@ import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.implement.CategoryService;
 import com.criticalgnome.blog.services.implement.RecordService;
+import com.criticalgnome.blog.utils.CategoryLine;
+import com.criticalgnome.blog.utils.GetCategoriesList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -37,7 +40,8 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Record record;
-        List<Category> categoryList;
+        List<Category> categories;
+        List<CategoryLine> categoryLines = new ArrayList<>();
         if (request.getParameter("id") == null) {
             return "index.jsp";
         }
@@ -50,7 +54,8 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
         User user = (User) session.getAttribute("user");
         try {
             record = RecordService.getInstance().getById(recordId);
-            categoryList = CategoryService.getInstance().getAll();
+            categories = CategoryService.getInstance().getAll();
+            categoryLines = GetCategoriesList.getSubcategories(categoryLines, categories, null, "");
         } catch (DaoException | ServiceException e) {
             session.setAttribute("message", e.getMessage());
             return SiteConstants.ERROR_PAGE;
@@ -67,9 +72,9 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
             tagString.deleteCharAt(0);
         }
         request.setAttribute("record", record);
-        request.setAttribute("categories", categoryList);
+        request.setAttribute("categoryLines", categoryLines);
         request.setAttribute("tagString", tagString.toString());
-        request.getRequestDispatcher("edit.jsp").forward(request, response);
+        request.getRequestDispatcher("record.jsp").forward(request, response);
 
         return null;
     }

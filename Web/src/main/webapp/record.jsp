@@ -1,12 +1,9 @@
 <%--@elvariable id="tagString" type="java.lang.String"--%>
 <%--@elvariable id="record" type="com.criticalgnome.blog.entities.Record"--%>
-<%--@elvariable id="categories" type="java.util.List"--%>
+<%--@elvariable id="categoryLines" type="java.util.List"--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:if test="${empty record}">
-    <c:redirect url="index.jsp"/>
-</c:if>
 <%@ include file="inc/uselocale.jsp" %>
 <html lang="en">
 <head>
@@ -25,7 +22,6 @@
         <div class="col-md-10 col-md-offset-1">
             <form action="controller" method="post">
                 <input type="hidden" name="action" value="saverecord">
-                <input type="hidden" name="mode" value="update">
                 <input type="hidden" name="id" value="${record.id}">
                 <input type="hidden" name="author" value="${record.author.id}">
                 <div class="form-group">
@@ -35,13 +31,12 @@
                 <div class="form-group">
                     <label for="categoryId"><fmt:message key="edit.form.category"/></label>
                     <select id="categoryId" name="categoryId" class="form-control">
-                        <c:forEach items="${categories}" var="category">
-                            <c:if test="${record.category.id == category.id}">
-                                <option value="${category.id}" selected>${category.name}</option>
+                        <c:forEach items="${categoryLines}" var="categoryLine">
+                            <c:set var="isSelected" value=""/>
+                            <c:if test="${categoryLine.id == record.category.id}">
+                                <c:set var="isSelected" value=" selected"/>
                             </c:if>
-                            <c:if test="${record.category.id != category.id}">
-                                <option value="${category.id}">${category.name}</option>
-                            </c:if>
+                            <option value="${categoryLine.id}"${isSelected}>${categoryLine.name}</option>
                         </c:forEach>
                     </select>
                 </div>
