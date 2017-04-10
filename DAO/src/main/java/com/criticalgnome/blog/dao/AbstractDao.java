@@ -1,7 +1,5 @@
 package com.criticalgnome.blog.dao;
 
-import com.criticalgnome.blog.dao.implement.CategoryDao;
-import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Pojo;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateUtil;

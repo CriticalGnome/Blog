@@ -11,6 +11,7 @@ import java.io.Serializable;
  *
  * @author CriticalGnome
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
