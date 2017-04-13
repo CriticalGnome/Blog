@@ -5,7 +5,7 @@ import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.implement.UserService;
+import com.criticalgnome.blog.services.impl.UserServiceImpl;
 import com.criticalgnome.blog.utils.Alert;
 
 import javax.servlet.ServletException;
@@ -30,7 +30,7 @@ public class ActionLogin implements Action {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         try {
-            User user = UserService.getInstance().getByEmailAndPassword(email, password);
+            User user = UserServiceImpl.getInstance().getByEmailAndPassword(email, password);
             if (user != null) {
                 session.setAttribute("user", user);
                 Alert alert = new Alert("alert-success", bundle.getString("alert.loggedin"));

@@ -4,7 +4,7 @@ import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.implement.CategoryService;
+import com.criticalgnome.blog.services.impl.CategoryServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,7 @@ public class ActionDeleteCategory implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            CategoryService.getInstance().remove(Long.valueOf(request.getParameter("id")));
+            CategoryServiceImpl.getInstance().remove(Long.valueOf(request.getParameter("id")));
         } catch (DaoException | ServiceException e) {
             HttpSession session = request.getSession();
             session.setAttribute("message", e.getMessage());

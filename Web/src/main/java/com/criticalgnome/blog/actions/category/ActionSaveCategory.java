@@ -5,8 +5,7 @@ import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.implement.CategoryService;
-import org.apache.commons.lang3.StringUtils;
+import com.criticalgnome.blog.services.impl.CategoryServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -45,13 +44,13 @@ public class ActionSaveCategory implements Action {
             if (parentId == 0) {
                 parent = null;
             } else {
-                parent = CategoryService.getInstance().getById(parentId);
+                parent = CategoryServiceImpl.getInstance().getById(parentId);
             }
             Category category = new Category(id, name, parent);
             if (id == null) {
-                CategoryService.getInstance().create(category);
+                CategoryServiceImpl.getInstance().create(category);
             } else {
-                CategoryService.getInstance().update(category);
+                CategoryServiceImpl.getInstance().update(category);
             }
         } catch (DaoException | ServiceException e) {
             HttpSession session = request.getSession();

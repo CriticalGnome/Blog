@@ -7,10 +7,10 @@ import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.implement.CategoryService;
-import com.criticalgnome.blog.services.implement.RecordService;
-import com.criticalgnome.blog.services.implement.TagService;
-import com.criticalgnome.blog.services.implement.UserService;
+import com.criticalgnome.blog.services.impl.CategoryServiceImpl;
+import com.criticalgnome.blog.services.impl.RecordServiceImpl;
+import com.criticalgnome.blog.services.impl.TagServiceImpl;
+import com.criticalgnome.blog.services.impl.UserServiceImpl;
 import com.criticalgnome.blog.utils.Alert;
 
 import javax.servlet.ServletException;
@@ -55,15 +55,15 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             String[] tagArray = tagString.split(",");
             Set<Tag> tags = new HashSet<>();
             for (String tagName : tagArray) {
-                Tag tag = TagService.getInstance().getOrCreateTagByName(tagName.trim());
+                Tag tag = TagServiceImpl.getInstance().getOrCreateTagByName(tagName.trim());
                 tags.add(tag);
             }
-            Category category = CategoryService.getInstance().getById(Long.parseLong(request.getParameter("categoryId")));
+            Category category = CategoryServiceImpl.getInstance().getById(Long.parseLong(request.getParameter("categoryId")));
             User author;
             if (request.getParameter("author").equals("")) {
                 author = (User) session.getAttribute("user");
             } else {
-                author = UserService.getInstance().getById(Long.parseLong(request.getParameter("author")));
+                author = UserServiceImpl.getInstance().getById(Long.parseLong(request.getParameter("author")));
             }
             Calendar calendar = Calendar.getInstance();
             Date now = calendar.getTime();
@@ -71,10 +71,10 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             Record record = new Record(id, header, body, timestamp, timestamp, category, author, tags);
             Alert alert = null;
             if (id  == null) {
-                RecordService.getInstance().create(record);
+                RecordServiceImpl.getInstance().create(record);
                 alert = new Alert("alert-success", bundle.getString("alert.record.saved"));
             } else {
-                RecordService.getInstance().update(record);
+                RecordServiceImpl.getInstance().update(record);
                 alert = new Alert("alert-success", bundle.getString("alert.record.updated"));
             }
             session.setAttribute("alert", alert);

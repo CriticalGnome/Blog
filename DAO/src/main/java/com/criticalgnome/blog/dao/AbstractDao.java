@@ -94,6 +94,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
      * @return list
      * @throws DaoException custom exception
      */
+    @Override
     public List<T> getAll() throws DaoException {
         try {
             Session session = util.getSession();

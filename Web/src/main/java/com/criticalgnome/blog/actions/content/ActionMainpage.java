@@ -5,7 +5,7 @@ import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.implement.RecordService;
+import com.criticalgnome.blog.services.impl.RecordServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +36,8 @@ public class ActionMainpage implements Action {
             recordsPerPage = (int) session.getAttribute("recordsPerPage");
         }
         try {
-            records = RecordService.getInstance().getRecordsByPage(pageNumber, recordsPerPage);
-            int recordsCount = RecordService.getInstance().getRecordsCount();
+            records = RecordServiceImpl.getInstance().getRecordsByPage(pageNumber, recordsPerPage);
+            int recordsCount = RecordServiceImpl.getInstance().getRecordsCount();
             request.setAttribute("records", records);
             request.setAttribute("pageNumber", pageNumber);
             request.setAttribute("recordsPerPage", recordsPerPage);

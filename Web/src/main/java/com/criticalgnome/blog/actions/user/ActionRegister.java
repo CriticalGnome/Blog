@@ -4,8 +4,8 @@ import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.implement.RoleService;
-import com.criticalgnome.blog.services.implement.UserService;
+import com.criticalgnome.blog.services.impl.RoleServiceImpl;
+import com.criticalgnome.blog.services.impl.UserServiceImpl;
 import com.criticalgnome.blog.utils.RegexChecker;
 
 import javax.servlet.ServletException;
@@ -98,9 +98,9 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
             request.getRequestDispatcher("register.jsp").forward(request, response);
         } else {
             try {
-                Role role = RoleService.getInstance().getById(4L);
+                Role role = RoleServiceImpl.getInstance().getById(4L);
                 User user = new User(null, email, password, nickName, firstName, lastName, role);
-                UserService.getInstance().create(user);
+                UserServiceImpl.getInstance().create(user);
                 session.setAttribute("user", user);
                 page = "index.jsp";
             } catch (DaoException | ServiceException e) {

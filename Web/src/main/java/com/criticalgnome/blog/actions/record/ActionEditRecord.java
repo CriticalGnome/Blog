@@ -7,8 +7,8 @@ import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.implement.CategoryService;
-import com.criticalgnome.blog.services.implement.RecordService;
+import com.criticalgnome.blog.services.impl.CategoryServiceImpl;
+import com.criticalgnome.blog.services.impl.RecordServiceImpl;
 import com.criticalgnome.blog.utils.CategoryLine;
 import com.criticalgnome.blog.utils.GetCategoriesList;
 
@@ -53,8 +53,8 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
         }
         User user = (User) session.getAttribute("user");
         try {
-            record = RecordService.getInstance().getById(recordId);
-            categories = CategoryService.getInstance().getAll();
+            record = RecordServiceImpl.getInstance().getById(recordId);
+            categories = CategoryServiceImpl.getInstance().getAll();
             categoryLines = GetCategoriesList.getSubcategories(categoryLines, categories, null, "");
         } catch (DaoException | ServiceException e) {
             session.setAttribute("message", e.getMessage());

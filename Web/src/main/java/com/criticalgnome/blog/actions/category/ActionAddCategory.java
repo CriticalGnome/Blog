@@ -5,7 +5,7 @@ import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.implement.CategoryService;
+import com.criticalgnome.blog.services.impl.CategoryServiceImpl;
 import com.criticalgnome.blog.utils.CategoryLine;
 import com.criticalgnome.blog.utils.GetCategoriesList;
 
@@ -36,7 +36,7 @@ public class ActionAddCategory implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Category> categories = CategoryService.getInstance().getAll();
+            List<Category> categories = CategoryServiceImpl.getInstance().getAll();
             List<CategoryLine> categoryLines = new ArrayList<>();
             categoryLines = GetCategoriesList.getSubcategories(categoryLines, categories, null, "");
             request.setAttribute("categoryLines", categoryLines);

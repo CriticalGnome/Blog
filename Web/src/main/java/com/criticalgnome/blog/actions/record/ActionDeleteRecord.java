@@ -4,7 +4,7 @@ import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.implement.RecordService;
+import com.criticalgnome.blog.services.impl.RecordServiceImpl;
 import com.criticalgnome.blog.utils.Alert;
 
 import javax.servlet.ServletException;
@@ -32,7 +32,7 @@ public class ActionDeleteRecord implements com.criticalgnome.blog.actions.Action
         }
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            RecordService.getInstance().remove(id);
+            RecordServiceImpl.getInstance().remove(id);
         } catch (DaoException | ServiceException e) {
             session.setAttribute("message", bundle.getString("error.in.delete"));
             return SiteConstants.ERROR_PAGE;

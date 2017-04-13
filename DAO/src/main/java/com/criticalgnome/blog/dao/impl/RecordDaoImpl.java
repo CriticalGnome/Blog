@@ -19,7 +19,6 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-@Log4j2
 public class RecordDaoImpl extends AbstractDao<Record> implements IRecordDao {
 
     private static volatile RecordDaoImpl instance;

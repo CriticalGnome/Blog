@@ -18,7 +18,6 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author CriticalGnome
  */
-@Log4j2
 public class TagDaoImpl extends AbstractDao<Tag> implements ITagDao {
 
     private static volatile TagDaoImpl instance;
@@ -55,9 +54,7 @@ public class TagDaoImpl extends AbstractDao<Tag> implements ITagDao {
                     .add(Restrictions.eq("name", tagName))
                     .uniqueResult();
         } catch (NonUniqueResultException e) {
-            String message = "Duplicates detected it TAG table";
-            log.log(Level.ERROR, message);
-            throw new DaoException(message, e);
+            throw new DaoException(TagDaoImpl.class, "Duplicates detected it TAG table", e);
         } catch (HibernateException e) {
             throw new DaoException(TagDaoImpl.class, "Fatal error in getByName method", e);
         }

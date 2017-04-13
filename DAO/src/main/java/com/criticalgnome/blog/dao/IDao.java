@@ -3,6 +3,8 @@ package com.criticalgnome.blog.dao;
 import com.criticalgnome.blog.entities.AbstractEntity;
 import com.criticalgnome.blog.exceptions.DaoException;
 
+import java.util.List;
+
 /**
  * Project Blog
  * Created on 20.03.2017.
@@ -39,4 +41,12 @@ public interface IDao<T extends AbstractEntity> {
      * @throws DaoException custom exception
      */
     void remove(Long id) throws DaoException;
+
+    /**
+     * Get list of all records
+     * @return list
+     * @throws DaoException custom exception
+     */
+    public List<T> getAll() throws DaoException;
+
 }
