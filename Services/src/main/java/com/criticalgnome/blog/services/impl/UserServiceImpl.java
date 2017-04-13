@@ -1,15 +1,15 @@
 package com.criticalgnome.blog.services.impl;
 
-import com.criticalgnome.blog.dao.IUserDao;
 import com.criticalgnome.blog.dao.impl.UserDaoImpl;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.AbstractService;
 import com.criticalgnome.blog.utils.MD5;
-import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import java.util.List;
 
 /**
  * Project Blog
@@ -20,15 +20,15 @@ import org.hibernate.Transaction;
 public class UserServiceImpl extends AbstractService<User> {
 
     private static volatile UserServiceImpl instance;
-    private static IUserDao userDao;
+    private UserDaoImpl userDao = UserDaoImpl.getInstance();
 
-    private UserServiceImpl(IUserDao userDao) { super(userDao); }
+    private UserServiceImpl() { super(); }
 
     public static UserServiceImpl getInstance() {
         if (instance == null) {
             synchronized (UserServiceImpl.class) {
                 if (instance == null) {
-                    instance = new UserServiceImpl(userDao);
+                    instance = new UserServiceImpl();
                 }
             }
         }
@@ -42,13 +42,69 @@ public class UserServiceImpl extends AbstractService<User> {
         Session session = util.getSession();
         Transaction transaction = session.beginTransaction();
         try {
-            id = UserDaoImpl.getInstance().create(user);
+            id = userDao.create(user);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
             throw new ServiceException(UserServiceImpl.class, "Transaction failed in create method", e);
         }
         return id;
+    }
+
+    @Override
+    public User getById(Long id) throws DaoException, ServiceException {
+        User abstractEntitty;
+        Session session = util.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            abstractEntitty = userDao.getById(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(UserServiceImpl.class, "Transaction failed in getById method", e);
+        }
+        return abstractEntitty;
+    }
+
+    @Override
+    public void update(User user) throws DaoException, ServiceException {
+        Session session = util.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            userDao.update(user);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(UserServiceImpl.class, "Transaction failed in update method", e);
+        }
+    }
+
+    @Override
+    public void remove(Long id) throws DaoException, ServiceException {
+        Session session = util.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            userDao.remove(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(UserServiceImpl.class, "Transaction failed in remove method", e);
+        }
+    }
+
+    @Override
+    public List<User> getAll() throws DaoException, ServiceException {
+        List<User> abstractEntities;
+        Session session = util.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            abstractEntities = userDao.getAll();
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(UserServiceImpl.class, "Transaction failed in getAll method", e);
+        }
+        return abstractEntities;
     }
 
     public User getByEmailAndPassword(String email, String password) throws DaoException, ServiceException {

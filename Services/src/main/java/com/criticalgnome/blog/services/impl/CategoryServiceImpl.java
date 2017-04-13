@@ -23,11 +23,10 @@ import java.util.List;
 public class CategoryServiceImpl extends AbstractService<Category> implements ICategoryService {
 
     private static volatile CategoryServiceImpl instance;
-    private ICategoryDao categoryDao;
+    private CategoryDaoImpl categoryDao = CategoryDaoImpl.getInstance();
 
-    private CategoryServiceImpl(ICategoryDao categoryDao) {
-        super(categoryDao);
-        this.categoryDao = categoryDao;
+    private CategoryServiceImpl() {
+        super();
     }
 
     public static CategoryServiceImpl getInstance() {
@@ -39,6 +38,77 @@ public class CategoryServiceImpl extends AbstractService<Category> implements IC
             }
         }
         return instance;
+    }
+
+    @Override
+    public Long create(Category category) throws DaoException, ServiceException {
+        Long id;
+        Session session = util.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            id = categoryDao.create(category);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(CategoryServiceImpl.class, "Transaction failed in create method", e);
+        }
+        return id;
+    }
+
+    @Override
+    public Category getById(Long id) throws DaoException, ServiceException {
+        Category abstractEntitty;
+        Session session = util.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            abstractEntitty = categoryDao.getById(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(CategoryServiceImpl.class, "Transaction failed in getById method", e);
+        }
+        return abstractEntitty;
+    }
+
+    @Override
+    public void update(Category category) throws DaoException, ServiceException {
+        Session session = util.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            categoryDao.update(category);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(CategoryServiceImpl.class, "Transaction failed in update method", e);
+        }
+    }
+
+    @Override
+    public void remove(Long id) throws DaoException, ServiceException {
+        Session session = util.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            categoryDao.remove(id);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(CategoryServiceImpl.class, "Transaction failed in remove method", e);
+        }
+    }
+
+    @Override
+    public List<Category> getAll() throws DaoException, ServiceException {
+        List<Category> abstractEntities;
+        Session session = util.getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            abstractEntities = categoryDao.getAll();
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+            throw new ServiceException(CategoryServiceImpl.class, "Transaction failed in getAll method", e);
+        }
+        return abstractEntities;
     }
 
 }

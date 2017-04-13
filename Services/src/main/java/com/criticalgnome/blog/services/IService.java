@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface IService<T extends AbstractEntity> {
 
-    Long create(T pojo) throws DaoException, ServiceException;
+    Long create(T abstractEntity) throws DaoException, ServiceException;
     T getById(Long id) throws DaoException, ServiceException;
-    void update(T pojo) throws DaoException, ServiceException;
+    void update(T abstractEntity) throws DaoException, ServiceException;
     void remove(Long id) throws DaoException, ServiceException;
     List<T> getAll() throws DaoException, ServiceException;
 }
