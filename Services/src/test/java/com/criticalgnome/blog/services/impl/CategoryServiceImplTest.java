@@ -28,6 +28,9 @@ public class CategoryServiceImplTest {
         Assert.assertEquals("Not equals", expected, actual);
         List<Category> categories = categoryService.getAll();
         Assert.assertTrue("No list", categories.size() > 0);
+        categoryService.remove(expected.getId());
+        actual = categoryService.getById(expected.getId());
+        Assert.assertNull("Not deleted", actual);
     }
 
 }
