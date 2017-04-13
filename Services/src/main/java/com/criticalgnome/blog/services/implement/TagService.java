@@ -1,6 +1,6 @@
 package com.criticalgnome.blog.services.implement;
 
-import com.criticalgnome.blog.dao.implement.TagDao;
+import com.criticalgnome.blog.dao.impl.TagDaoImpl;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 public class TagService extends AbstractService<Tag> {
 
     private static volatile TagService instance;
-    private TagDao tagDao = TagDao.getInstance();
+    private TagDaoImpl tagDaoImpl = TagDaoImpl.getInstance();
 
     private TagService() {}
 
@@ -39,7 +39,7 @@ public class TagService extends AbstractService<Tag> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            id = tagDao.create(tag);
+            id = tagDaoImpl.create(tag);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -54,7 +54,7 @@ public class TagService extends AbstractService<Tag> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            tag = tagDao.getById(id);
+            tag = tagDaoImpl.getById(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -68,7 +68,7 @@ public class TagService extends AbstractService<Tag> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            tagDao.update(tag);
+            tagDaoImpl.update(tag);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -81,7 +81,7 @@ public class TagService extends AbstractService<Tag> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            tagDao.remove(id);
+            tagDaoImpl.remove(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -94,7 +94,7 @@ public class TagService extends AbstractService<Tag> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            tag = tagDao.getByName(tagName);
+            tag = tagDaoImpl.getByName(tagName);
             transaction.commit();
             if (tag == null) {
                 tagName = StringUtils.lowerCase(tagName);
@@ -102,7 +102,7 @@ public class TagService extends AbstractService<Tag> {
                 tag = new Tag(null, tagName);
                 try {
                     transaction = session.beginTransaction();
-                    Long id = tagDao.create(tag);
+                    Long id = tagDaoImpl.create(tag);
                     transaction.commit();
                 } catch (DaoException e) {
                     transaction.rollback();

@@ -5,9 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "records")
-public class Record extends Pojo implements Serializable {
+public class Record extends AbstractEntity implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 

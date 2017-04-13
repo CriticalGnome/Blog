@@ -7,7 +7,7 @@ package com.criticalgnome.blog.services.implement;
  * @author CriticalGnome
  */
 
-import com.criticalgnome.blog.dao.implement.RoleDao;
+import com.criticalgnome.blog.dao.impl.RoleDaoImpl;
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j2;
 public class RoleService extends AbstractService<Role> {
 
     private static volatile RoleService instance;
-    private RoleDao roleDao = RoleDao.getInstance();
+    private RoleDaoImpl roleDaoImpl = RoleDaoImpl.getInstance();
 
     private RoleService() {}
 
@@ -45,7 +45,7 @@ public class RoleService extends AbstractService<Role> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            id = roleDao.create(role);
+            id = roleDaoImpl.create(role);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -60,7 +60,7 @@ public class RoleService extends AbstractService<Role> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            role = roleDao.getById(id);
+            role = roleDaoImpl.getById(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -74,7 +74,7 @@ public class RoleService extends AbstractService<Role> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            roleDao.update(role);
+            roleDaoImpl.update(role);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -87,7 +87,7 @@ public class RoleService extends AbstractService<Role> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            roleDao.remove(id);
+            roleDaoImpl.remove(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();

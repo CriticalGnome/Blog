@@ -1,8 +1,7 @@
 package com.criticalgnome.blog.dao;
 
+import com.criticalgnome.blog.entities.AbstractEntity;
 import com.criticalgnome.blog.exceptions.DaoException;
-import com.criticalgnome.blog.entities.Pojo;
-import org.hibernate.Transaction;
 
 /**
  * Project Blog
@@ -10,14 +9,14 @@ import org.hibernate.Transaction;
  *
  * @author CriticalGnome
  */
-public interface Dao<T extends Pojo> {
+public interface IDao<T extends AbstractEntity> {
     /**
      * Create new row in table
-     * @param pojo object
+     * @param abstractEntity object
      * @return id for created row
      * @throws DaoException custom exception
      */
-    Long create(T pojo) throws DaoException;
+    Long create(T abstractEntity) throws DaoException;
 
     /**
      * Get one row from table by id
@@ -29,10 +28,10 @@ public interface Dao<T extends Pojo> {
 
     /**
      * Update object data in table
-     * @param pojo object
+     * @param abstractEntity object
      * @throws DaoException custom exception
      */
-    void update(T pojo) throws DaoException;
+    void update(T abstractEntity) throws DaoException;
 
     /**
      * Remove row from table by id

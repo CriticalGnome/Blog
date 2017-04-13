@@ -17,7 +17,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "roles")
-public class Role extends Pojo implements Serializable {
+public class Role extends AbstractEntity implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 

@@ -1,11 +1,10 @@
 package com.criticalgnome.blog.services.implement;
 
-import com.criticalgnome.blog.dao.implement.CategoryDao;
+import com.criticalgnome.blog.dao.impl.CategoryDaoImpl;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.AbstractService;
-import com.criticalgnome.blog.utils.HibernateUtil;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
 public class CategoryService extends AbstractService<Category> {
 
     private static volatile CategoryService instance;
-    private CategoryDao categoryDao = CategoryDao.getInstance();
+    private CategoryDaoImpl categoryDaoImpl = CategoryDaoImpl.getInstance();
 
     private CategoryService() {};
 
@@ -41,7 +40,7 @@ public class CategoryService extends AbstractService<Category> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            id = categoryDao.create(category);
+            id = categoryDaoImpl.create(category);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -56,7 +55,7 @@ public class CategoryService extends AbstractService<Category> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            category = categoryDao.getById(id);
+            category = categoryDaoImpl.getById(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -70,7 +69,7 @@ public class CategoryService extends AbstractService<Category> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            categoryDao.update(category);
+            categoryDaoImpl.update(category);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -83,7 +82,7 @@ public class CategoryService extends AbstractService<Category> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            categoryDao.remove(id);
+            categoryDaoImpl.remove(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -96,7 +95,7 @@ public class CategoryService extends AbstractService<Category> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            categories = categoryDao.getAll();
+            categories = categoryDaoImpl.getAll();
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();

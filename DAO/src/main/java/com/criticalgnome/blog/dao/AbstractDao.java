@@ -1,8 +1,6 @@
 package com.criticalgnome.blog.dao;
 
-import com.criticalgnome.blog.dao.implement.CategoryDao;
-import com.criticalgnome.blog.entities.Category;
-import com.criticalgnome.blog.entities.Pojo;
+import com.criticalgnome.blog.entities.AbstractEntity;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateUtil;
 import org.hibernate.Criteria;
@@ -17,10 +15,8 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public abstract class AbstractDao<T extends Pojo> implements Dao<T> {
+public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     protected HibernateUtil util = HibernateUtil.getInstance();
-    protected Session session;
-    protected Criteria criteria;
     private Class persistentClass;
 
     protected AbstractDao(Class persistentClass){
@@ -29,16 +25,16 @@ public abstract class AbstractDao<T extends Pojo> implements Dao<T> {
 
     /**
      * Create new row in table
-     * @param pojo object
+     * @param abstractEntity object
      * @return id for created row
      * @throws DaoException custom exception
      */
     @Override
-    public Long create(T pojo) throws DaoException {
+    public Long create(T abstractEntity) throws DaoException {
         Long id;
         try {
-            session = util.getSession();
-            id = (Long) session.save(pojo);
+            Session session = util.getSession();
+            id = (Long) session.save(abstractEntity);
         } catch (HibernateException e) {
             throw new DaoException(persistentClass, "Fatal error in create category method", e);
         }
@@ -55,7 +51,7 @@ public abstract class AbstractDao<T extends Pojo> implements Dao<T> {
     @Override
     public T getById(Long id) throws DaoException {
         try {
-            session = util.getSession();
+            Session session = util.getSession();
             return (T) session.get(persistentClass, id);
         } catch (HibernateException e) {
             throw new DaoException(persistentClass, "Fatal error in get category method", e);
@@ -64,14 +60,14 @@ public abstract class AbstractDao<T extends Pojo> implements Dao<T> {
 
     /**
      * Update object data in table
-     * @param pojo object
+     * @param abstractEntity object
      * @throws DaoException custom exception
      */
     @Override
-    public void update(T pojo) throws DaoException {
+    public void update(T abstractEntity) throws DaoException {
         try {
-            session = util.getSession();
-            session.update(pojo);
+            Session session = util.getSession();
+            session.update(abstractEntity);
         } catch (HibernateException e) {
             throw new DaoException(persistentClass, "Fatal error in update category method", e);
         }
@@ -85,9 +81,9 @@ public abstract class AbstractDao<T extends Pojo> implements Dao<T> {
     @Override
     public void remove(Long id) throws DaoException {
         try {
-            session = util.getSession();
-            T pojo = getById(id);
-            session.delete(pojo);
+            Session session = util.getSession();
+            T abstractEntity = getById(id);
+            session.delete(abstractEntity);
         } catch (HibernateException e) {
             throw new DaoException(persistentClass, "Fatal error in remove category method", e);
         }
@@ -100,8 +96,8 @@ public abstract class AbstractDao<T extends Pojo> implements Dao<T> {
      */
     public List<T> getAll() throws DaoException {
         try {
-            session = util.getSession();
-            criteria = session.createCriteria(persistentClass);
+            Session session = util.getSession();
+            Criteria criteria = session.createCriteria(persistentClass);
             return criteria.list();
         } catch (HibernateException e) {
             throw new DaoException(persistentClass, "Fatal error in getAll method", e);

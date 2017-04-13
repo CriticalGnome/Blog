@@ -11,7 +11,7 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 
-        <!--Here we are mapping Pojo class not hbm-->
+        <!--Here we are mappAbstravtEntityPojo class not hbm-->
         <mapping class="com.criticalgnome.blog.entities.Category"/>
         <mapping class="com.criticalgnome.blog.entities.Record"/>
         <mapping class="com.criticalgnome.blog.entities.Role"/>

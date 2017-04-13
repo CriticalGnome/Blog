@@ -4,8 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Project Blog
@@ -19,7 +17,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name="tags")
-public class Tag extends Pojo implements Serializable {
+public class Tag extends AbstractEntity implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 

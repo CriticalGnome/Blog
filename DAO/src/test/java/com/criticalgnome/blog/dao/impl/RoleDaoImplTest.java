@@ -1,6 +1,6 @@
-package com.criticalgnome.blog.dao.implement;
+package com.criticalgnome.blog.dao.impl;
 
-import com.criticalgnome.blog.entities.Category;
+import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -13,42 +13,43 @@ import org.junit.Test;
  *
  * @author CriticalGnome
  */
-public class CategoryDaoTest {
+public class RoleDaoImplTest {
 
-    private CategoryDao categoryDao = CategoryDao.getInstance();
+    private RoleDaoImpl roleDaoImpl = RoleDaoImpl.getInstance();
 
     @Test
-    public void categoryDaoTesting() throws Exception {
+    public void roleDaoTesting() throws Exception {
 
         // Begin
         Session session = HibernateUtil.getInstance().getSession();
         Transaction transaction;
-        Category expected = new Category(null, "New category", null);
-        Category actual;
+        Role expected = new Role(null, "Test role");
+        Role actual;
 
-        // Create new category and subcategory
+        // Create new role
         transaction = session.beginTransaction();
-        categoryDao.create(expected);
-        actual = categoryDao.getById(expected.getId());
+        Long id = roleDaoImpl.create(expected);
+        actual = roleDaoImpl.getById(id);
         transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
 
-        // Update category with new parameters
-        expected.setName("New name for category");
+        // Update role
         transaction = session.beginTransaction();
-        categoryDao.update(expected);
-        actual = categoryDao.getById(expected.getId());
+        expected.setName("New name for role");
+        roleDaoImpl.update(expected);
+        actual = roleDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
 
-        // Remove category and subcategory
+        //Remove Role
         transaction = session.beginTransaction();
-        categoryDao.remove(expected.getId());
-        actual = categoryDao.getById(expected.getId());
+        roleDaoImpl.remove(expected.getId());
+        actual = roleDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertNull("Not deleted", actual);
 
         // End
         HibernateUtil.getInstance().releaseSession(session);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.criticalgnome.blog.dao.implement;
+package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
@@ -17,10 +17,10 @@ import org.junit.runners.MethodSorters;
  * @author CriticalGnome
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UserDaoTest {
+public class UserDaoImplTest {
 
-    private RoleDao roleDao = RoleDao.getInstance();
-    private UserDao userDao = UserDao.getInstance();
+    private RoleDaoImpl roleDaoImpl = RoleDaoImpl.getInstance();
+    private UserDaoImpl userDaoImpl = UserDaoImpl.getInstance();
 
     @Test
     public void userDaoTesting() throws Exception {
@@ -34,9 +34,9 @@ public class UserDaoTest {
 
         // Create new user
         transaction = session.beginTransaction();
-        roleDao.create(role);
-        userDao.create(expected);
-        actual = userDao.getById(expected.getId());
+        roleDaoImpl.create(role);
+        userDaoImpl.create(expected);
+        actual = userDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
 
@@ -45,16 +45,16 @@ public class UserDaoTest {
         expected.setFirstName("Bill");
         expected.setLastName("Gates");
         transaction = session.beginTransaction();
-        userDao.update(expected);
-        actual = userDao.getById(expected.getId());
+        userDaoImpl.update(expected);
+        actual = userDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
 
         // Remove record
         transaction = session.beginTransaction();
-        userDao.remove(expected.getId());
-        roleDao.remove(role.getId());
-        actual = userDao.getById(expected.getId());
+        userDaoImpl.remove(expected.getId());
+        roleDaoImpl.remove(role.getId());
+        actual = userDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertNull("Not deleted", actual);
 

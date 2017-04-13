@@ -1,11 +1,10 @@
 package com.criticalgnome.blog.services.implement;
 
-import com.criticalgnome.blog.dao.implement.RecordDao;
+import com.criticalgnome.blog.dao.impl.RecordDaoImpl;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.AbstractService;
-import com.criticalgnome.blog.utils.HibernateUtil;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
 public class RecordService extends AbstractService<Record> {
 
     private static volatile RecordService instance;
-    private RecordDao recordDao = RecordDao.getInstance();
+    private RecordDaoImpl recordDaoImpl = RecordDaoImpl.getInstance();
 
     private RecordService() {}
 
@@ -41,7 +40,7 @@ public class RecordService extends AbstractService<Record> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            id = recordDao.create(record);
+            id = recordDaoImpl.create(record);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -56,7 +55,7 @@ public class RecordService extends AbstractService<Record> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            record = recordDao.getById(id);
+            record = recordDaoImpl.getById(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -70,7 +69,7 @@ public class RecordService extends AbstractService<Record> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            recordDao.update(record);
+            recordDaoImpl.update(record);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -83,7 +82,7 @@ public class RecordService extends AbstractService<Record> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            recordDao.remove(id);
+            recordDaoImpl.remove(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -97,7 +96,7 @@ public class RecordService extends AbstractService<Record> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            records = recordDao.getRecordsByPage(pageOffset, pageCapacity);
+            records = recordDaoImpl.getRecordsByPage(pageOffset, pageCapacity);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -115,7 +114,7 @@ public class RecordService extends AbstractService<Record> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            recordsCount = recordDao.getRecordsCount();
+            recordsCount = recordDaoImpl.getRecordsCount();
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();

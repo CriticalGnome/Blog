@@ -1,6 +1,6 @@
 package com.criticalgnome.blog.services.implement;
 
-import com.criticalgnome.blog.dao.implement.UserDao;
+import com.criticalgnome.blog.dao.impl.UserDaoImpl;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
@@ -18,7 +18,7 @@ import lombok.extern.log4j.Log4j2;
 public class UserService extends AbstractService<User> {
 
     private static volatile UserService instance;
-    private UserDao userDao = UserDao.getInstance();
+    private UserDaoImpl userDaoImpl = UserDaoImpl.getInstance();
 
     private UserService() {}
 
@@ -40,7 +40,7 @@ public class UserService extends AbstractService<User> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            id = userDao.create(user);
+            id = userDaoImpl.create(user);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -55,7 +55,7 @@ public class UserService extends AbstractService<User> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            user = userDao.getById(id);
+            user = userDaoImpl.getById(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -69,7 +69,7 @@ public class UserService extends AbstractService<User> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            userDao.update(user);
+            userDaoImpl.update(user);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -82,7 +82,7 @@ public class UserService extends AbstractService<User> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            userDao.remove(id);
+            userDaoImpl.remove(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
@@ -95,7 +95,7 @@ public class UserService extends AbstractService<User> {
         try {
             session = util.getSession();
             transaction = session.beginTransaction();
-            user = userDao.getByEmailAndPassword(email, MD5.md5Encode(password));
+            user = userDaoImpl.getByEmailAndPassword(email, MD5.md5Encode(password));
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();

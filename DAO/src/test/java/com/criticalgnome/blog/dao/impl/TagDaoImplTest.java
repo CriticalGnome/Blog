@@ -1,4 +1,4 @@
-package com.criticalgnome.blog.dao.implement;
+package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.utils.HibernateUtil;
@@ -13,9 +13,9 @@ import org.junit.Test;
  *
  * @author CriticalGnome
  */
-public class TagDaoTest {
+public class TagDaoImplTest {
 
-    private TagDao tagDao = TagDao.getInstance();
+    private TagDaoImpl tagDaoImpl = TagDaoImpl.getInstance();
 
     @Test
     public void tagDaoTesting() throws Exception {
@@ -28,23 +28,23 @@ public class TagDaoTest {
 
         // Create new tag
         transaction = session.beginTransaction();
-        Long id = tagDao.create(expected);
-        actual = tagDao.getById(id);
+        Long id = tagDaoImpl.create(expected);
+        actual = tagDaoImpl.getById(id);
         transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
 
         // Update tag
         expected.setName("New name for tag");
         transaction = session.beginTransaction();
-        tagDao.update(expected);
-        actual = tagDao.getById(expected.getId());
+        tagDaoImpl.update(expected);
+        actual = tagDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
 
         // Remove tag
         transaction = session.beginTransaction();
-        tagDao.remove(expected.getId());
-        actual = tagDao.getById(expected.getId());
+        tagDaoImpl.remove(expected.getId());
+        actual = tagDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertNull("Not deleted", actual);
 

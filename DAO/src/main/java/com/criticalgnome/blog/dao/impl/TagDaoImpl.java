@@ -1,6 +1,7 @@
-package com.criticalgnome.blog.dao.implement;
+package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.dao.AbstractDao;
+import com.criticalgnome.blog.dao.ITagDao;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateUtil;
@@ -8,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
+import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -17,11 +19,11 @@ import org.hibernate.criterion.Restrictions;
  * @author CriticalGnome
  */
 @Log4j2
-public class TagDao extends AbstractDao<Tag> {
+public class TagDaoImpl extends AbstractDao<Tag> implements ITagDao {
 
-    private static volatile TagDao instance;
+    private static volatile TagDaoImpl instance;
 
-    private TagDao() {
+    private TagDaoImpl() {
         super(Tag.class);
     }
 
@@ -29,11 +31,11 @@ public class TagDao extends AbstractDao<Tag> {
      * Singleton pattern
      * @return dao instance
      */
-    public static TagDao getInstance() {
+    public static TagDaoImpl getInstance() {
         if (instance == null) {
-            synchronized (TagDao.class) {
+            synchronized (TagDaoImpl.class) {
                 if (instance == null) {
-                    instance = new TagDao();
+                    instance = new TagDaoImpl();
                 }
             }
         }
@@ -48,7 +50,7 @@ public class TagDao extends AbstractDao<Tag> {
      */
     public Tag getByName(String tagName) throws DaoException {
         try {
-            session = HibernateUtil.getInstance().getSession();
+            Session session = HibernateUtil.getInstance().getSession();
             return (Tag) session.createCriteria(Tag.class)
                     .add(Restrictions.eq("name", tagName))
                     .uniqueResult();
@@ -57,7 +59,7 @@ public class TagDao extends AbstractDao<Tag> {
             log.log(Level.ERROR, message);
             throw new DaoException(message, e);
         } catch (HibernateException e) {
-            throw new DaoException(TagDao.class, "Fatal error in getByName method", e);
+            throw new DaoException(TagDaoImpl.class, "Fatal error in getByName method", e);
         }
     }
 }

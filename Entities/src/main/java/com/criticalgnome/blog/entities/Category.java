@@ -16,7 +16,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Entity
 @Table(name = "categories")
-public class Category extends Pojo implements Serializable {
+public class Category extends AbstractEntity implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 

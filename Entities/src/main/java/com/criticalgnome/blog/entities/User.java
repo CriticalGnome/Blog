@@ -23,7 +23,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "users")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class User extends Pojo implements Serializable {
+public class User extends AbstractEntity implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 

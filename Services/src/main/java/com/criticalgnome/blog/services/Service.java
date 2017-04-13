@@ -1,6 +1,6 @@
 package com.criticalgnome.blog.services;
 
-import com.criticalgnome.blog.entities.Pojo;
+import com.criticalgnome.blog.entities.AbstractEntity;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 
@@ -10,7 +10,7 @@ import com.criticalgnome.blog.exceptions.ServiceException;
  *
  * @author CriticalGnome
  */
-public interface Service<T extends Pojo> {
+public interface Service<T extends AbstractEntity> {
 
     Long create(T pojo) throws DaoException, ServiceException;
     T getById(Long id) throws DaoException, ServiceException;

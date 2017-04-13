@@ -1,8 +1,8 @@
-package com.criticalgnome.blog.dao.implement;
+package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.dao.AbstractDao;
+import com.criticalgnome.blog.dao.IRoleDao;
 import com.criticalgnome.blog.entities.Role;
-import lombok.extern.log4j.Log4j2;
 
 /**
  * Project Blog
@@ -10,12 +10,11 @@ import lombok.extern.log4j.Log4j2;
  *
  * @author CriticalGnome
  */
-@Log4j2
-public class RoleDao extends AbstractDao<Role> {
+public class RoleDaoImpl extends AbstractDao<Role> implements IRoleDao {
 
-    private static volatile RoleDao instance;
+    private static volatile RoleDaoImpl instance;
 
-    private RoleDao() {
+    private RoleDaoImpl() {
         super(Role.class);
     }
 
@@ -23,11 +22,11 @@ public class RoleDao extends AbstractDao<Role> {
      * Singleton pattern
      * @return dao instance
      */
-    public static RoleDao getInstance() {
+    public static RoleDaoImpl getInstance() {
         if (instance == null) {
-            synchronized (RoleDao.class) {
+            synchronized (RoleDaoImpl.class) {
                 if (instance == null) {
-                    instance = new RoleDao();
+                    instance = new RoleDaoImpl();
                 }
             }
         }

@@ -1,11 +1,12 @@
-package com.criticalgnome.blog.dao.implement;
+package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.dao.AbstractDao;
+import com.criticalgnome.blog.dao.IUserDao;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateUtil;
-import lombok.extern.log4j.Log4j2;
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -14,12 +15,11 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author CriticalGnome
  */
-@Log4j2
-public class UserDao extends AbstractDao<User> {
+public class UserDaoImpl extends AbstractDao<User> implements IUserDao {
 
-    private static volatile UserDao instance;
+    private static volatile UserDaoImpl instance;
 
-    private UserDao() {
+    private UserDaoImpl() {
         super(User.class);
     }
 
@@ -27,11 +27,11 @@ public class UserDao extends AbstractDao<User> {
      * Singleton pattern
      * @return dao instance
      */
-    public static UserDao getInstance() {
+    public static UserDaoImpl getInstance() {
         if (instance == null) {
-            synchronized (UserDao.class) {
+            synchronized (UserDaoImpl.class) {
                 if (instance == null) {
-                    instance = new UserDao();
+                    instance = new UserDaoImpl();
                 }
             }
         }
@@ -47,13 +47,13 @@ public class UserDao extends AbstractDao<User> {
      */
     public User getByEmailAndPassword(String email, String password) throws DaoException {
         try {
-            session = HibernateUtil.getInstance().getSession();
+            Session session = HibernateUtil.getInstance().getSession();
             return (User) session.createCriteria(User.class)
-                    .add(Restrictions.like("email", email))
-                    .add(Restrictions.like("password", password))
+                    .add(Restrictions.eq("email", email))
+                    .add(Restrictions.eq("password", password))
                     .uniqueResult();
         } catch (HibernateException e) {
-            throw new DaoException(UserDao.class, "Fatal error in remove user method", e);
+            throw new DaoException(UserDaoImpl.class, "Fatal error in remove user method", e);
         }
     }
 }

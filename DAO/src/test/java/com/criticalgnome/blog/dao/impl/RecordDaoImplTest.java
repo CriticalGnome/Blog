@@ -1,4 +1,4 @@
-package com.criticalgnome.blog.dao.implement;
+package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.entities.*;
 import com.criticalgnome.blog.utils.HibernateUtil;
@@ -16,9 +16,9 @@ import java.util.Set;
  *
  * @author CriticalGnome
  */
-public class RecordDaoTest {
+public class RecordDaoImplTest {
 
-    private RecordDao recordDao = RecordDao.getInstance();
+    private RecordDaoImpl recordDaoImpl = RecordDaoImpl.getInstance();
 
     @Test
     public void recordDaoTesting() throws Exception {
@@ -32,8 +32,8 @@ public class RecordDaoTest {
 
         // Create new record
         transaction = session.beginTransaction();
-        recordDao.create(expected);
-        actual = recordDao.getById(expected.getId());
+        recordDaoImpl.create(expected);
+        actual = recordDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
 
@@ -41,15 +41,15 @@ public class RecordDaoTest {
         expected.setHeader("New Header");
         expected.setBody("New body text");
         transaction = session.beginTransaction();
-        recordDao.update(expected);
-        actual = recordDao.getById(expected.getId());
+        recordDaoImpl.update(expected);
+        actual = recordDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertEquals("Not equal", expected, actual);
 
         // Remove record
         transaction = session.beginTransaction();
-        recordDao.remove(expected.getId());
-        actual = recordDao.getById(expected.getId());
+        recordDaoImpl.remove(expected.getId());
+        actual = recordDaoImpl.getById(expected.getId());
         transaction.commit();
         Assert.assertNull("Not deleted", actual);
 

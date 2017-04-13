@@ -1,11 +1,13 @@
-package com.criticalgnome.blog.dao.implement;
+package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.dao.AbstractDao;
+import com.criticalgnome.blog.dao.IRecordDao;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.exceptions.DaoException;
-import com.criticalgnome.blog.utils.HibernateUtil;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 
@@ -18,11 +20,11 @@ import java.util.List;
  * @author CriticalGnome
  */
 @Log4j2
-public class RecordDao extends AbstractDao<Record> {
+public class RecordDaoImpl extends AbstractDao<Record> implements IRecordDao {
 
-    private static volatile RecordDao instance;
+    private static volatile RecordDaoImpl instance;
 
-    private RecordDao() {
+    private RecordDaoImpl() {
         super(Record.class);
     }
 
@@ -30,11 +32,11 @@ public class RecordDao extends AbstractDao<Record> {
      * Singleton pattern
      * @return dao instance
      */
-    public static RecordDao getInstance() {
+    public static RecordDaoImpl getInstance() {
         if (instance == null) {
-            synchronized (RecordDao.class) {
+            synchronized (RecordDaoImpl.class) {
                 if (instance == null) {
-                    instance = new RecordDao();
+                    instance = new RecordDaoImpl();
                 }
             }
         }
@@ -50,8 +52,8 @@ public class RecordDao extends AbstractDao<Record> {
      */
     public List<Record> getRecordsByPage(int pageOffset, int pageCapacity) throws DaoException {
         try {
-            session = util.getSession();
-            criteria = session.createCriteria(Record.class);
+            Session session = util.getSession();
+            Criteria criteria = session.createCriteria(Record.class);
             // Pagination
             criteria.setMaxResults(pageCapacity);
             criteria.setFirstResult(pageOffset);
@@ -61,7 +63,7 @@ public class RecordDao extends AbstractDao<Record> {
             for (Record record : records) { int i = record.getTags().size(); }
             return records;
         } catch (HibernateException e) {
-            throw new DaoException(RecordDao.class, "Fatal error in pagination method", e);
+            throw new DaoException(RecordDaoImpl.class, "Fatal error in pagination method", e);
         }
     }
 
@@ -72,12 +74,12 @@ public class RecordDao extends AbstractDao<Record> {
      */
     public int getRecordsCount() throws DaoException {
         try{
-            session = util.getSession();
+            Session session = util.getSession();
             return Integer.parseInt(session.createCriteria(Record.class)
                     .setProjection(Projections.rowCount())
                     .uniqueResult().toString());
         } catch (HibernateException e) {
-            throw new DaoException(RecordDao.class, "Fatal error in count method", e);
+            throw new DaoException(RecordDaoImpl.class, "Fatal error in count method", e);
         }
     }
 }
