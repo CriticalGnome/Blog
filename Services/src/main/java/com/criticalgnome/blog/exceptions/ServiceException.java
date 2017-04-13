@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
  *
  * @author CriticalGnome
  */
-@Log4j2
 public class ServiceException extends Exception {
     public ServiceException(String msg) {
         super(msg);

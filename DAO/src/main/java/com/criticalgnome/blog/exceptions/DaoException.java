@@ -1,6 +1,7 @@
 package com.criticalgnome.blog.exceptions;
 
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +12,6 @@ import org.apache.logging.log4j.Logger;
  *
  * @author CriticalGnome
  */
-@Log4j2
 public class DaoException extends Exception {
     public DaoException(String msg) {
         super(msg);
