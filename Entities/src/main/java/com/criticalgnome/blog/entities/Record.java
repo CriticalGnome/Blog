@@ -15,8 +15,8 @@ import java.util.Set;
  * @author CriticalGnome
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "records")
 public class Record extends AbstractEntity implements Serializable {

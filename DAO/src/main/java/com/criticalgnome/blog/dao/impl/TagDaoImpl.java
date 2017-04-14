@@ -1,12 +1,9 @@
 package com.criticalgnome.blog.dao.impl;
 
-import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.dao.ITagDao;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateUtil;
-import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
 import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
@@ -18,7 +15,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author CriticalGnome
  */
-public class TagDaoImpl extends AbstractDao<Tag> implements ITagDao {
+public class TagDaoImpl extends DaoImpl<Tag> implements ITagDao {
 
     private static volatile TagDaoImpl instance;
 

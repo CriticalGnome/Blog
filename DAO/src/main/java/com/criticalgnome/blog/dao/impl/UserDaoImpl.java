@@ -1,6 +1,5 @@
 package com.criticalgnome.blog.dao.impl;
 
-import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.dao.IUserDao;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
@@ -15,7 +14,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author CriticalGnome
  */
-public class UserDaoImpl extends AbstractDao<User> implements IUserDao {
+public class UserDaoImpl extends DaoImpl<User> implements IUserDao {
 
     private static volatile UserDaoImpl instance;
 

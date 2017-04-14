@@ -1,10 +1,8 @@
 package com.criticalgnome.blog.dao.impl;
 
-import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.dao.IRecordDao;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.exceptions.DaoException;
-import lombok.extern.log4j.Log4j2;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -19,7 +17,7 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class RecordDaoImpl extends AbstractDao<Record> implements IRecordDao {
+public class RecordDaoImpl extends DaoImpl<Record> implements IRecordDao {
 
     private static volatile RecordDaoImpl instance;
 

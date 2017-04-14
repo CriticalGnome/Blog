@@ -4,9 +4,7 @@ import com.criticalgnome.blog.dao.impl.RecordDaoImpl;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.AbstractService;
 import com.criticalgnome.blog.services.IRecordService;
-import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -18,7 +16,7 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class RecordServiceImpl extends AbstractService<Record> implements IRecordService {
+public class RecordServiceImpl extends ServiceImpl<Record> implements IRecordService {
 
     private static volatile RecordServiceImpl instance;
     private RecordDaoImpl recordDao = RecordDaoImpl.getInstance();

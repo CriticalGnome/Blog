@@ -1,6 +1,5 @@
 package com.criticalgnome.blog.dao.impl;
 
-import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.dao.ICategoryDao;
 import com.criticalgnome.blog.entities.Category;
 
@@ -10,7 +9,7 @@ import com.criticalgnome.blog.entities.Category;
  *
  * @author CriticalGnome
  */
-public class CategoryDaoImpl extends AbstractDao<Category> implements ICategoryDao {
+public class CategoryDaoImpl extends DaoImpl<Category> implements ICategoryDao {
 
     private static volatile CategoryDaoImpl instance;
 

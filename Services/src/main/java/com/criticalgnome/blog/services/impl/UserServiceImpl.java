@@ -4,7 +4,6 @@ import com.criticalgnome.blog.dao.impl.UserDaoImpl;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.AbstractService;
 import com.criticalgnome.blog.utils.MD5;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,7 +16,7 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class UserServiceImpl extends AbstractService<User> {
+public class UserServiceImpl extends ServiceImpl<User> {
 
     private static volatile UserServiceImpl instance;
     private UserDaoImpl userDao = UserDaoImpl.getInstance();

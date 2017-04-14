@@ -1,11 +1,9 @@
 package com.criticalgnome.blog.services.impl;
 
-import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.dao.impl.RoleDaoImpl;
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.AbstractService;
 import com.criticalgnome.blog.services.IRoleService;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,7 +16,7 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class RoleServiceImpl extends AbstractService<Role> implements IRoleService {
+public class RoleServiceImpl extends ServiceImpl<Role> implements IRoleService {
 
     private static volatile RoleServiceImpl instance;
     private RoleDaoImpl roleDao = RoleDaoImpl.getInstance();

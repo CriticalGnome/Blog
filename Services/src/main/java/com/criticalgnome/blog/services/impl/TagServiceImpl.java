@@ -4,7 +4,6 @@ import com.criticalgnome.blog.dao.impl.TagDaoImpl;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
-import com.criticalgnome.blog.services.AbstractService;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,7 +16,7 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class TagServiceImpl extends AbstractService<Tag> {
+public class TagServiceImpl extends ServiceImpl<Tag> {
 
     private static volatile TagServiceImpl instance;
     private TagDaoImpl tagDao = TagDaoImpl.getInstance();

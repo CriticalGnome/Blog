@@ -14,9 +14,4 @@ import java.util.List;
  */
 public interface ICategoryService extends IService<Category> {
 
-    Long create(Category category) throws DaoException, ServiceException;
-    Category getById(Long id) throws DaoException, ServiceException;
-    void update(Category category) throws DaoException, ServiceException;
-    void remove(Long id) throws DaoException, ServiceException;
-    List<Category> getAll() throws DaoException, ServiceException;
 }

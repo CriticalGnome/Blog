@@ -1,5 +1,6 @@
-package com.criticalgnome.blog.dao;
+package com.criticalgnome.blog.dao.impl;
 
+import com.criticalgnome.blog.dao.IDao;
 import com.criticalgnome.blog.entities.AbstractEntity;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.utils.HibernateUtil;
@@ -15,11 +16,11 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
+public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
     protected HibernateUtil util = HibernateUtil.getInstance();
     private Class persistentClass;
 
-    protected AbstractDao(Class persistentClass){
+    protected DaoImpl(Class persistentClass){
         this.persistentClass = persistentClass;
     }
 
