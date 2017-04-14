@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.services.impl;
 
+import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.dao.impl.RoleDaoImpl;
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.exceptions.DaoException;
@@ -22,7 +23,7 @@ public class RoleServiceImpl extends AbstractService<Role> implements IRoleServi
     private static volatile RoleServiceImpl instance;
     private RoleDaoImpl roleDao = RoleDaoImpl.getInstance();
 
-    private RoleServiceImpl() { super(); }
+    private RoleServiceImpl() {}
 
     public static RoleServiceImpl getInstance() {
         if (instance == null) {
@@ -52,17 +53,17 @@ public class RoleServiceImpl extends AbstractService<Role> implements IRoleServi
 
     @Override
     public Role getById(Long id) throws DaoException, ServiceException {
-        Role abstractEntitty;
+        Role role;
         Session session = util.getSession();
         Transaction transaction = session.beginTransaction();
         try {
-            abstractEntitty = roleDao.getById(id);
+            role = roleDao.getById(id);
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
             throw new ServiceException(RoleServiceImpl.class, "Transaction failed in getById method", e);
         }
-        return abstractEntitty;
+        return role;
     }
 
     @Override
@@ -93,17 +94,17 @@ public class RoleServiceImpl extends AbstractService<Role> implements IRoleServi
 
     @Override
     public List<Role> getAll() throws DaoException, ServiceException {
-        List<Role> abstractEntities;
+        List<Role> roles;
         Session session = util.getSession();
         Transaction transaction = session.beginTransaction();
         try {
-            abstractEntities = roleDao.getAll();
+            roles = roleDao.getAll();
             transaction.commit();
         } catch (DaoException e) {
             transaction.rollback();
             throw new ServiceException(RoleServiceImpl.class, "Transaction failed in getAll method", e);
         }
-        return abstractEntities;
+        return roles;
     }
 
 }

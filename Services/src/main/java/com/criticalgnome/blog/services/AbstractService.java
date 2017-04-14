@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.services;
 
+import com.criticalgnome.blog.dao.AbstractDao;
 import com.criticalgnome.blog.dao.IDao;
 import com.criticalgnome.blog.entities.AbstractEntity;
 import com.criticalgnome.blog.exceptions.DaoException;
@@ -18,5 +19,4 @@ import java.util.List;
  */
 public abstract class AbstractService<T extends AbstractEntity> implements IService<T> {
     protected HibernateUtil util = HibernateUtil.getInstance();
-
 }
