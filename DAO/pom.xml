@@ -70,6 +70,12 @@
             <artifactId>aspectjrt</artifactId>
         </dependency>
 
+        <!-- Connections Pool -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+        </dependency>
+
         <!--CgLib-->
         <dependency>
             <groupId>cglib</groupId>
