@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 /**
  * Project Blog
@@ -15,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author CriticalGnome
  */
+@Repository
 public class TagDaoImpl extends DaoImpl<Tag> implements ITagDao {
 
     private static volatile TagDaoImpl instance;

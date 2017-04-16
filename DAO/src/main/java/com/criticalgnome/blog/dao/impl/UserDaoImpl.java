@@ -7,6 +7,7 @@ import com.criticalgnome.blog.utils.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 /**
  * Project Blog
@@ -14,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author CriticalGnome
  */
+@Repository
 public class UserDaoImpl extends DaoImpl<User> implements IUserDao {
 
     private static volatile UserDaoImpl instance;

@@ -7,6 +7,7 @@ import com.criticalgnome.blog.utils.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
+@Repository
 public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
     protected HibernateUtil util = HibernateUtil.getInstance();
     private Class persistentClass;

@@ -2,6 +2,7 @@ package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.dao.ICategoryDao;
 import com.criticalgnome.blog.entities.Category;
+import org.springframework.stereotype.Repository;
 
 /**
  * Project Blog
@@ -9,6 +10,7 @@ import com.criticalgnome.blog.entities.Category;
  *
  * @author CriticalGnome
  */
+@Repository
 public class CategoryDaoImpl extends DaoImpl<Category> implements ICategoryDao {
 
     private static volatile CategoryDaoImpl instance;

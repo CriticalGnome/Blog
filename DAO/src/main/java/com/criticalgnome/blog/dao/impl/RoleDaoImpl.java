@@ -2,6 +2,7 @@ package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.dao.IRoleDao;
 import com.criticalgnome.blog.entities.Role;
+import org.springframework.stereotype.Repository;
 
 /**
  * Project Blog
@@ -9,6 +10,7 @@ import com.criticalgnome.blog.entities.Role;
  *
  * @author CriticalGnome
  */
+@Repository
 public class RoleDaoImpl extends DaoImpl<Role> implements IRoleDao {
 
     private static volatile RoleDaoImpl instance;

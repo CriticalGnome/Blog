@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
+@Repository
 public class RecordDaoImpl extends DaoImpl<Record> implements IRecordDao {
 
     private static volatile RecordDaoImpl instance;
