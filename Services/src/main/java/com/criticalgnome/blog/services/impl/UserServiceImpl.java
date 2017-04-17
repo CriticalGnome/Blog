@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * Project Blog
  * Created on 30.03.2017.
@@ -36,6 +34,22 @@ public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Long create(User user) throws ServiceException {
+        Long id;
+        user.setPassword(MD5.md5Encode(user.getPassword()));
+        try {
+            id = iUserDao.create(user);
+            log.info(ServiceConstants.TRANSACTION_SUCCEEDED);
+            log.info(user);
+        } catch (DaoException e) {
+            log.error(ServiceConstants.TRANSACTION_FAILED, e);
+            throw new ServiceException(UserServiceImpl.class, ServiceConstants.TRANSACTION_FAILED, e);
+        }
+        return id;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public User getByEmailAndPassword(String email, String password) throws DaoException, ServiceException {
         User user;
         try {
@@ -46,4 +60,5 @@ public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
         }
         return user;
     }
+
 }

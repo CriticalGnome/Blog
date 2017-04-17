@@ -54,13 +54,18 @@ public class TagSeviceImplTest {
         tagService.remove(tag.getId());
     }
 
-//    @Test
-//    public void recordDaoGetByNameTest() throws Exception {
-//        Tag expected = new Tag(null, "New tag with super name");
-//        tagService.create(expected);
-//        Tag actual = tagService.getByName("New tag with super name");
-//        Assert.assertEquals("Not equal:", expected, actual);
-//        tagService.remove(expected.getId());
-//    }
+    @Test
+    public void recordDaoGetByNameTest() throws Exception {
+        Tag expected = new Tag(null, "New tag with super name");
+        tagService.create(expected);
+        Tag actual = tagService.getOrCreateTagByName("New tag with super name");
+        Assert.assertEquals("Not equal:", expected, actual);
+        tagService.remove(expected.getId());
+        expected = new Tag(null, "New tag with mega super name");
+        actual = tagService.getOrCreateTagByName(expected.getName());
+        expected.setId(actual.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        tagService.remove(expected.getId());
+    }
 
 }

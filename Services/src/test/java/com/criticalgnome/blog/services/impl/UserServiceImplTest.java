@@ -69,8 +69,7 @@ public class UserServiceImplTest {
         roleService.remove(role.getId());
     }
 
-    @Test //FIXME не работает
-    @Ignore
+    @Test
     public void userServiceGetByEmailAndPasswordTest() throws Exception {
         Role role = new Role(null, "Test role");
         roleService.create(role);
