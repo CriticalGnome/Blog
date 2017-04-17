@@ -13,5 +13,6 @@ import java.util.List;
  * @author CriticalGnome
  */
 public interface IRecordService extends IService<Record> {
-
+    List<Record> getRecordsByPage(int pageNumber, int pageCapacity) throws DaoException, ServiceException;
+    int getRecordsCount() throws DaoException, ServiceException;
 }

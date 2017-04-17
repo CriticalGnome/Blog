@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.criticalgnome.blog.services"/>
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="false"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          p:url="jdbc:mysql://localhost:3306/blog2test?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:username="root"
+          p:password="B9Ww1Mfx"
+          p:initialSize="2"
+          p:maxTotal="3"
+    />
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+          p:dataSource-ref="dataSource">
+        <property name="packagesToScan">
+            <list>
+                <value>com.criticalgnome.blog.entities</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="debug">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="connection.isolation">2</prop>
+                <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="cache.use_query_cache">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="testServiceTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="testServiceTransactionManager"/>
+
+    <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="testServiceTransactionManager"/>
+    </bean>
+
+    <!-- DAO -->
+    <bean id="categoryDao" class="com.criticalgnome.blog.dao.impl.CategoryDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="recordDao" class="com.criticalgnome.blog.dao.impl.RecordDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="roleDao" class="com.criticalgnome.blog.dao.impl.RoleDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="tagDao" class="com.criticalgnome.blog.dao.impl.TagDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userDao" class="com.criticalgnome.blog.dao.impl.UserDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <!-- SERVICES -->
+    <bean id="categoryService" class="com.criticalgnome.blog.services.impl.CategoryServiceImpl">
+        <constructor-arg ref="categoryDao"/>
+    </bean>
+
+    <bean id="recordService" class="com.criticalgnome.blog.services.impl.RecordServiceImpl">
+        <constructor-arg ref="recordDao"/>
+    </bean>
+
+    <bean id="roleService" class="com.criticalgnome.blog.services.impl.RoleServiceImpl">
+        <constructor-arg ref="roleDao"/>
+    </bean>
+
+    <bean id="tagService" class="com.criticalgnome.blog.services.impl.TagServiceImpl">
+        <constructor-arg ref="tagDao"/>
+    </bean>
+
+    <bean id="userService" class="com.criticalgnome.blog.services.impl.UserServiceImpl">
+        <constructor-arg ref="userDao"/>
+    </bean>
+
+</beans>

@@ -1,12 +1,16 @@
 package com.criticalgnome.blog.services.impl;
 
-import com.criticalgnome.blog.dao.impl.RecordDaoImpl;
+import com.criticalgnome.blog.constants.ServiceConstants;
+import com.criticalgnome.blog.dao.IRecordDao;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.IRecordService;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,106 +20,30 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DaoException.class)
+@Log4j2
 public class RecordServiceImpl extends ServiceImpl<Record> implements IRecordService {
 
-    private static volatile RecordServiceImpl instance;
-    private RecordDaoImpl recordDao = RecordDaoImpl.getInstance();
+    @Autowired
+    private IRecordDao iRecordDao;
 
-    private RecordServiceImpl() { super(); }
-
-    public static RecordServiceImpl getInstance() {
-        if (instance == null) {
-            synchronized (RecordServiceImpl.class) {
-                if (instance == null) {
-                    instance = new RecordServiceImpl();
-                }
-            }
-        }
-        return instance;
+    @Autowired
+    protected RecordServiceImpl(IRecordDao iRecordDao) {
+        super(iRecordDao);
     }
+
 
     @Override
-    public Long create(Record record) throws DaoException, ServiceException {
-        Long id;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            id = recordDao.create(record);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(RecordServiceImpl.class, "Transaction failed in create method", e);
-        }
-        return id;
-    }
-
-    @Override
-    public Record getById(Long id) throws DaoException, ServiceException {
-        Record abstractEntitty;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            abstractEntitty = recordDao.getById(id);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(RecordServiceImpl.class, "Transaction failed in getById method", e);
-        }
-        return abstractEntitty;
-    }
-
-    @Override
-    public void update(Record record) throws DaoException, ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            recordDao.update(record);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(RecordServiceImpl.class, "Transaction failed in update method", e);
-        }
-    }
-
-    @Override
-    public void remove(Long id) throws DaoException, ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            recordDao.remove(id);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(RecordServiceImpl.class, "Transaction failed in remove method", e);
-        }
-    }
-
-    @Override
-    public List<Record> getAll() throws DaoException, ServiceException {
-        List<Record> abstractEntities;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            abstractEntities = recordDao.getAll();
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(RecordServiceImpl.class, "Transaction failed in getAll method", e);
-        }
-        return abstractEntities;
-    }
-
-    public List<Record> getRecordsByPage(int pageNumber, int pageCapacity) throws DaoException, ServiceException {
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<Record> getRecordsByPage(int pageNumber, int pageCapacity) throws ServiceException {
         int pageOffset = pageCapacity * pageNumber - pageCapacity;
         List<Record> records;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
         try {
-            records = RecordDaoImpl.getInstance().getRecordsByPage(pageOffset, pageCapacity);
-            transaction.commit();
+            records = iRecordDao.getRecordsByPage(pageOffset, pageCapacity);
         } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(RecordServiceImpl.class, "Transaction failed in getRecordsByPage method", e);
+            log.error(ServiceConstants.TRANSACTION_FAILED);
+            throw new ServiceException(RecordServiceImpl.class, ServiceConstants.TRANSACTION_FAILED, e);
         }
         if (records.size() == 0) {
             Record record = new Record(null, null, "No items", null, null, null, null, null);
@@ -124,16 +52,15 @@ public class RecordServiceImpl extends ServiceImpl<Record> implements IRecordSer
         return records;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public int getRecordsCount() throws DaoException, ServiceException {
         int recordsCount;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
         try {
-            recordsCount = RecordDaoImpl.getInstance().getRecordsCount();
-            transaction.commit();
+            recordsCount = iRecordDao.getRecordsCount();
         } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(RecordServiceImpl.class, "Transaction failed in getRecordsCount method", e);
+            log.error(ServiceConstants.TRANSACTION_FAILED);
+            throw new ServiceException(RecordServiceImpl.class, ServiceConstants.TRANSACTION_FAILED, e);
         }
         return recordsCount;
     }

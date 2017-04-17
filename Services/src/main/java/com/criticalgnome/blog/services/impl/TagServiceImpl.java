@@ -1,12 +1,17 @@
 package com.criticalgnome.blog.services.impl;
 
-import com.criticalgnome.blog.dao.impl.TagDaoImpl;
+import com.criticalgnome.blog.constants.ServiceConstants;
+import com.criticalgnome.blog.dao.ITagDao;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.ITagService;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,118 +21,37 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class TagServiceImpl extends ServiceImpl<Tag> {
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DaoException.class)
+@Log4j2
+public class TagServiceImpl extends ServiceImpl<Tag> implements ITagService {
 
-    private static volatile TagServiceImpl instance;
-    private TagDaoImpl tagDao = TagDaoImpl.getInstance();
+    @Autowired
+    private ITagDao iTagDao;
 
-    private TagServiceImpl() { super(); }
-
-    public static TagServiceImpl getInstance() {
-        if (instance == null) {
-            synchronized (TagServiceImpl.class) {
-                if (instance == null) {
-                    instance = new TagServiceImpl();
-                }
-            }
-        }
-        return instance;
-    }
-
-    @Override
-    public Long create(Tag tag) throws DaoException, ServiceException {
-        Long id;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            id = tagDao.create(tag);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(TagServiceImpl.class, "Transaction failed in create method", e);
-        }
-        return id;
-    }
-
-    @Override
-    public Tag getById(Long id) throws DaoException, ServiceException {
-        Tag abstractEntitty;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            abstractEntitty = tagDao.getById(id);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(TagServiceImpl.class, "Transaction failed in getById method", e);
-        }
-        return abstractEntitty;
-    }
-
-    @Override
-    public void update(Tag tag) throws DaoException, ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            tagDao.update(tag);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(TagServiceImpl.class, "Transaction failed in update method", e);
-        }
-    }
-
-    @Override
-    public void remove(Long id) throws DaoException, ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            tagDao.remove(id);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(TagServiceImpl.class, "Transaction failed in remove method", e);
-        }
-    }
-
-    @Override
-    public List<Tag> getAll() throws DaoException, ServiceException {
-        List<Tag> abstractEntities;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            abstractEntities = tagDao.getAll();
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(TagServiceImpl.class, "Transaction failed in getAll method", e);
-        }
-        return abstractEntities;
+    @Autowired
+    protected TagServiceImpl(ITagDao iTagDao) {
+        super(iTagDao);
     }
 
     public Tag getOrCreateTagByName(String tagName) throws DaoException, ServiceException {
         Tag tag;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
         try {
-            tag = TagDaoImpl.getInstance().getByName(tagName);
-            transaction.commit();
+            tag = iTagDao.getByName(tagName);
             if (tag == null) {
                 tagName = StringUtils.lowerCase(tagName);
                 tagName = StringUtils.capitalize(tagName);
                 tag = new Tag(null, tagName);
                 try {
-                    transaction = session.beginTransaction();
-                    TagDaoImpl.getInstance().create(tag);
-                    transaction.commit();
+                    iTagDao.create(tag);
                 } catch (DaoException e) {
-                    transaction.rollback();
-                    throw new ServiceException(TagServiceImpl.class, "Transaction failed in createTagByName method", e);
+                    log.error(ServiceConstants.TRANSACTION_FAILED);
+                    throw new ServiceException(TagServiceImpl.class, ServiceConstants.TRANSACTION_FAILED, e);
                 }
             }
         } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(TagServiceImpl.class, "Transaction failed in getOrCreateTagByName method", e);
+            log.error(ServiceConstants.TRANSACTION_FAILED);
+            throw new ServiceException(TagServiceImpl.class, ServiceConstants.TRANSACTION_FAILED, e);
         }
         return tag;
     }

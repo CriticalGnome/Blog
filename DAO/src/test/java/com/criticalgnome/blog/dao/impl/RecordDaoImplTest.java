@@ -1,11 +1,14 @@
 package com.criticalgnome.blog.dao.impl;
 
+import com.criticalgnome.blog.dao.IRecordDao;
 import com.criticalgnome.blog.entities.*;
-import com.criticalgnome.blog.utils.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,44 +19,63 @@ import java.util.Set;
  *
  * @author CriticalGnome
  */
+@ContextConfiguration("/context-dao-test.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional(transactionManager = "transactionManager")
 public class RecordDaoImplTest {
 
-    private RecordDaoImpl recordDaoImpl = RecordDaoImpl.getInstance();
+    @Autowired
+    private IRecordDao recordDao;
 
     @Test
-    public void recordDaoTesting() throws Exception {
-
-        // Begin
-        Session session = HibernateUtil.getInstance().getSession();
-        Transaction transaction;
+    public void recordDaoCreateTest() throws Exception {
         Set<Tag> tags = new HashSet<>();
         Record expected = new Record(null,"Header","Body text",null,null,null,null,tags);
-        Record actual;
-
-        // Create new record
-        transaction = session.beginTransaction();
-        recordDaoImpl.create(expected);
-        actual = recordDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertEquals("Not equal", expected, actual);
-
-        // Update record
-        expected.setHeader("New Header");
-        expected.setBody("New body text");
-        transaction = session.beginTransaction();
-        recordDaoImpl.update(expected);
-        actual = recordDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertEquals("Not equal", expected, actual);
-
-        // Remove record
-        transaction = session.beginTransaction();
-        recordDaoImpl.remove(expected.getId());
-        actual = recordDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertNull("Not deleted", actual);
-
-        // End
-        HibernateUtil.getInstance().releaseSession(session);
+        recordDao.create(expected);
+        Record actual = recordDao.getById(expected.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        recordDao.remove(expected.getId());
     }
+
+    @Test
+    public void recordDaoUpdateTest() throws Exception {
+        Set<Tag> tags = new HashSet<>();
+        Record expected = new Record(null,"Header","Body text",null,null,null,null,tags);
+        recordDao.create(expected);
+        expected.setHeader("New header for new record");
+        recordDao.update(expected);
+        Record actual = recordDao.getById(expected.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        recordDao.remove(expected.getId());
+    }
+
+    @Test
+    public void recordDaoGetAllTest() throws Exception {
+        int expected = recordDao.getAll().size();
+        Set<Tag> tags = new HashSet<>();
+        Record record = new Record(null,"Header","Body text",null,null,null,null,tags);
+        recordDao.create(record);
+        int actual = recordDao.getAll().size();
+        Assert.assertEquals("Not equal:", expected, actual - 1);
+        recordDao.remove(record.getId());
+    }
+
+    @Test
+    public void recordPaginationTest() throws Exception {
+        int expected = 3;
+        int actual = recordDao.getRecordsByPage(0, 3).size();
+        Assert.assertTrue("Not equals", actual <= expected);
+    }
+
+    @Test
+    public void recordDaoCountTest() throws Exception {
+        int expected = recordDao.getRecordsCount();
+        Set<Tag> tags = new HashSet<>();
+        Record record = new Record(null,"Header","Body text",null,null,null,null,tags);
+        recordDao.create(record);
+        int actual = recordDao.getRecordsCount();
+        Assert.assertEquals("Not equal:", expected, actual - 1);
+        recordDao.remove(record.getId());
+    }
+
 }

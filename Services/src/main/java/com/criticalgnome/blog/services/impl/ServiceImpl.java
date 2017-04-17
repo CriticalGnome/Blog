@@ -1,14 +1,19 @@
 package com.criticalgnome.blog.services.impl;
 
+import com.criticalgnome.blog.constants.ServiceConstants;
 import com.criticalgnome.blog.dao.IDao;
 import com.criticalgnome.blog.entities.AbstractEntity;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.IService;
-import com.criticalgnome.blog.utils.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,86 +22,113 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
+@Service
+@Log4j2
 public abstract class ServiceImpl<T extends AbstractEntity> implements IService<T> {
-    protected HibernateUtil util = HibernateUtil.getInstance();
 
     private IDao<T> iDao;
 
-    public ServiceImpl(IDao<T> iDao) {
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
+    protected ServiceImpl(IDao<T> iDao) {
         this.iDao = iDao;
     }
 
-    public ServiceImpl() {}
-
     @Override
-    public Long create(T abstractEntity) throws DaoException, ServiceException {
-        Long id;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            id = iDao.create(abstractEntity);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(ServiceImpl.class, "Transaction failed in create method", e);
-        }
-        return id;
+    public Long create(final T abstractEntity) throws ServiceException {
+        return transactionTemplate.execute(new TransactionCallback<Long>() {
+            @Override
+            public Long doInTransaction(TransactionStatus transactionStatus) {
+                Long id = null;
+                try {
+                    id = iDao.create(abstractEntity);
+                    log.info(ServiceConstants.TRANSACTION_SUCCEEDED);
+                    log.info(abstractEntity);
+                } catch (DaoException e) {
+                    log.error(ServiceConstants.TRANSACTION_FAILED, e);
+                    transactionStatus.setRollbackOnly();
+                }
+                return id;
+            }
+        });
     }
 
     @Override
-    public T getById(Long id) throws DaoException, ServiceException {
-        T abstractEntitty;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            abstractEntitty = iDao.getById(id);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(ServiceImpl.class, "Transaction failed in getById method", e);
-        }
-        return abstractEntitty;
+    public T getById(final Long id) throws ServiceException {
+        return transactionTemplate.execute(new TransactionCallback<T>() {
+            @Override
+            public T doInTransaction(TransactionStatus transactionStatus) {
+                T abstractEntity = null;
+                try {
+                    abstractEntity = iDao.getById(id);
+                    log.info(ServiceConstants.TRANSACTION_SUCCEEDED);
+                    log.info(abstractEntity);
+                }
+                catch (DaoException e) {
+                    log.error(ServiceConstants.TRANSACTION_FAILED, e);
+                    transactionStatus.setRollbackOnly();
+                }
+                return abstractEntity;
+            }
+        });
     }
 
     @Override
-    public void update(T abstractEntity) throws DaoException, ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            iDao.update(abstractEntity);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(ServiceImpl.class, "Transaction failed in update method", e);
-        }
+    public void update(final T abstractEntity) throws ServiceException {
+        transactionTemplate.execute(new TransactionCallback<Void>() {
+            @Override
+            public Void doInTransaction(TransactionStatus transactionStatus) {
+                try {
+                    iDao.update(abstractEntity);
+                    log.info(ServiceConstants.TRANSACTION_SUCCEEDED);
+                    log.info(abstractEntity);
+                } catch (DaoException e) {
+                    log.error(ServiceConstants.TRANSACTION_FAILED, e);
+                    transactionStatus.setRollbackOnly();
+                }
+                return null;
+            }
+        });
     }
 
     @Override
-    public void remove(Long id) throws DaoException, ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            iDao.remove(id);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(ServiceImpl.class, "Transaction failed in remove method", e);
-        }
+    public void remove(final Long id) throws ServiceException {
+        transactionTemplate.execute(new TransactionCallback<Void>() {
+            @Override
+            public Void doInTransaction(TransactionStatus transactionStatus){
+                try {
+                    iDao.remove(id);
+                    log.info(ServiceConstants.TRANSACTION_SUCCEEDED);
+                    log.info(ServiceConstants.MESSAGE_DELETE + id);
+                }
+                catch (DaoException e) {
+                    log.error(ServiceConstants.TRANSACTION_FAILED, e);
+                    transactionStatus.setRollbackOnly();
+                }
+                return null;
+            }
+        });
     }
 
     @Override
-    public List<T> getAll() throws DaoException, ServiceException {
-        List<T> abstractEntities;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            abstractEntities = iDao.getAll();
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(CategoryServiceImpl.class, "Transaction failed in getAll method", e);
-        }
-        return abstractEntities;
+    public List<T> getAll() throws ServiceException {
+        return transactionTemplate.execute(new TransactionCallback<List<T>>() {
+            @Override
+            public List<T> doInTransaction(TransactionStatus transactionStatus) {
+                List<T> list = new ArrayList<>();
+                try {
+                    list = iDao.getAll();
+                    log.info(ServiceConstants.TRANSACTION_SUCCEEDED);
+                    log.info(list);
+                }
+                catch (DaoException e) {
+                    log.error(ServiceConstants.TRANSACTION_FAILED, e);
+                    transactionStatus.setRollbackOnly();
+                }
+                return list;
+            }
+        });
     }
 
 }

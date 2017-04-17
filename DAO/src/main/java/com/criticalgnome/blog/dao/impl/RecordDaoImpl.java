@@ -6,8 +6,10 @@ import com.criticalgnome.blog.exceptions.DaoException;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,25 +23,9 @@ import java.util.List;
 @Repository
 public class RecordDaoImpl extends DaoImpl<Record> implements IRecordDao {
 
-    private static volatile RecordDaoImpl instance;
-
-    private RecordDaoImpl() {
-        super(Record.class);
-    }
-
-    /**
-     * Singleton pattern
-     * @return dao instance
-     */
-    public static RecordDaoImpl getInstance() {
-        if (instance == null) {
-            synchronized (RecordDaoImpl.class) {
-                if (instance == null) {
-                    instance = new RecordDaoImpl();
-                }
-            }
-        }
-        return instance;
+    @Autowired
+    private RecordDaoImpl(SessionFactory sessionFactory) {
+        super(Record.class, sessionFactory);
     }
 
     /**
@@ -51,7 +37,7 @@ public class RecordDaoImpl extends DaoImpl<Record> implements IRecordDao {
      */
     public List<Record> getRecordsByPage(int pageOffset, int pageCapacity) throws DaoException {
         try {
-            Session session = util.getSession();
+            Session session = currentSession();
             Criteria criteria = session.createCriteria(Record.class);
             // Pagination
             criteria.setMaxResults(pageCapacity);
@@ -73,7 +59,7 @@ public class RecordDaoImpl extends DaoImpl<Record> implements IRecordDao {
      */
     public int getRecordsCount() throws DaoException {
         try{
-            Session session = util.getSession();
+            Session session = currentSession();
             return Integer.parseInt(session.createCriteria(Record.class)
                     .setProjection(Projections.rowCount())
                     .uniqueResult().toString());

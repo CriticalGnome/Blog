@@ -21,7 +21,7 @@
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-          p:url="jdbc:mysql://localhost:3306/blog2"
+          p:url="jdbc:mysql://localhost:3306/blog2?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8"
           p:driverClassName="com.mysql.jdbc.Driver"
           p:username="root"
           p:password="kromvel"

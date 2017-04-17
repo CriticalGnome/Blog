@@ -2,6 +2,8 @@ package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.dao.IRoleDao;
 import com.criticalgnome.blog.entities.Role;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,25 +15,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RoleDaoImpl extends DaoImpl<Role> implements IRoleDao {
 
-    private static volatile RoleDaoImpl instance;
-
-    private RoleDaoImpl() {
-        super(Role.class);
-    }
-
-    /**
-     * Singleton pattern
-     * @return dao instance
-     */
-    public static RoleDaoImpl getInstance() {
-        if (instance == null) {
-            synchronized (RoleDaoImpl.class) {
-                if (instance == null) {
-                    instance = new RoleDaoImpl();
-                }
-            }
-        }
-        return instance;
+    @Autowired
+    private RoleDaoImpl(SessionFactory sessionFactory) {
+        super(Role.class, sessionFactory);
     }
 
 }

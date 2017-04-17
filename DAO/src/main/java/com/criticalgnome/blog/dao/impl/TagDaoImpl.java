@@ -3,11 +3,12 @@ package com.criticalgnome.blog.dao.impl;
 import com.criticalgnome.blog.dao.ITagDao;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.exceptions.DaoException;
-import com.criticalgnome.blog.utils.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,25 +20,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TagDaoImpl extends DaoImpl<Tag> implements ITagDao {
 
-    private static volatile TagDaoImpl instance;
-
-    private TagDaoImpl() {
-        super(Tag.class);
-    }
-
-    /**
-     * Singleton pattern
-     * @return dao instance
-     */
-    public static TagDaoImpl getInstance() {
-        if (instance == null) {
-            synchronized (TagDaoImpl.class) {
-                if (instance == null) {
-                    instance = new TagDaoImpl();
-                }
-            }
-        }
-        return instance;
+    @Autowired
+    private TagDaoImpl(SessionFactory sessionFactory) {
+        super(Tag.class, sessionFactory);
     }
 
     /**
@@ -48,7 +33,7 @@ public class TagDaoImpl extends DaoImpl<Tag> implements ITagDao {
      */
     public Tag getByName(String tagName) throws DaoException {
         try {
-            Session session = HibernateUtil.getInstance().getSession();
+            Session session = currentSession();
             return (Tag) session.createCriteria(Tag.class)
                     .add(Restrictions.eq("name", tagName))
                     .uniqueResult();

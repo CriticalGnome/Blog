@@ -1,12 +1,17 @@
 package com.criticalgnome.blog.services.impl;
 
-import com.criticalgnome.blog.dao.impl.UserDaoImpl;
+import com.criticalgnome.blog.constants.ServiceConstants;
+import com.criticalgnome.blog.dao.IUserDao;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.utils.MD5;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,106 +21,28 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class UserServiceImpl extends ServiceImpl<User> {
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DaoException.class)
+@Log4j2
+public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
 
-    private static volatile UserServiceImpl instance;
-    private UserDaoImpl userDao = UserDaoImpl.getInstance();
+    @Autowired
+    private IUserDao iUserDao;
 
-    private UserServiceImpl() { super(); }
-
-    public static UserServiceImpl getInstance() {
-        if (instance == null) {
-            synchronized (UserServiceImpl.class) {
-                if (instance == null) {
-                    instance = new UserServiceImpl();
-                }
-            }
-        }
-        return instance;
+    @Autowired
+    protected UserServiceImpl(IUserDao iUserDao) {
+        super(iUserDao);
     }
 
     @Override
-    public Long create(User user) throws DaoException, ServiceException {
-        user.setPassword(MD5.md5Encode(user.getPassword()));
-        Long id;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            id = userDao.create(user);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(UserServiceImpl.class, "Transaction failed in create method", e);
-        }
-        return id;
-    }
-
-    @Override
-    public User getById(Long id) throws DaoException, ServiceException {
-        User abstractEntitty;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            abstractEntitty = userDao.getById(id);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(UserServiceImpl.class, "Transaction failed in getById method", e);
-        }
-        return abstractEntitty;
-    }
-
-    @Override
-    public void update(User user) throws DaoException, ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            userDao.update(user);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(UserServiceImpl.class, "Transaction failed in update method", e);
-        }
-    }
-
-    @Override
-    public void remove(Long id) throws DaoException, ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            userDao.remove(id);
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(UserServiceImpl.class, "Transaction failed in remove method", e);
-        }
-    }
-
-    @Override
-    public List<User> getAll() throws DaoException, ServiceException {
-        List<User> abstractEntities;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            abstractEntities = userDao.getAll();
-            transaction.commit();
-        } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(UserServiceImpl.class, "Transaction failed in getAll method", e);
-        }
-        return abstractEntities;
-    }
-
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public User getByEmailAndPassword(String email, String password) throws DaoException, ServiceException {
         User user;
-        Session session = util.getSession();
-        Transaction transaction = session.beginTransaction();
         try {
-            user = UserDaoImpl.getInstance().getByEmailAndPassword(email, MD5.md5Encode(password));
-            transaction.commit();
+            user = iUserDao.getByEmailAndPassword(email, MD5.md5Encode(password));
         } catch (DaoException e) {
-            transaction.rollback();
-            throw new ServiceException(UserServiceImpl.class, "Transaction failed in getByEmailAndPassword method", e);
+            log.error(ServiceConstants.TRANSACTION_FAILED);
+            throw new ServiceException(UserServiceImpl.class, ServiceConstants.TRANSACTION_FAILED, e);
         }
         return user;
     }

@@ -1,6 +1,8 @@
 package com.criticalgnome.blog.services;
 
 import com.criticalgnome.blog.entities.User;
+import com.criticalgnome.blog.exceptions.DaoException;
+import com.criticalgnome.blog.exceptions.ServiceException;
 
 /**
  * Project Blog
@@ -9,5 +11,5 @@ import com.criticalgnome.blog.entities.User;
  * @author CriticalGnome
  */
 public interface IUserService extends IService<User> {
-
+    User getByEmailAndPassword(String email, String password) throws DaoException, ServiceException;
 }

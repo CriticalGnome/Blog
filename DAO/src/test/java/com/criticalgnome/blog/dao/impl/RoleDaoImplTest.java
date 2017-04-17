@@ -1,11 +1,14 @@
 package com.criticalgnome.blog.dao.impl;
 
+import com.criticalgnome.blog.dao.IRoleDao;
 import com.criticalgnome.blog.entities.Role;
-import com.criticalgnome.blog.utils.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Project Blog
@@ -13,43 +16,42 @@ import org.junit.Test;
  *
  * @author CriticalGnome
  */
+@ContextConfiguration("/context-dao-test.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional(transactionManager = "transactionManager")
 public class RoleDaoImplTest {
 
-    private RoleDaoImpl roleDaoImpl = RoleDaoImpl.getInstance();
+    @Autowired
+    private IRoleDao roleDao;
 
     @Test
-    public void roleDaoTesting() throws Exception {
+    public void roleDaoCreateTest() throws Exception {
+        Role expected = new Role(null, "New role");
+        roleDao.create(expected);
+        Role actual = roleDao.getById(expected.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        roleDao.remove(expected.getId());
+    }
 
-        // Begin
-        Session session = HibernateUtil.getInstance().getSession();
-        Transaction transaction;
-        Role expected = new Role(null, "Test role");
-        Role actual;
+    @Test
+    public void roleDaoUpdateTest() throws Exception {
+        Role expected = new Role(null, "New role");
+        roleDao.create(expected);
+        expected.setName("New name for new role");
+        roleDao.update(expected);
+        Role actual = roleDao.getById(expected.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        roleDao.remove(expected.getId());
+    }
 
-        // Create new role
-        transaction = session.beginTransaction();
-        Long id = roleDaoImpl.create(expected);
-        actual = roleDaoImpl.getById(id);
-        transaction.commit();
-        Assert.assertEquals("Not equal", expected, actual);
-
-        // Update role
-        transaction = session.beginTransaction();
-        expected.setName("New name for role");
-        roleDaoImpl.update(expected);
-        actual = roleDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertEquals("Not equal", expected, actual);
-
-        //Remove Role
-        transaction = session.beginTransaction();
-        roleDaoImpl.remove(expected.getId());
-        actual = roleDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertNull("Not deleted", actual);
-
-        // End
-        HibernateUtil.getInstance().releaseSession(session);
+    @Test
+    public void roleDaoGetAllTest() throws Exception {
+        int expected = roleDao.getAll().size();
+        Role role = new Role(null, "New role");
+        roleDao.create(role);
+        int actual = roleDao.getAll().size();
+        Assert.assertEquals("Not equal:", expected, actual - 1);
+        roleDao.remove(role.getId());
     }
 
 }

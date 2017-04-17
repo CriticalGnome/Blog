@@ -1,11 +1,14 @@
 package com.criticalgnome.blog.dao.impl;
 
+import com.criticalgnome.blog.dao.ITagDao;
 import com.criticalgnome.blog.entities.Tag;
-import com.criticalgnome.blog.utils.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Project Blog
@@ -13,43 +16,51 @@ import org.junit.Test;
  *
  * @author CriticalGnome
  */
+@ContextConfiguration("/context-dao-test.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional(transactionManager = "transactionManager")
 public class TagDaoImplTest {
-
-    private TagDaoImpl tagDaoImpl = TagDaoImpl.getInstance();
+    
+    @Autowired
+    private ITagDao tagDao;
 
     @Test
-    public void tagDaoTesting() throws Exception {
+    public void tagDaoCreateTest() throws Exception {
+        Tag expected = new Tag(null, "New tag");
+        tagDao.create(expected);
+        Tag actual = tagDao.getById(expected.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        tagDao.remove(expected.getId());
+    }
 
-    // Begin
-        Session session = HibernateUtil.getInstance().getSession();
-        Transaction transaction;
-        Tag expected = new Tag(null, "Test tag");
-        Tag actual;
+    @Test
+    public void tagDaoUpdateTest() throws Exception {
+        Tag expected = new Tag(null, "New tag");
+        tagDao.create(expected);
+        expected.setName("New name for new tag");
+        tagDao.update(expected);
+        Tag actual = tagDao.getById(expected.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        tagDao.remove(expected.getId());
+    }
 
-        // Create new tag
-        transaction = session.beginTransaction();
-        Long id = tagDaoImpl.create(expected);
-        actual = tagDaoImpl.getById(id);
-        transaction.commit();
-        Assert.assertEquals("Not equal", expected, actual);
+    @Test
+    public void tagDaoGetAllTest() throws Exception {
+        int expected = tagDao.getAll().size();
+        Tag tag = new Tag(null, "New tag");
+        tagDao.create(tag);
+        int actual = tagDao.getAll().size();
+        Assert.assertEquals("Not equal:", expected, actual - 1);
+        tagDao.remove(tag.getId());
+    }
 
-        // Update tag
-        expected.setName("New name for tag");
-        transaction = session.beginTransaction();
-        tagDaoImpl.update(expected);
-        actual = tagDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertEquals("Not equal", expected, actual);
-
-        // Remove tag
-        transaction = session.beginTransaction();
-        tagDaoImpl.remove(expected.getId());
-        actual = tagDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertNull("Not deleted", actual);
-
-        // End
-        HibernateUtil.getInstance().releaseSession(session);
+    @Test
+    public void recordDaoGetByNameTest() throws Exception {
+        Tag expected = new Tag(null, "New tag with super name");
+        tagDao.create(expected);
+        Tag actual = tagDao.getByName("New tag with super name");
+        Assert.assertEquals("Not equal:", expected, actual);
+        tagDao.remove(expected.getId());
     }
 
 }

@@ -1,11 +1,14 @@
 package com.criticalgnome.blog.dao.impl;
 
+import com.criticalgnome.blog.dao.ICategoryDao;
 import com.criticalgnome.blog.entities.Category;
-import com.criticalgnome.blog.utils.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Project Blog
@@ -13,42 +16,42 @@ import org.junit.Test;
  *
  * @author CriticalGnome
  */
+@ContextConfiguration("/context-dao-test.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional(transactionManager = "transactionManager")
 public class CategoryDaoImplTest {
 
-    private CategoryDaoImpl categoryDaoImpl = CategoryDaoImpl.getInstance();
+    @Autowired
+    private ICategoryDao categoryDao;
 
     @Test
-    public void categoryDaoTesting() throws Exception {
-
-        // Begin
-        Session session = HibernateUtil.getInstance().getSession();
-        Transaction transaction;
+    public void categoryDaoCreateTest() throws Exception {
         Category expected = new Category(null, "New category", null);
-        Category actual;
-
-        // Create new category and subcategory
-        transaction = session.beginTransaction();
-        categoryDaoImpl.create(expected);
-        actual = categoryDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertEquals("Not equal", expected, actual);
-
-        // Update category with new parameters
-        expected.setName("New name for category");
-        transaction = session.beginTransaction();
-        categoryDaoImpl.update(expected);
-        actual = categoryDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertEquals("Not equal", expected, actual);
-
-        // Remove category and subcategory
-        transaction = session.beginTransaction();
-        categoryDaoImpl.remove(expected.getId());
-        actual = categoryDaoImpl.getById(expected.getId());
-        transaction.commit();
-        Assert.assertNull("Not deleted", actual);
-
-        // End
-        HibernateUtil.getInstance().releaseSession(session);
+        categoryDao.create(expected);
+        Category actual = categoryDao.getById(expected.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        categoryDao.remove(expected.getId());
     }
+
+    @Test
+    public void categoryDaoUpdateTest() throws Exception {
+        Category expected = new Category(null, "New category", null);
+        categoryDao.create(expected);
+        expected.setName("New name for new category");
+        categoryDao.update(expected);
+        Category actual = categoryDao.getById(expected.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        categoryDao.remove(expected.getId());
+    }
+
+    @Test
+    public void categoryDaoGetAllTest() throws Exception {
+        int expected = categoryDao.getAll().size();
+        Category category = new Category(null, "New category", null);
+        categoryDao.create(category);
+        int actual = categoryDao.getAll().size();
+        Assert.assertEquals("Not equal:", expected, actual - 1);
+        categoryDao.remove(category.getId());
+    }
+
 }

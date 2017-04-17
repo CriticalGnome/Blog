@@ -3,10 +3,11 @@ package com.criticalgnome.blog.dao.impl;
 import com.criticalgnome.blog.dao.IDao;
 import com.criticalgnome.blog.entities.AbstractEntity;
 import com.criticalgnome.blog.exceptions.DaoException;
-import com.criticalgnome.blog.utils.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,11 +20,18 @@ import java.util.List;
  */
 @Repository
 public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
-    protected HibernateUtil util = HibernateUtil.getInstance();
+
+    @Autowired
+    private SessionFactory sessionFactory;
     private Class persistentClass;
 
-    protected DaoImpl(Class persistentClass){
+    Session currentSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
+    protected DaoImpl(Class persistentClass, SessionFactory sessionFactory){
         this.persistentClass = persistentClass;
+        this.sessionFactory = sessionFactory;
     }
 
     /**
@@ -36,7 +44,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
     public Long create(T abstractEntity) throws DaoException {
         Long id;
         try {
-            Session session = util.getSession();
+            Session session = currentSession();
             id = (Long) session.save(abstractEntity);
         } catch (HibernateException e) {
             throw new DaoException(persistentClass, "Fatal error in create category method", e);
@@ -54,7 +62,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
     @Override
     public T getById(Long id) throws DaoException {
         try {
-            Session session = util.getSession();
+            Session session = currentSession();
             return (T) session.get(persistentClass, id);
         } catch (HibernateException e) {
             throw new DaoException(persistentClass, "Fatal error in get category method", e);
@@ -69,7 +77,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
     @Override
     public void update(T abstractEntity) throws DaoException {
         try {
-            Session session = util.getSession();
+            Session session = currentSession();
             session.update(abstractEntity);
         } catch (HibernateException e) {
             throw new DaoException(persistentClass, "Fatal error in update category method", e);
@@ -84,7 +92,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
     @Override
     public void remove(Long id) throws DaoException {
         try {
-            Session session = util.getSession();
+            Session session = currentSession();
             T abstractEntity = getById(id);
             session.delete(abstractEntity);
         } catch (HibernateException e) {
@@ -100,7 +108,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
     @Override
     public List<T> getAll() throws DaoException {
         try {
-            Session session = util.getSession();
+            Session session = currentSession();
             Criteria criteria = session.createCriteria(persistentClass);
             return criteria.list();
         } catch (HibernateException e) {

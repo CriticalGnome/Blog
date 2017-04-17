@@ -1,10 +1,13 @@
 package com.criticalgnome.blog.services.impl;
 
 import com.criticalgnome.blog.entities.Category;
+import com.criticalgnome.blog.services.ICategoryService;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.List;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Project Blog
@@ -12,25 +15,41 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
+@ContextConfiguration("/context-services-test.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class CategoryServiceImplTest {
 
-    private CategoryServiceImpl categoryService = CategoryServiceImpl.getInstance();
+    @Autowired
+    private ICategoryService categoryService;
 
     @Test
-    public void testingCategoryService() throws Exception {
-        Category expected = new Category(null, "Test category", null);
+    public void categoryServiceCreateTest() throws Exception {
+        Category expected = new Category(null, "New category from Service", null);
         categoryService.create(expected);
         Category actual = categoryService.getById(expected.getId());
-        Assert.assertEquals("Not equals", expected, actual);
-        expected.setName("New name for test category");
-        categoryService.update(expected);
-        actual = categoryService.getById(expected.getId());
-        Assert.assertEquals("Not equals", expected, actual);
-        List<Category> categories = categoryService.getAll();
-        Assert.assertTrue("No list", categories.size() > 0);
+        Assert.assertEquals("Not equal:", expected, actual);
         categoryService.remove(expected.getId());
-        actual = categoryService.getById(expected.getId());
-        Assert.assertNull("Not deleted", actual);
+    }
+
+    @Test
+    public void categoryServiceUpdateTest() throws Exception {
+        Category expected = new Category(null, "New category from Service", null);
+        categoryService.create(expected);
+        expected.setName("New name for new category");
+        categoryService.update(expected);
+        Category actual = categoryService.getById(expected.getId());
+        Assert.assertEquals("Not equal:", expected, actual);
+        categoryService.remove(expected.getId());
+    }
+
+    @Test
+    public void categoryServiceGetAllTest() throws Exception {
+        int expected = categoryService.getAll().size();
+        Category category = new Category(null, "New category from Service", null);
+        categoryService.create(category);
+        int actual = categoryService.getAll().size();
+        Assert.assertEquals("Not equal:", expected, actual - 1);
+        categoryService.remove(category.getId());
     }
 
 }

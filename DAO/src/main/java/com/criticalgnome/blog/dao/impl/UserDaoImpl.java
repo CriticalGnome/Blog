@@ -3,10 +3,11 @@ package com.criticalgnome.blog.dao.impl;
 import com.criticalgnome.blog.dao.IUserDao;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
-import com.criticalgnome.blog.utils.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -18,25 +19,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDaoImpl extends DaoImpl<User> implements IUserDao {
 
-    private static volatile UserDaoImpl instance;
-
-    private UserDaoImpl() {
-        super(User.class);
-    }
-
-    /**
-     * Singleton pattern
-     * @return dao instance
-     */
-    public static UserDaoImpl getInstance() {
-        if (instance == null) {
-            synchronized (UserDaoImpl.class) {
-                if (instance == null) {
-                    instance = new UserDaoImpl();
-                }
-            }
-        }
-        return instance;
+    @Autowired
+    private UserDaoImpl(SessionFactory sessionFactory) {
+        super(User.class, sessionFactory);
     }
 
     /**
@@ -48,10 +33,10 @@ public class UserDaoImpl extends DaoImpl<User> implements IUserDao {
      */
     public User getByEmailAndPassword(String email, String password) throws DaoException {
         try {
-            Session session = HibernateUtil.getInstance().getSession();
+            Session session = currentSession();
             return (User) session.createCriteria(User.class)
-                    .add(Restrictions.eq("email", email))
-                    .add(Restrictions.eq("password", password))
+                    .add(Restrictions.like("email", email))
+                    .add(Restrictions.like("password", password))
                     .uniqueResult();
         } catch (HibernateException e) {
             throw new DaoException(UserDaoImpl.class, "Fatal error in remove user method", e);

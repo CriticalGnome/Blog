@@ -2,6 +2,8 @@ package com.criticalgnome.blog.dao.impl;
 
 import com.criticalgnome.blog.dao.ICategoryDao;
 import com.criticalgnome.blog.entities.Category;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,25 +15,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CategoryDaoImpl extends DaoImpl<Category> implements ICategoryDao {
 
-    private static volatile CategoryDaoImpl instance;
-
-    private CategoryDaoImpl() {
-        super(Category.class);
-    }
-
-    /**
-     * Singleton pattern
-     * @return dao instance
-     */
-    public static CategoryDaoImpl getInstance() {
-        if (instance == null) {
-            synchronized (CategoryDaoImpl.class) {
-                if (instance == null) {
-                    instance = new CategoryDaoImpl();
-                }
-            }
-        }
-        return instance;
+    @Autowired
+    private CategoryDaoImpl(SessionFactory sessionFactory) {
+        super(Category.class, sessionFactory);
     }
 
 }
