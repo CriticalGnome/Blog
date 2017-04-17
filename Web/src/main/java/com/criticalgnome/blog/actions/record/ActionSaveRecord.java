@@ -1,17 +1,24 @@
 package com.criticalgnome.blog.actions.record;
 
 import com.criticalgnome.blog.constants.SiteConstants;
+import com.criticalgnome.blog.dao.IUserDao;
 import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.ICategoryService;
+import com.criticalgnome.blog.services.IRecordService;
+import com.criticalgnome.blog.services.ITagService;
+import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.services.impl.CategoryServiceImpl;
 import com.criticalgnome.blog.services.impl.RecordServiceImpl;
 import com.criticalgnome.blog.services.impl.TagServiceImpl;
 import com.criticalgnome.blog.services.impl.UserServiceImpl;
 import com.criticalgnome.blog.utils.Alert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +34,18 @@ import java.util.*;
  *
  * @author CriticalGnome
  */
+@Component
 public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
+    
+    @Autowired
+    ICategoryService categoryService;
+    @Autowired
+    IRecordService recordService;
+    @Autowired
+    ITagService tagService;
+    @Autowired
+    IUserService userService;
+    
     /**
      * Return target page
      *
@@ -55,15 +73,15 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             String[] tagArray = tagString.split(",");
             Set<Tag> tags = new HashSet<>();
             for (String tagName : tagArray) {
-                Tag tag = TagServiceImpl.getInstance().getOrCreateTagByName(tagName.trim());
+                Tag tag = tagService.getOrCreateTagByName(tagName.trim());
                 tags.add(tag);
             }
-            Category category = CategoryServiceImpl.getInstance().getById(Long.parseLong(request.getParameter("categoryId")));
+            Category category = categoryService.getById(Long.parseLong(request.getParameter("categoryId")));
             User author;
             if (request.getParameter("author").equals("")) {
                 author = (User) session.getAttribute("user");
             } else {
-                author = UserServiceImpl.getInstance().getById(Long.parseLong(request.getParameter("author")));
+                author = userService.getById(Long.parseLong(request.getParameter("author")));
             }
             Calendar calendar = Calendar.getInstance();
             Date now = calendar.getTime();
@@ -71,15 +89,15 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
             Record record = new Record(id, header, body, timestamp, timestamp, category, author, tags);
             Alert alert = null;
             if (id  == null) {
-                RecordServiceImpl.getInstance().create(record);
+                recordService.create(record);
                 alert = new Alert("alert-success", bundle.getString("alert.record.saved"));
             } else {
-                RecordServiceImpl.getInstance().update(record);
+                recordService.update(record);
                 alert = new Alert("alert-success", bundle.getString("alert.record.updated"));
             }
             session.setAttribute("alert", alert);
             page = "index.jsp";
-        } catch (DaoException | ServiceException e) {
+        } catch (ServiceException e) {
             session.setAttribute("message", e.getMessage());
             page = SiteConstants.ERROR_PAGE;
         }

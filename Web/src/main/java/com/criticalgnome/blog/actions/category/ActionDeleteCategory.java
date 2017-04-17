@@ -4,7 +4,10 @@ import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.ICategoryService;
 import com.criticalgnome.blog.services.impl.CategoryServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +21,12 @@ import java.io.IOException;
  *
  * @author CriticalGnome
  */
+@Component
 public class ActionDeleteCategory implements Action {
+
+    @Autowired
+    ICategoryService categoryService;
+
     /**
      * Return target page
      *
@@ -31,8 +39,8 @@ public class ActionDeleteCategory implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            CategoryServiceImpl.getInstance().remove(Long.valueOf(request.getParameter("id")));
-        } catch (DaoException | ServiceException e) {
+            categoryService.remove(Long.valueOf(request.getParameter("id")));
+        } catch (ServiceException e) {
             HttpSession session = request.getSession();
             session.setAttribute("message", e.getMessage());
             return SiteConstants.ERROR_PAGE;

@@ -5,8 +5,11 @@ import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.services.impl.UserServiceImpl;
 import com.criticalgnome.blog.utils.Alert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +24,11 @@ import java.util.ResourceBundle;
  *
  * @author CriticalGnome
  */
+@Component
 public class ActionLogin implements Action {
+
+    @Autowired
+    IUserService userService;
 
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -30,7 +37,7 @@ public class ActionLogin implements Action {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         try {
-            User user = UserServiceImpl.getInstance().getByEmailAndPassword(email, password);
+            User user = userService.getByEmailAndPassword(email, password);
             if (user != null) {
                 session.setAttribute("user", user);
                 Alert alert = new Alert("alert-success", bundle.getString("alert.loggedin"));

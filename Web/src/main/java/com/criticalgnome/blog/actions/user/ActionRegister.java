@@ -4,9 +4,13 @@ import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.IRoleService;
+import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.services.impl.RoleServiceImpl;
 import com.criticalgnome.blog.services.impl.UserServiceImpl;
 import com.criticalgnome.blog.utils.RegexChecker;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +25,14 @@ import java.util.ResourceBundle;
  *
  * @author CriticalGnome
  */
+@Component
 public class ActionRegister implements com.criticalgnome.blog.actions.Action {
+
+    @Autowired
+    IRoleService roleService;
+    @Autowired
+    IUserService userService;
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -98,12 +109,12 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
             request.getRequestDispatcher("register.jsp").forward(request, response);
         } else {
             try {
-                Role role = RoleServiceImpl.getInstance().getById(4L);
+                Role role = roleService.getById(4L);
                 User user = new User(null, email, password, nickName, firstName, lastName, role);
-                UserServiceImpl.getInstance().create(user);
+                userService.create(user);
                 session.setAttribute("user", user);
                 page = "index.jsp";
-            } catch (DaoException | ServiceException e) {
+            } catch (ServiceException e) {
                 if (e.getCause().toString().contains("email")) {
                     request.setAttribute("emailClass", "has-error");
                     request.setAttribute("emailMessage", bundle.getString("register.hint.taken.email"));

@@ -7,10 +7,14 @@ import com.criticalgnome.blog.entities.Tag;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.ICategoryService;
+import com.criticalgnome.blog.services.IRecordService;
 import com.criticalgnome.blog.services.impl.CategoryServiceImpl;
 import com.criticalgnome.blog.services.impl.RecordServiceImpl;
 import com.criticalgnome.blog.utils.CategoryLine;
 import com.criticalgnome.blog.utils.GetCategoriesList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +31,14 @@ import java.util.ResourceBundle;
  *
  * @author CriticalGnome
  */
+@Component
 public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
+    
+    @Autowired
+    ICategoryService categoryService;
+    @Autowired
+    IRecordService recordService;
+    
     /**
      * Return target page
      *
@@ -53,10 +64,10 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
         }
         User user = (User) session.getAttribute("user");
         try {
-            record = RecordServiceImpl.getInstance().getById(recordId);
-            categories = CategoryServiceImpl.getInstance().getAll();
+            record = recordService.getById(recordId);
+            categories = categoryService.getAll();
             categoryLines = GetCategoriesList.getSubcategories(categoryLines, categories, null, "");
-        } catch (DaoException | ServiceException e) {
+        } catch (ServiceException e) {
             session.setAttribute("message", e.getMessage());
             return SiteConstants.ERROR_PAGE;
         }

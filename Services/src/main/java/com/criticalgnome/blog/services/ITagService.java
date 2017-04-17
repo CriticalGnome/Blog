@@ -11,5 +11,5 @@ import com.criticalgnome.blog.exceptions.ServiceException;
  * @author CriticalGnome
  */
 public interface ITagService extends IService<Tag> {
-    Tag getOrCreateTagByName(String tagName) throws DaoException, ServiceException;
+    Tag getOrCreateTagByName(String tagName) throws ServiceException;
 }

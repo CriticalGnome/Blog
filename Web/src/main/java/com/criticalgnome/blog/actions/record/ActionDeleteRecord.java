@@ -4,8 +4,11 @@ import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.IRecordService;
 import com.criticalgnome.blog.services.impl.RecordServiceImpl;
 import com.criticalgnome.blog.utils.Alert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +23,12 @@ import java.util.ResourceBundle;
  *
  * @author CriticalGnome
  */
+@Component
 public class ActionDeleteRecord implements com.criticalgnome.blog.actions.Action {
+    
+    @Autowired
+    IRecordService recordService;
+    
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -32,8 +40,8 @@ public class ActionDeleteRecord implements com.criticalgnome.blog.actions.Action
         }
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            RecordServiceImpl.getInstance().remove(id);
-        } catch (DaoException | ServiceException e) {
+            recordService.remove(id);
+        } catch (ServiceException e) {
             session.setAttribute("message", bundle.getString("error.in.delete"));
             return SiteConstants.ERROR_PAGE;
         }

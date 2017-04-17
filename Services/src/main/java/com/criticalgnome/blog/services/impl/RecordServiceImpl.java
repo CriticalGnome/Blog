@@ -54,7 +54,7 @@ public class RecordServiceImpl extends ServiceImpl<Record> implements IRecordSer
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public int getRecordsCount() throws DaoException, ServiceException {
+    public int getRecordsCount() throws ServiceException {
         int recordsCount;
         try {
             recordsCount = iRecordDao.getRecordsCount();

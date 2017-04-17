@@ -34,7 +34,7 @@ public class TagServiceImpl extends ServiceImpl<Tag> implements ITagService {
         super(iTagDao);
     }
 
-    public Tag getOrCreateTagByName(String tagName) throws DaoException, ServiceException {
+    public Tag getOrCreateTagByName(String tagName) throws ServiceException {
         Tag tag;
         try {
             tag = iTagDao.getByName(tagName);
