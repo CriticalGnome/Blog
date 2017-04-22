@@ -11,6 +11,11 @@ import java.security.NoSuchAlgorithmException;
  * @author CriticalGnome
  */
 public class MD5 {
+    /**
+     * Encode string into SQL MD5 encoding format
+     * @param input initial string
+     * @return encoded string
+     */
     public static String md5Encode(String input) {
         String result = input;
         if(input != null) {
