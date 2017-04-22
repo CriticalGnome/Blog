@@ -15,6 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@Builder
 @Entity
 @Table(name="tags")
 public class Tag extends AbstractEntity implements Serializable {

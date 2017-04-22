@@ -1,13 +1,8 @@
 package com.criticalgnome.blog.entities;
 
 import lombok.*;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -20,6 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@Builder
 @Entity
 @Table(name = "users")
 //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

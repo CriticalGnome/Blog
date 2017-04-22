@@ -15,6 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@Builder
 @Entity
 @Table(name = "roles")
 public class Role extends AbstractEntity implements Serializable {

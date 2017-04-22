@@ -11,9 +11,11 @@ import java.io.Serializable;
  *
  * @author CriticalGnome
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "categories")
 public class Category extends AbstractEntity implements Serializable {
