@@ -151,6 +151,14 @@
                 <version>${mysql.version}</version>
             </dependency>
 
+            <!--H2 database-->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.194</version>
+                <scope>test</scope>
+            </dependency>
+
             <!--Logging system-->
             <dependency>
                 <groupId>org.slf4j</groupId>

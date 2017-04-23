@@ -18,10 +18,10 @@
     <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="false"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-          p:url="jdbc:mysql://localhost:3306/blog2test?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8"
-          p:driverClassName="com.mysql.jdbc.Driver"
-          p:username="root"
-          p:password="kromvel"
+          p:url="jdbc:h2:mem:test"
+          p:driverClassName="org.h2.Driver"
+          p:username="sa"
+          p:password=""
           p:initialSize="2"
           p:maxTotal="3"
     />
@@ -40,7 +40,7 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="connection.isolation">2</prop>
                 <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
                 <prop key="cache.use_query_cache">true</prop>

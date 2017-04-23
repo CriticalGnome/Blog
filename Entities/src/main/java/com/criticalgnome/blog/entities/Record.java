@@ -1,9 +1,6 @@
 package com.criticalgnome.blog.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -46,6 +43,7 @@ public class Record extends AbstractEntity implements Serializable {
             joinColumns = {@JoinColumn(name = "record_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")}
             )
+    @Builder.Default
     private Set<Tag> tags = new HashSet<>();
 
     @Override

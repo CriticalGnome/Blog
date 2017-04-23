@@ -18,6 +18,7 @@ import java.io.IOException;
  *
  * @author CriticalGnome
  */
+@org.springframework.stereotype.Controller
 @WebServlet(name = "Controller", urlPatterns = "/controller")
 public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,6 +31,7 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page;
+
         HttpSession session = request.getSession();
         if (request.getParameter("action") == null) {
             session.setAttribute("message", "Illegal action Call");

@@ -54,6 +54,13 @@
             <artifactId>cglib</artifactId>
         </dependency>
 
+        <!--H2 database-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!--Logging system-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

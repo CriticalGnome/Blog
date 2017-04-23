@@ -20,10 +20,10 @@
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-          p:url="jdbc:mysql://localhost:3306/blog2test?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8"
-          p:driverClassName="com.mysql.jdbc.Driver"
-          p:username="root"
-          p:password="kromvel"
+          p:url="jdbc:h2:mem:test"
+          p:driverClassName="org.h2.Driver"
+          p:username="sa"
+          p:password=""
           p:initialSize="5"
           p:maxTotal="10"
     />
