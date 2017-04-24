@@ -24,6 +24,6 @@ public class ActionLogout implements Action {
         session.removeAttribute("user");
         Alert alert = new Alert("alert-info", bundle.getString("alert.loggedout"));
         request.setAttribute("alert", alert);
-        return "index.jsp";
+        return "old-index.jsp";
     }
 }

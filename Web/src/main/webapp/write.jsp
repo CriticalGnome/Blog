@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:if test="${empty sessionScope.user}">
-    <c:redirect url="index.jsp"/>
+    <c:redirect url="old-index.jsp"/>
 </c:if>
 <%@ include file="inc/uselocale.jsp" %>
 <c:if test="${empty categories}">

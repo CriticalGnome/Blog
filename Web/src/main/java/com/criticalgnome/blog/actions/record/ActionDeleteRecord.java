@@ -47,6 +47,6 @@ public class ActionDeleteRecord implements com.criticalgnome.blog.actions.Action
         }
         Alert alert = new Alert("alert-info", bundle.getString("alert.record.deleted"));
         session.setAttribute("alert", alert);
-        return "index.jsp";
+        return "old-index.jsp";
     }
 }

@@ -50,7 +50,7 @@ public class ActionMainpage implements Action {
             request.setAttribute("pageNumber", pageNumber);
             request.setAttribute("recordsPerPage", recordsPerPage);
             request.setAttribute("recordsCount", recordsCount);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("old-index.jsp").forward(request, response);
         } catch (ServiceException e) {
             session.setAttribute("message", e.getMessage());
             page = SiteConstants.ERROR_PAGE;

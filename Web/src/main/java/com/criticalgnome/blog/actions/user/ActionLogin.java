@@ -42,7 +42,7 @@ public class ActionLogin implements Action {
                 session.setAttribute("user", user);
                 Alert alert = new Alert("alert-success", bundle.getString("alert.loggedin"));
                 session.setAttribute("alert", alert);
-                page = "index.jsp";
+                page = "old-index.jsp";
             } else {
                 Alert alert =  new Alert("alert-danger", bundle.getString("alert.wronglogin"));
                 session.setAttribute("alert", alert);

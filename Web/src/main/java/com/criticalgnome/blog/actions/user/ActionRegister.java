@@ -113,7 +113,7 @@ public class ActionRegister implements com.criticalgnome.blog.actions.Action {
                 User user = new User(null, email, password, nickName, firstName, lastName, role);
                 userService.create(user);
                 session.setAttribute("user", user);
-                page = "index.jsp";
+                page = "old-index.jsp";
             } catch (ServiceException e) {
                 if (e.getCause().toString().contains("email")) {
                     request.setAttribute("emailClass", "has-error");

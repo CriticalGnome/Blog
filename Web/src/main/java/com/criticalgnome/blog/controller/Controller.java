@@ -18,7 +18,6 @@ import java.io.IOException;
  *
  * @author CriticalGnome
  */
-@org.springframework.stereotype.Controller
 @WebServlet(name = "Controller", urlPatterns = "/controller")
 public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

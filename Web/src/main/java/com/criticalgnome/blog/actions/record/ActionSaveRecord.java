@@ -96,7 +96,7 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
                 alert = new Alert("alert-success", bundle.getString("alert.record.updated"));
             }
             session.setAttribute("alert", alert);
-            page = "index.jsp";
+            page = "old-index.jsp";
         } catch (ServiceException e) {
             session.setAttribute("message", e.getMessage());
             page = SiteConstants.ERROR_PAGE;

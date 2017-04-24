@@ -54,13 +54,13 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
         List<Category> categories;
         List<CategoryLine> categoryLines = new ArrayList<>();
         if (request.getParameter("id") == null) {
-            return "index.jsp";
+            return "old-index.jsp";
         }
         Long recordId = Long.parseLong(request.getParameter("id"));
         HttpSession session = request.getSession();
         ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));
         if (session.getAttribute("user") == null) {
-            return "index.jsp";
+            return "old-index.jsp";
         }
         User user = (User) session.getAttribute("user");
         try {
