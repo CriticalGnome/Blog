@@ -1,7 +1,5 @@
 package com.criticalgnome.blog.actions.content;
 
-import com.criticalgnome.blog.actions.Action;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +12,7 @@ import java.io.IOException;
  *
  * @author CriticalGnome
  */
-public class ActionChangePagination implements Action {
-    @Override
+public class ActionChangePagination {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         int recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));

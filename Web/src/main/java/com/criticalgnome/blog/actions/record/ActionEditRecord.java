@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
  * @author CriticalGnome
  */
 @Component
-public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
+public class ActionEditRecord {
     
     @Autowired
     ICategoryService categoryService;
@@ -48,7 +48,6 @@ public class ActionEditRecord implements com.criticalgnome.blog.actions.Action {
      * @throws ServletException ServletException
      * @throws IOException      IOException
      */
-    @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Record record;
         List<Category> categories;

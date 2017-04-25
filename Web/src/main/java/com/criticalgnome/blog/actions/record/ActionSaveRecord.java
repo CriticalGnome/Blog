@@ -35,7 +35,7 @@ import java.util.*;
  * @author CriticalGnome
  */
 @Component
-public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
+public class ActionSaveRecord {
     
     @Autowired
     ICategoryService categoryService;
@@ -55,7 +55,6 @@ public class ActionSaveRecord implements com.criticalgnome.blog.actions.Action {
      * @throws ServletException ServletException
      * @throws IOException      IOException
      */
-    @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page;
         HttpSession session = request.getSession();

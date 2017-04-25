@@ -1,12 +1,9 @@
 package com.criticalgnome.blog.actions.category;
 
-import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
-import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.ICategoryService;
-import com.criticalgnome.blog.services.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +20,7 @@ import java.io.IOException;
  * @author CriticalGnome
  */
 @Component
-public class ActionSaveCategory implements Action {
+public class ActionSaveCategory {
     
     @Autowired
     ICategoryService categoryService;
@@ -37,7 +34,6 @@ public class ActionSaveCategory implements Action {
      * @throws ServletException ServletException
      * @throws IOException      IOException
      */
-    @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id;

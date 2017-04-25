@@ -26,12 +26,11 @@ import java.util.List;
  * @author CriticalGnome
  */
 @Component
-public class ActionWriteRecord implements com.criticalgnome.blog.actions.Action {
+public class ActionWriteRecord {
 
     @Autowired
     ICategoryService categoryService;
 
-    @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         List<Category> categories;

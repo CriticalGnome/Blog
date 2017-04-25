@@ -5,53 +5,53 @@
 <tiles-definitions>
 
     <!--Default Definition-->
-    <definition name="default" template="/WEB-INF/jsp/layouts/default.jspx">
+    <definition name="default" template="/WEB-INF/layouts/default.jspx">
         <put-attribute name="title" value=""/>
-        <put-attribute name="header" value="/WEB-INF/jsp/common/header.jspx"/>
+        <put-attribute name="header" value="/WEB-INF/common/header.jspx"/>
         <put-attribute name="body" value=""/>
-        <put-attribute name="footer" value="/WEB-INF/jsp/common/footer.jspx"/>
+        <put-attribute name="footer" value="/WEB-INF/common/footer.jspx"/>
     </definition>
 
     <!--Main page-->
     <definition name="main" extends="default">
         <put-attribute name="title" value="Main page"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/views/main.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/main.jspx"/>
     </definition>
 
     <!--About page-->
     <definition name="about" extends="default">
         <put-attribute name="title" value="About project"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/views/about.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/about.jspx"/>
     </definition>
 
     <!--Login page-->
     <definition name="login" extends="default">
         <put-attribute name="title" value="Sign In"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/views/login.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/login.jspx"/>
     </definition>
 
     <!--Register page-->
     <definition name="register" extends="default">
         <put-attribute name="title" value="Sign On"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/views/register.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/register.jspx"/>
     </definition>
 
     <!--Write page-->
     <definition name="write" extends="default">
         <put-attribute name="title" value="New record"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/views/write.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/write.jspx"/>
     </definition>
 
     <!--Admin Panel page-->
     <definition name="admin" extends="default">
         <put-attribute name="title" value="Main page"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/views/admin.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin.jspx"/>
     </definition>
 
     <!--Error page-->
     <definition name="error" extends="default">
         <put-attribute name="title" value="Error page"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/views/error.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/error.jspx"/>
     </definition>
 
 </tiles-definitions>

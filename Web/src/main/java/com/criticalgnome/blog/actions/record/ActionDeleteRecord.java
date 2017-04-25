@@ -24,12 +24,11 @@ import java.util.ResourceBundle;
  * @author CriticalGnome
  */
 @Component
-public class ActionDeleteRecord implements com.criticalgnome.blog.actions.Action {
+public class ActionDeleteRecord  {
     
     @Autowired
     IRecordService recordService;
     
-    @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         ResourceBundle bundle = ResourceBundle.getBundle((String) session.getAttribute("locale"));

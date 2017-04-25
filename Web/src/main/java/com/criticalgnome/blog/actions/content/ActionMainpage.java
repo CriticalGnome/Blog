@@ -1,15 +1,11 @@
 package com.criticalgnome.blog.actions.content;
 
-import com.criticalgnome.blog.actions.Action;
 import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Record;
-import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.IRecordService;
-import com.criticalgnome.blog.services.impl.RecordServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +21,11 @@ import java.util.List;
  * @author CriticalGnome
  */
 @Component
-public class ActionMainpage implements Action {
+public class ActionMainpage {
     
     @Autowired
     IRecordService recordService;
 
-    @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         List<Record> records;
