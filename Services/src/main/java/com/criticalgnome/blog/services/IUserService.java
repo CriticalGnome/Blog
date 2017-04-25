@@ -11,5 +11,5 @@ import com.criticalgnome.blog.exceptions.ServiceException;
  * @author CriticalGnome
  */
 public interface IUserService extends IService<User> {
-    User getByEmailAndPassword(String email, String password) throws DaoException, ServiceException;
+    User getByEmailAndPassword(String email, String password) throws ServiceException;
 }

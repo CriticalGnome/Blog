@@ -48,7 +48,7 @@ public class ActionLogin implements Action {
                 session.setAttribute("alert", alert);
                 page = "login.jsp";
             }
-        } catch (DaoException | ServiceException e) {
+        } catch (ServiceException e) {
             session.setAttribute("message", e.getMessage());
             page = SiteConstants.ERROR_PAGE;
         }

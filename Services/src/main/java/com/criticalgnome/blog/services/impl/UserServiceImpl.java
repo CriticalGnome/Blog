@@ -50,7 +50,7 @@ public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public User getByEmailAndPassword(String email, String password) throws DaoException, ServiceException {
+    public User getByEmailAndPassword(String email, String password) throws ServiceException {
         User user;
         try {
             user = iUserDao.getByEmailAndPassword(email, MD5.md5Encode(password));

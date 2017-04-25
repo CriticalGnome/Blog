@@ -4,19 +4,17 @@
 
     <br/>
     <footer class="navbar-bottom panel-footer">
-        <div class="row">
             <div class="container">
                 <div class="col-md-2 text-left">
-
+                    &amp;nbsp;
                 </div>
                 <div class="col-md-8 text-center">
                     <a href="mailto:web3oha@gmail.com">Web3OHA</a> (C) 2017
                 </div>
                 <div class="col-md-2 text-right">
-
+                    &amp;nbsp;
                 </div>
             </div>
-        </div>
     </footer>
 
 </jsp:root>

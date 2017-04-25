@@ -5,29 +5,53 @@
     <jsp:output omit-xml-declaration="true"/>
     <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; UTF-8"/>
 
-    <jsp:useBean id="records" scope="request" type="java.util.List"/>
-    <c:forEach items="${records}" var="record">
-        <div class="row">
+    <div class="container">
+        <div class="col-md-9">
+            <!--@elvariable id="records" type="java.util.List"-->
+            <!--@elvariable id="record" type="com.criticalgnome.blog.entities.Record"-->
+            <c:forEach items="${records}" var="record">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><b>
+                                ${record.header}</b></h3>
+                            <p>
+                                <small>
+                                    ${record.createdAt}</small>
+                            </p>
+                        </div>
+                        <div class="panel-body">
+                            <h6><b>Category: ${record.category.name}</b></h6>
+                            ${record.body}
+                            <br/>
+                            <hr/>
+                            <c:forEach items="${record.tags}" var="tag">
+                                <span class="badge">${tag.name}</span>
+                            </c:forEach>
+                        </div>
+                        <div class="panel-footer">
+                            <small>
+                                Author: ${record.author.nickName}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+        <div class="col-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><b>${record.header}</b></h3><p><small>${record.createdAt}</small></p>
-                </div>
-                <div class="panel-body">
-                    <h6><b>Category: ${record.category.name}</b></h6>
-                    ${record.body}
-                    <br/>
-                    <hr/>
-                    <c:forEach items="${record.tags}" var="tag">
-                        <span class="badge">${tag.name}</span>
-                    </c:forEach>
-                </div>
-                <div class="panel-footer">
-                    <small>
-                        Author: ${record.author.nickName}
-                    </small>
-                </div>
+                <div class="panel-heading"><h3 class="panel-title"><b>Categories</b></h3></div>
+                <div class="panel-body">Panel text</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><b>Calendar</b></h3></div>
+                <div class="panel-body">Panel text</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><b>Tags</b></h3></div>
+                <div class="panel-body">Panel text</div>
             </div>
         </div>
-    </c:forEach>
+    </div>
 
 </jsp:root>
