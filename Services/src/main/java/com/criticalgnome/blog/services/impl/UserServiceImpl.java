@@ -33,7 +33,6 @@ public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Long create(User user) throws ServiceException {
         Long id;
         user.setPassword(MD5.md5Encode(user.getPassword()));
