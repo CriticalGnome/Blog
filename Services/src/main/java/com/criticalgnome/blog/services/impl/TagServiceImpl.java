@@ -26,12 +26,12 @@ import java.util.List;
 @Log4j2
 public class TagServiceImpl extends ServiceImpl<Tag> implements ITagService {
 
-    @Autowired
-    private ITagDao iTagDao;
+    private final ITagDao iTagDao;
 
     @Autowired
     protected TagServiceImpl(ITagDao iTagDao) {
         super(iTagDao);
+        this.iTagDao = iTagDao;
     }
 
     public Tag getOrCreateTagByName(String tagName) throws ServiceException {

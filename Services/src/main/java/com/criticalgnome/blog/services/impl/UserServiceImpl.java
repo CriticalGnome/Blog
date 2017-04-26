@@ -24,12 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Log4j2
 public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
 
-    @Autowired
-    private IUserDao iUserDao;
+    private final IUserDao iUserDao;
 
     @Autowired
     protected UserServiceImpl(IUserDao iUserDao) {
         super(iUserDao);
+        this.iUserDao = iUserDao;
     }
 
     @Override

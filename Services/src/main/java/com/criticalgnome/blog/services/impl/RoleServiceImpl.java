@@ -23,12 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DaoException.class)
 public class RoleServiceImpl extends ServiceImpl<Role> implements IRoleService {
 
-    @Autowired
-    private IRoleDao iRoleDao;
+    private final IRoleDao iRoleDao;
 
     @Autowired
     protected RoleServiceImpl(IRoleDao iRoleDao) {
         super(iRoleDao);
+        this.iRoleDao = iRoleDao;
     }
 
     public Role getByName(String roleName) throws ServiceException {

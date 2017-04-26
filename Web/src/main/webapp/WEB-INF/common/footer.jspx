@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-2 text-right">
                     <form action="" method="get">
-                        <select name="locale" class="form-control input-sm" onchange="if (this.selectedIndex) this.form.submit ()">
+                        <select name="locale" class="form-control input-sm" onchange="if (this.selectedIndex) this.form.submit ()" title="locale">
                             <option><spring:message code="footer.changelang"/></option>
                             <option value="ru">Русский</option>
                             <option value="en">English</option>

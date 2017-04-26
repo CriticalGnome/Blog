@@ -25,12 +25,12 @@ import java.util.List;
 @Log4j2
 public class RecordServiceImpl extends ServiceImpl<Record> implements IRecordService {
 
-    @Autowired
-    private IRecordDao iRecordDao;
+    private final IRecordDao iRecordDao;
 
     @Autowired
     protected RecordServiceImpl(IRecordDao iRecordDao) {
         super(iRecordDao);
+        this.iRecordDao = iRecordDao;
     }
 
 

@@ -34,7 +34,7 @@ public class MainController {
     private final IRecordService recordService;
 
     @Autowired
-    public MainController(IRecordService recordService, IUserService userService, IRoleService roleService) {
+    public MainController(IRecordService recordService) {
         this.recordService = recordService;
     }
 
