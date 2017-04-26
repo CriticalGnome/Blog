@@ -1,7 +1,8 @@
 <jsp:root version="2.0"
           xmlns="http://www.w3.org/1999/xhtml"
           xmlns:jsp="http://java.sun.com/JSP/Page"
-          xmlns:c="http://java.sun.com/jsp/jstl/core">
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags">
     <jsp:output omit-xml-declaration="true"/>
     <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; UTF-8"/>
 
@@ -21,17 +22,17 @@
                             </p>
                         </div>
                         <div class="panel-body">
-                            <h6><b>Category: ${record.category.name}</b></h6>
+                            <h6><b><spring:message code="main.label.category"/>: <a href="${pageContext.request.contextPath}/category/${record.category.id}">${record.category.name}</a></b></h6>
                             ${record.body}
                             <br/>
                             <hr/>
                             <c:forEach items="${record.tags}" var="tag">
-                                <span class="badge">${tag.name}</span>
+                                <a href="${pageContext.request.contextPath}/tag/${tag.id}"><span class="badge">${tag.name}</span></a>
                             </c:forEach>
                         </div>
                         <div class="panel-footer">
                             <small>
-                                Author: ${record.author.nickName}
+                                <spring:message code="main.label.author"/>: ${record.author.nickName}
                             </small>
                         </div>
                     </div>
@@ -40,15 +41,15 @@
         </div>
         <div class="col-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title"><b>Categories</b></h3></div>
+                <div class="panel-heading"><h3 class="panel-title"><b><spring:message code="main.box.name.categories"/></b></h3></div>
                 <div class="panel-body">Panel text</div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title"><b>Calendar</b></h3></div>
+                <div class="panel-heading"><h3 class="panel-title"><b><spring:message code="main.box.name.calendar"/></b></h3></div>
                 <div class="panel-body">Panel text</div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title"><b>Tags</b></h3></div>
+                <div class="panel-heading"><h3 class="panel-title"><b><spring:message code="main.box.name.tags"/></b></h3></div>
                 <div class="panel-body">Panel text</div>
             </div>
         </div>

@@ -47,6 +47,6 @@ public interface IDao<T extends AbstractEntity> {
      * @return list
      * @throws DaoException custom exception
      */
-    public List<T> getAll() throws DaoException;
+    List<T> getAll() throws DaoException;
 
 }
