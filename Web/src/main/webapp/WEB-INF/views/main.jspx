@@ -14,12 +14,14 @@
                 <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><b>
-                                ${record.header}</b></h3>
-                            <p>
-                                <small>
-                                    ${record.createdAt}</small>
-                            </p>
+                            <h3 class="panel-title"><b>${record.header}</b></h3>
+                            <p><small>${record.createdAt}</small></p>
+                            <!--<a href="/records/edit/${record.id}">-->
+                            <!--<a href="/records/delete/${record.id}">-->
+                            <div class="btn-group btn-group-xs" role="group"  aria-label="...">
+                                <button type="button" class="btn btn-default"  onclick="location.href='/records/edit/${record.id}';"><spring:message code="main.button.edit"/></button>
+                                <button type="button" class="btn btn-default"  onclick="location.href='/records/delete/${record.id}';"><spring:message code="main.button.delete"/></button>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <h6><b><spring:message code="main.label.category"/>: <a href="${pageContext.request.contextPath}/categories/${record.category.id}">${record.category.name}</a></b></h6>
