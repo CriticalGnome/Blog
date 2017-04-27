@@ -6,17 +6,17 @@ import com.criticalgnome.blog.services.IRoleService;
 import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.utils.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Project Blog
@@ -25,32 +25,35 @@ import java.util.List;
  * @author CriticalGnome
  */
 @Controller
+@RequestMapping("/users")
 public class UserController {
 
     private final IUserService userService;
     private final IRoleService roleService;
+    private final MessageSource messageSource;
 
     @Autowired
-    public UserController(IUserService userService, IRoleService roleService) {
+    public UserController(IUserService userService, IRoleService roleService, MessageSource messageSource) {
         this.userService = userService;
         this.roleService = roleService;
+        this.messageSource = messageSource;
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @GetMapping(value = "/login")
     public ModelAndView showLoginPage() {
         return new ModelAndView("login","user", new User());
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String doLogin(@ModelAttribute User user, Model model) {
+    @PostMapping(value = "/login")
+    public String doLogin(@ModelAttribute User user, Model model, Locale locale) {
         String page;
         try {
             user = userService.getByEmailAndPassword(user.getEmail(), user.getPassword());
             if (user != null) {
-                model.addAttribute("alert", new Alert("alert-success", "Success sign in"));
+                model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.login.success", null, locale)));
                 page = "main";
             } else {
-                model.addAttribute("alert", new Alert("alert-danger", "Incorrect login/password"));
+                model.addAttribute("alert", new Alert("alert-danger", messageSource.getMessage("alert.login.denied", null, locale)));
                 page = "login";
             }
         } catch (ServiceException e) {
@@ -60,13 +63,13 @@ public class UserController {
         return page;
     }
 
-    @RequestMapping(value = "register", method = RequestMethod.GET)
+    @GetMapping(value = "/register")
     public ModelAndView showRegisterPage() {
         return new ModelAndView("register","user", new User());
     }
 
-    @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String doRegister(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
+    @PostMapping(value = "/register")
+    public String doRegister(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, Locale locale) {
         String page;
         if (result.hasErrors()) {
             List<ObjectError> objectErrors = result.getAllErrors();
@@ -88,10 +91,10 @@ public class UserController {
             try {
                 user.setRole(roleService.getByName("User"));
                 userService.create(user);
-                model.addAttribute("alert", new Alert("alert-success", "Success sign on"));
+                model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.register.success", null, locale)));
                 page = "main";
             } catch (ServiceException e) {
-                model.addAttribute("alert", new Alert("alert-danger", "Email or Nickname already registered"));
+                model.addAttribute("alert", new Alert("alert-danger", messageSource.getMessage("alert.register.denied", null, locale)));
                 page = "register";
             }
         }

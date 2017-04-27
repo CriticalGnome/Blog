@@ -26,8 +26,8 @@
     <tiles:insertAttribute name="header"/>
     <tiles:insertAttribute name="body"/>
     <tiles:insertAttribute name="footer"/>
-<script src="${pageContext.request.contextPath}/assets/js/jquery-3.2.1.min.js"/>
-<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"/>
+<script src="${pageContext.request.contextPath}/assets/js/jquery-3.2.1.min.js">&amp;nbsp;</script>
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js">&amp;nbsp;</script>
 </body>
 
 </html>

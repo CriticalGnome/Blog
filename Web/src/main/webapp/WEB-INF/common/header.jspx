@@ -18,10 +18,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="${pageContext.request.contextPath}/about"><spring:message code="navbar.about"/></a></li>
-                    <li><a href="${pageContext.request.contextPath}/write"><spring:message code="navbar.newrecord"/></a></li>
-                    <li><a href="${pageContext.request.contextPath}/admin"><spring:message code="navbar.adminpanel"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}/records/write"><spring:message code="navbar.newrecord"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/"><spring:message code="navbar.adminpanel"/></a></li>
                 </ul>
-                <form action="${pageContext.request.contextPath}/login" class="navbar-form navbar-right">
+                <form action="${pageContext.request.contextPath}/users/login" class="navbar-form navbar-right">
                     <button type="submit" class="btn btn-default"><spring:message code="navbar.signin"/></button>
                     <!--<button type="submit" class="btn btn-default"><spring:message code="navbar.signout"/></button>-->
                 </form>

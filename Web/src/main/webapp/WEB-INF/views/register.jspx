@@ -7,7 +7,7 @@
     <div class="row">
         <div class="container">
             <div class="col-md-6 col-md-offset-3">
-                <form:form action="${pageContext.request.contextPath}/register" modelAttribute="user" method="post"
+                <form:form action="${pageContext.request.contextPath}/users/register" modelAttribute="user" method="post"
                            class="form-horizontal">
                     <div class="form-group ${emailClass}">
                         <form:label for="email" path="email" class="col-sm-3 control-label"><spring:message code="register.form.label.email"/></form:label>
