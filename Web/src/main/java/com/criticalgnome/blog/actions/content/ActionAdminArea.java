@@ -2,11 +2,11 @@ package com.criticalgnome.blog.actions.content;
 
 import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
+import com.criticalgnome.blog.entities.CategoryDTO;
 import com.criticalgnome.blog.entities.Record;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.ICategoryService;
 import com.criticalgnome.blog.services.IRecordService;
-import com.criticalgnome.blog.utils.CategoryLine;
 import com.criticalgnome.blog.utils.CategoriesList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,12 +37,12 @@ public class ActionAdminArea {
 
         try {
             List<Category> categories = categoryService.getAll();
-            List<CategoryLine> categoryLines = new ArrayList<>();
-            categoryLines = CategoriesList.getSubcategories(categoryLines, categories, null, "");
+            List<CategoryDTO> categoryDTOs = new ArrayList<>();
+            categoryDTOs = CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
             List<Record> records = recordService.getRecordsByPage(1,5);
             int recordsCount = recordService.getRecordsCount();
 
-            request.setAttribute("categoryLines", categoryLines);
+            request.setAttribute("categoryLines", categoryDTOs);
             request.setAttribute("records", records);
             request.setAttribute("recordsCount", recordsCount);
             request.getRequestDispatcher("adminarea.jsp").forward(request, response);

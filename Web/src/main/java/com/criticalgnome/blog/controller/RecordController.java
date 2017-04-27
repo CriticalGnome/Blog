@@ -1,24 +1,21 @@
 package com.criticalgnome.blog.controller;
 
-import com.criticalgnome.blog.entities.Category;
-import com.criticalgnome.blog.entities.Record;
-import com.criticalgnome.blog.entities.Tag;
+import com.criticalgnome.blog.entities.*;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.ICategoryService;
 import com.criticalgnome.blog.services.IRecordService;
 import com.criticalgnome.blog.services.ITagService;
+import com.criticalgnome.blog.services.IUserService;
+import com.criticalgnome.blog.utils.Alert;
 import com.criticalgnome.blog.utils.CategoriesList;
-import com.criticalgnome.blog.utils.CategoryLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * Project Blog
@@ -33,23 +30,29 @@ public class RecordController {
     private final IRecordService recordService;
     private final ICategoryService categoryService;
     private final ITagService tagService;
+    private final IUserService userService;
 
     @Autowired
-    public RecordController(IRecordService recordService, ICategoryService categoryService, ITagService tagService) {
+    public RecordController(IRecordService recordService, ICategoryService categoryService, ITagService tagService, IUserService userService) {
         this.recordService = recordService;
         this.categoryService = categoryService;
         this.tagService = tagService;
+        this.userService = userService;
     }
 
     @GetMapping(value = "/write")
     public ModelAndView composeNewRecord(ModelAndView model) {
         try {
             List<Category> categories = categoryService.getAll();
-            List<CategoryLine> categoryLines = new ArrayList<>();
-            CategoriesList.getSubcategories(categoryLines, categories, null, "");
+            List<CategoryDTO> categoryDTOs = new ArrayList<>();
+            CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
             model.setViewName("write");
-            model.addObject("record", new Record());
-            model.addObject("categoryLines", categoryLines);
+            RecordDTO recordDTO = new RecordDTO();
+            recordDTO.setId(0L);
+            recordDTO.setAuthorId(0L);
+            model.addObject("recordDTO", recordDTO);
+            model.addObject("categoryDTOs", categoryDTOs);
+            model.addObject("pageHeader", "New record");
         } catch (ServiceException e) {
             return new ModelAndView("error", "message", e.getMessage());
         }
@@ -60,12 +63,18 @@ public class RecordController {
     public ModelAndView editRecord(ModelAndView model, @PathVariable Long id) {
         try {
             Record record = recordService.getById(id);
+            StringBuilder tagString = new StringBuilder();
+            for (Tag tag : record.getTags()) {
+                tagString.append(tag.getName()).append(", ");
+            }
+            RecordDTO recordDTO = new RecordDTO(record.getId(), record.getHeader(), record.getBody(), record.getCategory().getId(), record.getAuthor().getId(), tagString.toString());
             List<Category> categories = categoryService.getAll();
-            List<CategoryLine> categoryLines = new ArrayList<>();
-            CategoriesList.getSubcategories(categoryLines, categories, null, "");
+            List<CategoryDTO> categoryDTOs = new ArrayList<>();
+            CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
             model.setViewName("write");
-            model.addObject("record", record);
-            model.addObject("categoryLines", categoryLines);
+            model.addObject("recordDTO", recordDTO);
+            model.addObject("categoryDTOs", categoryDTOs);
+            model.addObject("pageHeader", "Edit record");
         } catch (ServiceException e) {
             return new ModelAndView("error", "message", e.getMessage());
         }
@@ -73,18 +82,27 @@ public class RecordController {
     }
 
     @PostMapping(value = "")
-    public String save(@ModelAttribute Record record, @RequestBody Long categoryId, @RequestBody String tags, Model model) {
+    public String save(@ModelAttribute RecordDTO recordDTO, Model model) {
         try {
-            Category category = categoryService.getById(categoryId);
-            String[] tagArray = tags.split(",");
+            Category category = categoryService.getById(recordDTO.getCategoryId());
+            String[] tagArray = recordDTO.getTags().split(",");
             Set<Tag> tagSet = new HashSet<>();
             for (String tagName : tagArray) {
                 Tag tag = tagService.getOrCreateTagByName(tagName.trim());
                 tagSet.add(tag);
             }
-            record.setCategory(category);
-            record.setTags(tagSet);
-            recordService.create(record);
+            Calendar calendar = Calendar.getInstance();
+            Date now = calendar.getTime();
+            Timestamp timestamp = new Timestamp(now.getTime());
+            User author = userService.getById(recordDTO.getAuthorId());
+            Record record = new Record(recordDTO.getId(), recordDTO.getHeader(), recordDTO.getBody(), timestamp, timestamp, category, author, tagSet);
+            if (recordDTO.getId().equals(0L)) {
+                recordService.create(record);
+                model.addAttribute("alert", new Alert("alert-success", "New record saved"));
+            } else {
+                recordService.update(record);
+                model.addAttribute("alert", new Alert("alert-success", "Record saved"));
+            }
         } catch (ServiceException e) {
             model.addAttribute("message", e.getMessage());
             return "error";

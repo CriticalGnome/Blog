@@ -1,6 +1,7 @@
 package com.criticalgnome.blog.utils;
 
 import com.criticalgnome.blog.entities.Category;
+import com.criticalgnome.blog.entities.CategoryDTO;
 
 import java.util.List;
 
@@ -12,17 +13,17 @@ import java.util.List;
  */
 public class CategoriesList {
 
-    public static List<CategoryLine> getSubcategories(List<CategoryLine> categoryLines, List<Category> categories, Category parent, String indent){
+    public static List<CategoryDTO> getSubcategories(List<CategoryDTO> categoryDTOs, List<Category> categories, Category parent, String indent){
 
         for (Category category : categories) {
             if (category.getCategory() == parent) {
-                CategoryLine abc = new CategoryLine(category.getId(), indent + category.getName());
-                categoryLines.add(abc);
-//                getSubcategories(categoryLines, categories, category, indent + category.getName() + ".");
-                getSubcategories(categoryLines, categories, category, indent + "*");
+                CategoryDTO abc = new CategoryDTO(category.getId(), indent + category.getName());
+                categoryDTOs.add(abc);
+//                getSubcategories(categoryDTOs, categories, category, indent + category.getName() + ".");
+                getSubcategories(categoryDTOs, categories, category, indent + "*");
             }
         }
-        return categoryLines;
+        return categoryDTOs;
     }
 
 }

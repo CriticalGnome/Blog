@@ -2,9 +2,9 @@ package com.criticalgnome.blog.actions.category;
 
 import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
+import com.criticalgnome.blog.entities.CategoryDTO;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.ICategoryService;
-import com.criticalgnome.blog.utils.CategoryLine;
 import com.criticalgnome.blog.utils.CategoriesList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,10 +43,10 @@ public class ActionEditCategory {
             Long id = Long.valueOf(request.getParameter("id"));
             Category category = categoryService.getById(id);
             List<Category> categories = categoryService.getAll();
-            List<CategoryLine> categoryLines = new ArrayList<>();
-            categoryLines = CategoriesList.getSubcategories(categoryLines, categories, null, "");
+            List<CategoryDTO> categoryDTOs = new ArrayList<>();
+            categoryDTOs = CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
             request.setAttribute("category", category);
-            request.setAttribute("categoryLines", categoryLines);
+            request.setAttribute("categoryLines", categoryDTOs);
             request.getRequestDispatcher("category.jsp").forward(request, response);
 
         } catch (ServiceException e) {

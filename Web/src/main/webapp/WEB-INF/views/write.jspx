@@ -6,33 +6,34 @@
 
     <div class="container">
         <div class="col-md-12">
-            <div class="page-header"><h1>New Record</h1></div>
-            <form:form action="${pageContext.request.contextPath}/records" modelAttribute="record" method="post">
+            <div class="page-header"><h1>${pageHeader}</h1></div>
+            <form:form action="${pageContext.request.contextPath}/records" modelAttribute="recordDTO" method="post">
                 <form:input type="hidden" id="id" path="id" value=""/>
+                <form:input type="hidden" id="authorId" path="authorId" value=""/>
                 <div class="form-group">
                     <form:label for="header" path="header">header</form:label>
                     <form:input type="text" id="header" path="header" class="form-control" value=""/>
                 </div>
                 <div class="form-group">
                     <label for="categoryId" >category</label>
-                    <select id="categoryId" name="categoryId" class="form-control">
-                        <c:forEach items="${categoryLines}" var="category">
-                            <c:if test="${category.id == record.category.id}">
-                                <option value="${category.id}" selected="selected">${category.name}</option>
+                    <form:select id="categoryId" path="categoryId" class="form-control">
+                        <c:forEach items="${categoryDTOs}" var="category">
+                            <c:if test="${category.id == recordDTO.categoryId}">
+                                <form:option value="${category.id}" selected="selected">${category.name}</form:option>
                             </c:if>
-                            <c:if test="${category.id != record.category.id}">
+                            <c:if test="${category.id != recordDTO.categoryId}">
                                 <option value="${category.id}">${category.name}</option>
                             </c:if>
                         </c:forEach>
-                    </select>
+                    </form:select>
                 </div>
                 <div class="form-group">
                     <form:label for="body" path="body">body</form:label>
                     <form:textarea id="body" path="body" rows="10" class="form-control"/>
                 </div>
                 <div class="form-group">
-                    <label for="tags">tags</label>
-                    <input type="text" id="tags" name="tags" class="form-control" value=""/>
+                    <form:label for="tags" path="tags">tags</form:label>
+                    <form:input type="text" id="tags" path="tags" class="form-control" value=""/>
                 </div>
                 <button type="submit" id="submit" name="submit" class="btn btn-primary">submit</button>
             </form:form>

@@ -2,9 +2,9 @@ package com.criticalgnome.blog.actions.category;
 
 import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Category;
+import com.criticalgnome.blog.entities.CategoryDTO;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.ICategoryService;
-import com.criticalgnome.blog.utils.CategoryLine;
 import com.criticalgnome.blog.utils.CategoriesList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,9 +41,9 @@ public class ActionAddCategory {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Category> categories = categoryService.getAll();
-            List<CategoryLine> categoryLines = new ArrayList<>();
-            categoryLines = CategoriesList.getSubcategories(categoryLines, categories, null, "");
-            request.setAttribute("categoryLines", categoryLines);
+            List<CategoryDTO> categoryDTOs = new ArrayList<>();
+            categoryDTOs = CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
+            request.setAttribute("categoryLines", categoryDTOs);
             request.getRequestDispatcher("category.jsp").forward(request, response);
 
         } catch (ServiceException e) {
