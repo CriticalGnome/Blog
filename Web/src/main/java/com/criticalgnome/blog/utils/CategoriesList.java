@@ -2,7 +2,6 @@ package com.criticalgnome.blog.utils;
 
 import com.criticalgnome.blog.entities.Category;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +10,7 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class GetCategoriesList {
+public class CategoriesList {
 
     public static List<CategoryLine> getSubcategories(List<CategoryLine> categoryLines, List<Category> categories, Category parent, String indent){
 
@@ -19,7 +18,8 @@ public class GetCategoriesList {
             if (category.getCategory() == parent) {
                 CategoryLine abc = new CategoryLine(category.getId(), indent + category.getName());
                 categoryLines.add(abc);
-                getSubcategories(categoryLines, categories, category, indent + category.getName() + ".");
+//                getSubcategories(categoryLines, categories, category, indent + category.getName() + ".");
+                getSubcategories(categoryLines, categories, category, indent + "*");
             }
         }
         return categoryLines;
