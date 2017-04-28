@@ -14,6 +14,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
@@ -45,13 +46,14 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public String doLogin(@ModelAttribute User user, Model model, Locale locale) {
+    public String doLogin(@ModelAttribute User user, Model model, Locale locale, HttpSession session) {
         String page;
         try {
             user = userService.getByEmailAndPassword(user.getEmail(), user.getPassword());
             if (user != null) {
-                model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.login.success", null, locale)));
-                page = "main";
+                session.setAttribute("authorisedUser", user);
+                //model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.login.success", null, locale)));
+                page = "redirect:/";
             } else {
                 model.addAttribute("alert", new Alert("alert-danger", messageSource.getMessage("alert.login.denied", null, locale)));
                 page = "login";
@@ -61,6 +63,13 @@ public class UserController {
             page = "error";
         }
         return page;
+    }
+
+    @GetMapping(value = "/logout")
+    public String doLogout(HttpSession session /*, Model model, Locale locale */) {
+        session.removeAttribute("authorisedUser");
+                //model.addAttribute("alert", new Alert("alert-warning", messageSource.getMessage("alert.logout", null, locale)));
+        return "redirect:/";
     }
 
     @GetMapping(value = "/register")
@@ -91,8 +100,8 @@ public class UserController {
             try {
                 user.setRole(roleService.getByName("User"));
                 userService.create(user);
-                model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.register.success", null, locale)));
-                page = "main";
+                //model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.register.success", null, locale)));
+                page = "redirect:/";
             } catch (ServiceException e) {
                 model.addAttribute("alert", new Alert("alert-danger", messageSource.getMessage("alert.register.denied", null, locale)));
                 page = "register";
@@ -100,6 +109,5 @@ public class UserController {
         }
         return page;
     }
-
 
 }

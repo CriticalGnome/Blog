@@ -60,4 +60,16 @@ public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
         return user;
     }
 
+    @Override
+    public User getByEmail(String email) throws ServiceException {
+        User user;
+        try {
+            user = iUserDao.getByEmail(email);
+        } catch (DaoException e) {
+            log.error(ServiceConstants.TRANSACTION_FAILED);
+            throw new ServiceException(UserServiceImpl.class, ServiceConstants.TRANSACTION_FAILED, e);
+        }
+        return user;
+    }
+
 }

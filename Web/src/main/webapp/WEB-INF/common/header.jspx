@@ -21,10 +21,17 @@
                     <li><a href="${pageContext.request.contextPath}/records/write"><spring:message code="navbar.newrecord"/></a></li>
                     <li><a href="${pageContext.request.contextPath}/admin/"><spring:message code="navbar.adminpanel"/></a></li>
                 </ul>
-                <form action="${pageContext.request.contextPath}/users/login" class="navbar-form navbar-right">
-                    <button type="submit" class="btn btn-default"><spring:message code="navbar.signin"/></button>
-                    <!--<button type="submit" class="btn btn-default"><spring:message code="navbar.signout"/></button>-->
-                </form>
+                <!--@elvariable id="authorisedUser" type="com.criticalgnome.blog.entities.User"-->
+                <c:if test="${empty authorisedUser}">
+                    <form action="${pageContext.request.contextPath}/users/login" class="navbar-form navbar-right">
+                        <button type="submit" class="btn btn-default"><spring:message code="navbar.signin"/></button>
+                    </form>
+                </c:if>
+                <c:if test="${not empty authorisedUser}">
+                    <form action="${pageContext.request.contextPath}/users/logout" class="navbar-form navbar-right">
+                        <button type="submit" class="btn btn-default"><spring:message code="navbar.signout"/></button>
+                    </form>
+                </c:if>
             </div>
         </div>
     </nav>

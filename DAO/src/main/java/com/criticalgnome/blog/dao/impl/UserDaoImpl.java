@@ -39,7 +39,24 @@ public class UserDaoImpl extends DaoImpl<User> implements IUserDao {
                     .add(Restrictions.like("password", password))
                     .uniqueResult();
         } catch (HibernateException e) {
-            throw new DaoException(UserDaoImpl.class, "Fatal error in remove user method", e);
+            throw new DaoException(UserDaoImpl.class, "Fatal error in getByEmailAndPassword user method", e);
+        }
+    }
+
+    /**
+     * Get one row from table by email
+     * @param email user email
+     * @return row object or null if email/password not valid
+     * @throws DaoException custom exception
+     */
+    public User getByEmail(String email) throws DaoException {
+        try {
+            Session session = currentSession();
+            return (User) session.createCriteria(User.class)
+                    .add(Restrictions.like("email", email))
+                    .uniqueResult();
+        } catch (HibernateException e) {
+            throw new DaoException(UserDaoImpl.class, "Fatal error in getByEmail user method", e);
         }
     }
 }

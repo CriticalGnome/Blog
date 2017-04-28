@@ -6,7 +6,6 @@ import com.criticalgnome.blog.services.ICategoryService;
 import com.criticalgnome.blog.services.IRecordService;
 import com.criticalgnome.blog.services.ITagService;
 import com.criticalgnome.blog.services.IUserService;
-import com.criticalgnome.blog.utils.Alert;
 import com.criticalgnome.blog.utils.CategoriesList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -82,7 +82,7 @@ public class RecordController {
     }
 
     @PostMapping(value = "")
-    public String save(@ModelAttribute RecordDTO recordDTO, Model model) {
+    public String save(@ModelAttribute RecordDTO recordDTO, Model model, HttpSession session) {
         try {
             Category category = categoryService.getById(recordDTO.getCategoryId());
             String[] tagArray = recordDTO.getTags().split(",");
@@ -97,16 +97,29 @@ public class RecordController {
             User author = userService.getById(recordDTO.getAuthorId());
             Record record = new Record(recordDTO.getId(), recordDTO.getHeader(), recordDTO.getBody(), timestamp, timestamp, category, author, tagSet);
             if (recordDTO.getId().equals(0L)) {
+                record.setAuthor((User) session.getAttribute("authorisedUser"));
                 recordService.create(record);
-                model.addAttribute("alert", new Alert("alert-success", "New record saved"));
+                //model.addAttribute("alert", new Alert("alert-success", "New record saved"));
             } else {
                 recordService.update(record);
-                model.addAttribute("alert", new Alert("alert-success", "Record saved"));
+                //model.addAttribute("alert", new Alert("alert-success", "Record saved"));
             }
         } catch (ServiceException e) {
             model.addAttribute("message", e.getMessage());
             return "error";
         }
-        return "main";
+        return "redirect:/";
     }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteRecord(Model model, @PathVariable Long id) {
+        try {
+            recordService.remove(id);
+        } catch (ServiceException e) {
+            model.addAttribute("message", e.getMessage());
+            return "error";
+        }
+        return "redirect:/";
+    }
+
 }

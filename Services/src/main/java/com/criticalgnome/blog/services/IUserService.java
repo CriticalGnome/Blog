@@ -12,4 +12,6 @@ import com.criticalgnome.blog.exceptions.ServiceException;
  */
 public interface IUserService extends IService<User> {
     User getByEmailAndPassword(String email, String password) throws ServiceException;
+
+    User getByEmail(String email) throws ServiceException;
 }

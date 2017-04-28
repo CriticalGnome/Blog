@@ -19,4 +19,12 @@ public interface IUserDao extends IDao<User> {
      * @throws DaoException custom exception
      */
     User getByEmailAndPassword(String email, String password) throws DaoException;
+
+    /**
+     * Get one row from table by email
+     * @param email user email
+     * @return row object or null if email/password not valid
+     * @throws DaoException custom exception
+     */
+    User getByEmail(String email) throws DaoException;
 }

@@ -28,16 +28,22 @@
 
     <bean id="tilesViewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver"
-          p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView"/>
+          p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView"
+    />
 
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
-          p:basename="/WEB-INF/locales/messages"
-          p:defaultEncoding="UTF-8"/>
+          p:basename="classpath:messages"
+          p:defaultEncoding="UTF-8"
+    />
 
     <bean id="localeResolver"
-          class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
-          p:defaultLocale="ru"/>
+          class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
+          p:defaultLocale="ru"
+          p:cookieName="Locale"
+          p:cookiePath="/Blog"
+          p:cookieMaxAge="3600"
+    />
     
     <mvc:interceptors>
         <mvc:interceptor>
