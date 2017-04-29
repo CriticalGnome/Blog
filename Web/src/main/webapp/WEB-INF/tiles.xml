@@ -60,6 +60,12 @@
         <put-attribute name="body" value="/WEB-INF/views/error.jspx"/>
     </definition>
 
+    <!--Error page-->
+    <definition name="errors" extends="default">
+        <put-attribute name="title" value="Error page"/>
+        <put-attribute name="body" value="/WEB-INF/views/errors.jspx"/>
+    </definition>
+
     <!--Access denied page-->
     <definition name="denied" extends="default">
         <put-attribute name="title" value="Access Denied"/>
