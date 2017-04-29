@@ -6,7 +6,6 @@ import com.criticalgnome.blog.entities.UserDTO;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.IRoleService;
 import com.criticalgnome.blog.services.IUserService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,7 +45,16 @@ public class AuthenticationService implements UserDetailsService {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        return new UserDTO(user.getEmail(), user.getPassword(), true, true, true, true, setAuthorities(user.getRole().getId()));
+        return new UserDTO(user != null ? user.getId() : null,
+                user != null ? user.getEmail() : null,
+                user != null ? user.getPassword() : null,
+                user != null ? user.getNickName() : null,
+                user != null ? user.getFirstName() + " " + user.getLastName() : null,
+                true,
+                true,
+                true,
+                true,
+                setAuthorities(user != null ? user.getRole().getId() : null));
     }
 
     private Collection<GrantedAuthority> setAuthorities(Long roleId){

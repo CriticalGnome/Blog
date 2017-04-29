@@ -19,8 +19,11 @@ import java.util.Collection;
 @NoArgsConstructor
 public class UserDTO implements UserDetails {
 
+    private Long id;
     private String username;
     private String password;
+    private String nickName;
+    private String fullName;
     private boolean enabled;
     private boolean accountNonExpired;
     private boolean accountNonLocked;

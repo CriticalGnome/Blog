@@ -16,11 +16,17 @@
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
         <form-login login-page="/users/login"
                     login-processing-url="/users/auth"
+                    authentication-failure-url="/users/login?error"
                     username-parameter="email"
                     password-parameter="password"
         />
         <logout logout-url="/users/logout"
                 invalidate-session="true"
+        />
+        <remember-me key="auth_key"
+                     remember-me-parameter="memory"
+                     remember-me-cookie="Authentication"
+                     token-validity-seconds="600"
         />
         <csrf/>
     </http>

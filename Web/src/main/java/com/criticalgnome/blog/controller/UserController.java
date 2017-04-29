@@ -7,13 +7,21 @@ import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.utils.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -45,31 +53,13 @@ public class UserController {
         return new ModelAndView("login","user", new User());
     }
 
-    @PostMapping(value = "/login")
-    public String doLogin(@ModelAttribute User user, Model model, Locale locale, HttpSession session) {
-        String page;
-        try {
-            user = userService.getByEmailAndPassword(user.getEmail(), user.getPassword());
-            if (user != null) {
-                session.setAttribute("authorisedUser", user);
-                //model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.login.success", null, locale)));
-                page = "redirect:/";
-            } else {
-                model.addAttribute("alert", new Alert("alert-danger", messageSource.getMessage("alert.login.denied", null, locale)));
-                page = "login";
-            }
-        } catch (ServiceException e) {
-            model.addAttribute("message", e.getMessage());
-            page = "error";
-        }
-        return page;
-    }
-
     @GetMapping(value = "/logout")
-    public String doLogout(HttpSession session /*, Model model, Locale locale */) {
-        session.removeAttribute("authorisedUser");
-                //model.addAttribute("alert", new Alert("alert-warning", messageSource.getMessage("alert.logout", null, locale)));
-        return "redirect:/";
+    public String doLogout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/users/login?logout";
     }
 
     @GetMapping(value = "/register")

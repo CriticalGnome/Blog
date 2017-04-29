@@ -49,6 +49,4 @@
             </div>
         </div>
     </c:if>
-    <sec:authentication property="principal"/>
-
 </jsp:root>
