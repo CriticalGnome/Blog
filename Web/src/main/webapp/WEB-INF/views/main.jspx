@@ -2,7 +2,8 @@
           xmlns="http://www.w3.org/1999/xhtml"
           xmlns:jsp="http://java.sun.com/JSP/Page"
           xmlns:c="http://java.sun.com/jsp/jstl/core"
-          xmlns:spring="http://www.springframework.org/tags">
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:sec="http://www.springframework.org/security/tags">
     <jsp:output omit-xml-declaration="true"/>
     <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; UTF-8"/>
 
@@ -17,8 +18,12 @@
                             <h3 class="panel-title"><b>${record.header}</b></h3>
                             <p><small>${record.createdAt}</small></p>
                             <div class="btn-group btn-group-xs" role="group"  aria-label="...">
-                                <button type="button" class="btn btn-default"  onclick="location.href='${pageContext.request.contextPath}/records/edit/${record.id}';"><spring:message code="main.button.edit"/></button>
-                                <button type="button" class="btn btn-default"  onclick="location.href='${pageContext.request.contextPath}/records/delete/${record.id}';"><spring:message code="main.button.delete"/></button>
+                                <sec:authorize access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')">
+                                    <button type="button" class="btn btn-default"  onclick="location.href='${pageContext.request.contextPath}/records/edit/${record.id}';"><spring:message code="main.button.edit"/></button>
+                                </sec:authorize>
+                                <sec:authorize access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR','ROLE_MODERATOR')">
+                                    <button type="button" class="btn btn-default"  onclick="location.href='${pageContext.request.contextPath}/records/delete/${record.id}';"><spring:message code="main.button.delete"/></button>
+                                </sec:authorize>
                             </div>
                         </div>
                         <div class="panel-body">

@@ -30,21 +30,27 @@
         <put-attribute name="body" value="/WEB-INF/views/login.jspx"/>
     </definition>
 
-    <!--Register page-->
-    <definition name="register" extends="default">
-        <put-attribute name="title" value="Sign On"/>
-        <put-attribute name="body" value="/WEB-INF/views/register.jspx"/>
+    <!--User page-->
+    <definition name="user" extends="default">
+        <put-attribute name="title" value="User page"/>
+        <put-attribute name="body" value="/WEB-INF/views/user.jspx"/>
     </definition>
 
-    <!--Write page-->
-    <definition name="write" extends="default">
-        <put-attribute name="title" value="New record"/>
-        <put-attribute name="body" value="/WEB-INF/views/write.jspx"/>
+    <!--Record page-->
+    <definition name="record" extends="default">
+        <put-attribute name="title" value="Record page"/>
+        <put-attribute name="body" value="/WEB-INF/views/record.jspx"/>
+    </definition>
+
+    <!--Category page-->
+    <definition name="category" extends="default">
+        <put-attribute name="title" value="Category page"/>
+        <put-attribute name="body" value="/WEB-INF/views/category.jspx"/>
     </definition>
 
     <!--Admin Panel page-->
     <definition name="admin" extends="default">
-        <put-attribute name="title" value="Main page"/>
+        <put-attribute name="title" value="Admin page"/>
         <put-attribute name="body" value="/WEB-INF/views/admin.jspx"/>
     </definition>
 
@@ -52,6 +58,12 @@
     <definition name="error" extends="default">
         <put-attribute name="title" value="Error page"/>
         <put-attribute name="body" value="/WEB-INF/views/error.jspx"/>
+    </definition>
+
+    <!--Access denied page-->
+    <definition name="denied" extends="default">
+        <put-attribute name="title" value="Access Denied"/>
+        <put-attribute name="body" value="/WEB-INF/views/denied.jspx"/>
     </definition>
 
 </tiles-definitions>

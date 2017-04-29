@@ -12,15 +12,17 @@
 
     <http auto-config="true">
         <intercept-url pattern="/" access="permitAll"/>
-        <intercept-url pattern="/records/write" access="isAuthenticated()"/>
+        <intercept-url pattern="/records/add" access="isAuthenticated()"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
-        <form-login login-page="/users/login"
-                    login-processing-url="/users/auth"
-                    authentication-failure-url="/users/login?error"
+        <form-login login-page="/login"
+                    login-processing-url="/auth"
                     username-parameter="email"
                     password-parameter="password"
+                    authentication-failure-url="/login?error"
+                    authentication-failure-forward-url=""
         />
-        <logout logout-url="/users/logout"
+        <access-denied-handler error-page="/denied"/>
+        <logout logout-url="/logout"
                 invalidate-session="true"
         />
         <remember-me key="auth_key"

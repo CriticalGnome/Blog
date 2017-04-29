@@ -8,12 +8,12 @@ import com.criticalgnome.blog.services.ITagService;
 import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.utils.CategoriesList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -40,13 +40,13 @@ public class RecordController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/write")
+    @GetMapping(value = "/add")
     public ModelAndView composeNewRecord(ModelAndView model) {
         try {
             List<Category> categories = categoryService.getAll();
             List<CategoryDTO> categoryDTOs = new ArrayList<>();
             CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
-            model.setViewName("write");
+            model.setViewName("record");
             RecordDTO recordDTO = new RecordDTO();
             recordDTO.setId(0L);
             recordDTO.setAuthorId(0L);
@@ -71,7 +71,7 @@ public class RecordController {
             List<Category> categories = categoryService.getAll();
             List<CategoryDTO> categoryDTOs = new ArrayList<>();
             CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
-            model.setViewName("write");
+            model.setViewName("record");
             model.addObject("recordDTO", recordDTO);
             model.addObject("categoryDTOs", categoryDTOs);
             model.addObject("pageHeader", "Edit record");
@@ -82,7 +82,7 @@ public class RecordController {
     }
 
     @PostMapping(value = "")
-    public String save(@ModelAttribute RecordDTO recordDTO, Model model, HttpSession session) {
+    public String save(@ModelAttribute RecordDTO recordDTO, Model model) {
         try {
             Category category = categoryService.getById(recordDTO.getCategoryId());
             String[] tagArray = recordDTO.getTags().split(",");
@@ -97,12 +97,11 @@ public class RecordController {
             User author = userService.getById(recordDTO.getAuthorId());
             Record record = new Record(recordDTO.getId(), recordDTO.getHeader(), recordDTO.getBody(), timestamp, timestamp, category, author, tagSet);
             if (recordDTO.getId().equals(0L)) {
-                record.setAuthor((User) session.getAttribute("authorisedUser"));
+                UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                record.setAuthor(userService.getById(userDTO.getId()));
                 recordService.create(record);
-                //model.addAttribute("alert", new Alert("alert-success", "New record saved"));
             } else {
                 recordService.update(record);
-                //model.addAttribute("alert", new Alert("alert-success", "Record saved"));
             }
         } catch (ServiceException e) {
             model.addAttribute("message", e.getMessage());

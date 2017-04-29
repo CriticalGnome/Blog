@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.controller;
 
+import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.IRoleService;
@@ -7,22 +8,13 @@ import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.utils.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
@@ -48,27 +40,13 @@ public class UserController {
         this.messageSource = messageSource;
     }
 
-    @GetMapping(value = "/login")
-    public ModelAndView showLoginPage() {
-        return new ModelAndView("login","user", new User());
-    }
-
-    @GetMapping(value = "/logout")
-    public String doLogout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/users/login?logout";
-    }
-
     @GetMapping(value = "/register")
     public ModelAndView showRegisterPage() {
-        return new ModelAndView("register","user", new User());
+        return new ModelAndView("user","user", new User());
     }
 
-    @PostMapping(value = "/register")
-    public String doRegister(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, Locale locale) {
+    @PostMapping(value = "")
+    public String doRegister(@Valid @ModelAttribute("user") User user, @RequestParam(required = false) Long roleId, BindingResult result, Model model, Locale locale) {
         String page;
         if (result.hasErrors()) {
             List<ObjectError> objectErrors = result.getAllErrors();
@@ -85,19 +63,65 @@ public class UserController {
                 if (errorString.contains("firstName")) { model.addAttribute("firstNameClass", "has-error"); }
                 if (errorString.contains("lastName")) { model.addAttribute("lastNameClass", "has-error"); }
             }
-            page = "register";
+            page = "user";
         } else {
             try {
-                user.setRole(roleService.getByName("User"));
-                userService.create(user);
+                if (user.getId() == null) {
+                    user.setRole(roleService.getByName("USER"));
+                    userService.create(user);
+                    page = "redirect:/";
+                } else {
+                    user.setRole(roleService.getById(roleId));
+                    userService.update(user);
+                    page = "redirect:/admin";
+                }
                 //model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.register.success", null, locale)));
-                page = "redirect:/";
             } catch (ServiceException e) {
                 model.addAttribute("alert", new Alert("alert-danger", messageSource.getMessage("alert.register.denied", null, locale)));
-                page = "register";
+                page = "user";
             }
         }
         return page;
+    }
+
+    @GetMapping(value = "/add")
+    public ModelAndView editUser(ModelAndView model) {
+        try {
+            List<Role> roles = roleService.getAll();
+            model.setViewName("user");
+            model.addObject("user", new User());
+            model.addObject("roles", roles);
+        } catch (ServiceException e) {
+            model.setViewName("error");
+            model.addObject("message", e.getMessage());
+        }
+        return model;
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public ModelAndView editUser(@PathVariable Long id, ModelAndView model) {
+        try {
+            User user = userService.getById(id);
+            List<Role> roles = roleService.getAll();
+            model.setViewName("user");
+            model.addObject("user", user);
+            model.addObject("roles", roles);
+        } catch (ServiceException e) {
+            model.setViewName("error");
+            model.addObject("message", e.getMessage());
+        }
+        return model;
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteUser(@PathVariable Long id, Model model) {
+        try {
+            userService.remove(id);
+        } catch (ServiceException e) {
+            model.addAttribute("message", e.getMessage());
+            return "error";
+        }
+        return "redirect:/admin";
     }
 
 }

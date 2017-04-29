@@ -1,9 +1,22 @@
 package com.criticalgnome.blog.controller;
 
+import com.criticalgnome.blog.entities.Category;
+import com.criticalgnome.blog.entities.CategoryDTO;
+import com.criticalgnome.blog.entities.Role;
+import com.criticalgnome.blog.entities.User;
+import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.ICategoryService;
+import com.criticalgnome.blog.services.IRoleService;
+import com.criticalgnome.blog.services.IUserService;
+import com.criticalgnome.blog.utils.CategoriesList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project Blog
@@ -12,12 +25,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author CriticalGnome
  */
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
 
-    @GetMapping(value = "")
-    public String showAdminPanel() {
-        return "admin";
+    private final IUserService userService;
+    private final IRoleService roleService;
+    private final ICategoryService categoryService;
+
+    @Autowired
+    public AdminController(IUserService userService, IRoleService roleService, ICategoryService categoryService) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.categoryService = categoryService;
+    }
+
+    @GetMapping(value = "/admin")
+    public ModelAndView showAdminPanel(ModelAndView model) {
+        try {
+            List<User> users = userService.getAll();
+            List<Role> roles = roleService.getAll();
+            List<Category> categories = categoryService.getAll();
+            List<CategoryDTO> categoryDTOs = new ArrayList<>();
+            categoryDTOs = CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
+            model.setViewName("admin");
+            model.addObject("users", users);
+            model.addObject("roles", roles);
+            model.addObject("categories", categories);
+            model.addObject("categoryDTOs", categoryDTOs);
+            return model;
+        } catch (ServiceException e) {
+            return new ModelAndView("error", "message", e.getMessage());
+        }
     }
 
 }
