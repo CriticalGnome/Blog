@@ -54,8 +54,8 @@ public class AuthenticationService implements UserDetailsService {
         try {
             List<Role> roles = roleService.getAll();
             for (Role role : roles) {
-                if (role.getId() <= roleId) {
-                    authorities.add(new SimpleGrantedAuthority("ROLE_" + StringUtils.capitalize(role.getName())));
+                if (role.getId().equals(roleId)) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
                 }
             }
         } catch (ServiceException e) {

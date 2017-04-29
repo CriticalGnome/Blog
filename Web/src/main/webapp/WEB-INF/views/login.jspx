@@ -9,18 +9,18 @@
 <div class="container">
     <div class="col-md-6 col-md-offset-3">
 
-        <form:form action="${pageContext.request.contextPath}/login" modelAttribute="user" method="post" class="form-horizontal">
+        <form:form action="${pageContext.request.contextPath}/users/auth" modelAttribute="user" method="post" class="form-horizontal">
             <!--<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}"><jsp:text/></input>-->
             <div class="form-group">
                 <form:label for="email" path="email" class="col-sm-3 control-label"><spring:message code="login.form.label.email"/></form:label>
                 <div class="col-sm-9">
-                    <form:input type="email" id="email" path="email" class="form-control" placeholder="enter email"/>
+                    <form:input type="email" id="email" name="email" path="email" class="form-control" placeholder="enter email"/>
                 </div>
             </div>
             <div class="form-group">
                 <form:label for="password" path="password" class="col-sm-3 control-label"><spring:message code="login.form.label.password"/></form:label>
                 <div class="col-sm-9">
-                    <form:input type="password" id="password" path="password" class="form-control" placeholder="enter password"/>
+                    <form:input type="password" id="password" name="password" path="password" class="form-control" placeholder="enter password"/>
                 </div>
             </div>
             <div class="form-group">

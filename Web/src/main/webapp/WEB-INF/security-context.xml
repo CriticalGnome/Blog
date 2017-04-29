@@ -6,13 +6,16 @@
 		                         http://www.springframework.org/schema/security
 		                         http://www.springframework.org/schema/security/spring-security.xsd">
 
+    <global-method-security secured-annotations="enabled"
+                            pre-post-annotations="enabled"
+    />
+
     <http auto-config="true">
-        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/" access="permitAll"/>
-        <intercept-url pattern="/records/write" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/records/write" access="isAuthenticated()"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
         <form-login login-page="/users/login"
-                    login-processing-url="/users/login"
+                    login-processing-url="/users/auth"
                     username-parameter="email"
                     password-parameter="password"
         />
@@ -25,7 +28,9 @@
     <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
 
     <authentication-manager>
-        <authentication-provider user-service-ref="authenticationService"/>
+        <authentication-provider user-service-ref="authenticationService">
+            <password-encoder ref="passwordEncoder"/>
+        </authentication-provider>
     </authentication-manager>
 
     <beans:bean id="authenticationService" class="com.criticalgnome.blog.security.AuthenticationService"/>
