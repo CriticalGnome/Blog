@@ -1,14 +1,15 @@
 <jsp:root version="2.0"
           xmlns="http://www.w3.org/1999/xhtml"
           xmlns:jsp="http://java.sun.com/JSP/Page"
-          xmlns:c="http://java.sun.com/jsp/jstl/core">
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags">
 
     <div class="container">
         <div class="col-md-5">
             <table class="table table-condensed table-hover">
                 <tr>
-                    <th>Id</th>
-                    <th colspan="3">Name</th>
+                    <th><spring:message code="admin.form.label.id"/></th>
+                    <th colspan="3"><spring:message code="admin.form.label.name"/></th>
                 </tr>
                 <c:forEach items="${categoryDTOs}" var="category">
                     <tr>
@@ -23,14 +24,14 @@
                     </tr>
                 </c:forEach>
             </table>
-            <a href="${pageContext.request.contextPath}/categories/add">Add category</a>
+            <a href="${pageContext.request.contextPath}/categories/add"><spring:message code="admin.link.addcategory"/></a>
         </div>
         <div class="col-md-7">
             <table class="table table-condensed table-hover">
                 <tr>
-                    <th>Id</th>
-                    <th>Nickname</th>
-                    <th>Full Name</th>
+                    <th><spring:message code="admin.form.label.id"/></th>
+                    <th><spring:message code="admin.form.label.nickname"/></th>
+                    <th><spring:message code="admin.form.label.fullname"/></th>
                     <th colspan="3">Role</th>
                 </tr>
                 <c:forEach items="${users}" var="user">
@@ -48,7 +49,7 @@
                     </tr>
                 </c:forEach>
             </table>
-            <a href="${pageContext.request.contextPath}/users/add">Add user</a>
+            <a href="${pageContext.request.contextPath}/users/add"><spring:message code="admin.link.adduser"/></a>
         </div>
     </div>
 
