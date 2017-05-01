@@ -69,11 +69,11 @@ public class RecordDaoImplTest {
 
     @Test
     public void recordDaoCountTest() throws Exception {
-        int expected = recordDao.getRecordsCount();
+        int expected = recordDao.getRecordsCount(null, null, null);
         Set<Tag> tags = new HashSet<>();
         Record record = new Record(null,"Header","Body text",null,null,null,null,tags);
         recordDao.create(record);
-        int actual = recordDao.getRecordsCount();
+        int actual = recordDao.getRecordsCount(null, null, null);
         Assert.assertEquals("Not equal:", expected, actual - 1);
         recordDao.remove(record.getId());
     }

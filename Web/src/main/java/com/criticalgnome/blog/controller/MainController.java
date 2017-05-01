@@ -55,7 +55,7 @@ public class MainController {
             User userScope = (User) session.getAttribute("userScope");
             Tag tagScope = (Tag) session.getAttribute("tagScope");
             List<Record> records = recordService.getRecordsByPage(pageNumber, recordsPerPage, categoryScope, userScope, tagScope);
-            int recordsCount = recordService.getRecordsCount(); // TODO Сделать возврат с учётом сужения критериев
+            int recordsCount = recordService.getRecordsCount(categoryScope, userScope, tagScope);
             List<Category> categories = categoryService.getAll();
             List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
 

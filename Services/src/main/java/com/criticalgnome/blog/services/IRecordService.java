@@ -17,5 +17,5 @@ import java.util.List;
  */
 public interface IRecordService extends IService<Record> {
     List<Record> getRecordsByPage(int pageNumber, int pageCapacity, Category categoryScope, User userScope, Tag tagScope) throws ServiceException;
-    int getRecordsCount() throws ServiceException;
+    int getRecordsCount(Category categoryScope, User userScope, Tag tagScope) throws ServiceException;
 }

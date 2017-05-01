@@ -46,17 +46,17 @@ public class RecordDaoImpl extends DaoImpl<Record> implements IRecordDao {
             // Pagination
             criteria.setMaxResults(pageCapacity);
             criteria.setFirstResult(pageOffset);
-            // categoryScope
+            // Narrow to categoryScope
             if (categoryScope != null) {
                 criteria.createAlias("r.category", "c");
                 criteria.add(Restrictions.eq("c.id", categoryScope.getId()));
             }
-            // userScope
+            // Narrow to userScope
             if (userScope != null) {
                 criteria.createAlias("r.author", "u");
                 criteria.add(Restrictions.eq("u.id", userScope.getId()));
             }
-            // tagScope
+            // Narrow to tagScope
             if (tagScope != null) {
                 criteria.createAlias("r.tags", "t");
                 criteria.add(Restrictions.eq("t.id", tagScope.getId()));
@@ -76,12 +76,26 @@ public class RecordDaoImpl extends DaoImpl<Record> implements IRecordDao {
      * @return count
      * @throws DaoException custom exception
      */
-    public int getRecordsCount() throws DaoException {
+    public int getRecordsCount(Category categoryScope, User userScope, Tag tagScope) throws DaoException {
         try{
             Session session = currentSession();
-            return Integer.parseInt(session.createCriteria(Record.class)
-                    .setProjection(Projections.rowCount())
-                    .uniqueResult().toString());
+            Criteria criteria = session.createCriteria(Record.class, "r");
+            // Narrow to categoryScope
+            if (categoryScope != null) {
+                criteria.createAlias("r.category", "c");
+                criteria.add(Restrictions.eq("c.id", categoryScope.getId()));
+            }
+            // Narrow to userScope
+            if (userScope != null) {
+                criteria.createAlias("r.author", "u");
+                criteria.add(Restrictions.eq("u.id", userScope.getId()));
+            }
+            // Narrow to tagScope
+            if (tagScope != null) {
+                criteria.createAlias("r.tags", "t");
+                criteria.add(Restrictions.eq("t.id", tagScope.getId()));
+            }
+            return Integer.parseInt(criteria.setProjection(Projections.rowCount()).uniqueResult().toString());
         } catch (HibernateException e) {
             throw new DaoException(RecordDaoImpl.class, "Fatal error in count method", e);
         }

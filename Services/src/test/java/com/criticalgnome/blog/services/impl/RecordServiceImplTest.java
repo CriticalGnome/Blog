@@ -65,11 +65,11 @@ public class RecordServiceImplTest {
 
     @Test
     public void recordDaoCountTest() throws Exception {
-        int expected = recordService.getRecordsCount();
+        int expected = recordService.getRecordsCount(null, null, null);
         Set<Tag> tags = new HashSet<>();
         Record record = new Record(null,"Header from Service","Body text",null,null,null,null,tags);
         recordService.create(record);
-        int actual = recordService.getRecordsCount();
+        int actual = recordService.getRecordsCount(null, null, null);
         Assert.assertEquals("Not equal:", expected, actual - 1);
         recordService.remove(record.getId());
     }

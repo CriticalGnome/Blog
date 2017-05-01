@@ -78,14 +78,8 @@
                         <c:if test="${not empty pageNumber and pageNumber ne 1}">
                             <li class="previous"><a href="${pageContext.request.contextPath}/page/${pageNumber - 1}"><span aria-hidden="true">&amp;larr;</span>&amp;nbsp;<spring:message code="main.pagination.newer"/></a></li>
                         </c:if>
-                        <c:if test="${empty pageNumber or pageNumber eq 1}">
-                            <li class="previous disabled"><a href="#"><span aria-hidden="true">&amp;larr;</span>&amp;nbsp;<spring:message code="main.pagination.newer"/></a></li>
-                        </c:if>
                         <c:if test="${pageNumber * recordsPerPage lt recordsCount}">
                             <li class="next"><a href="${pageContext.request.contextPath}/page/${pageNumber + 1}"><spring:message code="main.pagination.older"/>&amp;nbsp;<span aria-hidden="true">&amp;rarr;</span></a></li>
-                        </c:if>
-                        <c:if test="${pageNumber * recordsPerPage ge recordsCount}">
-                            <li class="next disabled"><a href="#"><spring:message code="main.pagination.older"/>&amp;nbsp;<span aria-hidden="true">&amp;rarr;</span></a></li>
                         </c:if>
                     </ul>
                 </nav>

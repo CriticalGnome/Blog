@@ -30,6 +30,6 @@ public interface IRecordDao extends IDao<Record> {
      * @return count
      * @throws DaoException custom exception
      */
-    int getRecordsCount() throws DaoException;
+    int getRecordsCount(Category categoryScope, User userScope, Tag tagScope) throws DaoException;
 
 }

@@ -1,10 +1,16 @@
 package com.criticalgnome.blog.entities;
 
 import lombok.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -20,7 +26,7 @@ import java.io.Serializable;
 @Builder
 @Entity
 @Table(name = "users")
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User extends AbstractEntity implements Serializable {
 
     private static final long SerialVersionUID = 1L;

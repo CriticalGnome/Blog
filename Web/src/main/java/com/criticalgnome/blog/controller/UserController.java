@@ -83,7 +83,7 @@ public class UserController {
             page = "user";
         } else {
             try {
-                if (user.getId() == null) {
+                if (roleId == null) {
                     user.setRole(roleService.getByName("USER"));
                     userService.create(user);
                     page = "redirect:/";
@@ -92,12 +92,12 @@ public class UserController {
                     userService.update(user);
                     page = "redirect:/admin";
                 }
-                //model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.register.success", null, locale)));
             } catch (ServiceException e) {
                 model.addAttribute("alert", new Alert("alert-danger", messageSource.getMessage("alert.register.denied", null, locale)));
                 page = "user";
             }
         }
+        model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.register.success", null, locale)));
         return page;
     }
 

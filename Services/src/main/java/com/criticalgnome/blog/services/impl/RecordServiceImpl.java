@@ -53,10 +53,10 @@ public class RecordServiceImpl extends ServiceImpl<Record> implements IRecordSer
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public int getRecordsCount() throws ServiceException {
+    public int getRecordsCount(Category categoryScope, User userScope, Tag tagScope) throws ServiceException {
         int recordsCount;
         try {
-            recordsCount = iRecordDao.getRecordsCount();
+            recordsCount = iRecordDao.getRecordsCount(categoryScope, userScope, tagScope);
         } catch (DaoException e) {
             log.error(ServiceConstants.TRANSACTION_FAILED);
             throw new ServiceException(RecordServiceImpl.class, ServiceConstants.TRANSACTION_FAILED, e);
