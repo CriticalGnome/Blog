@@ -6,12 +6,13 @@ import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.ICategoryService;
 import com.criticalgnome.blog.utils.CategoriesList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -31,12 +32,12 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')")
     @GetMapping(value = "/add")
     public ModelAndView addCategory(ModelAndView model) {
         try {
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = new ArrayList<>();
-            categoryDTOs = CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
+            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
             model.setViewName("category");
             model.addObject("categoryDTO", new CategoryDTO());
             model.addObject("categoryDTOs", categoryDTOs);
@@ -49,18 +50,28 @@ public class CategoryController {
     }
 
     @GetMapping(value = "/{id}")
-    public String showCategory(@PathVariable Long id) {
-        return null;
+    public String showCategory(@PathVariable Long id, HttpSession session, Model model) {
+        session.removeAttribute("categoryScope");
+        if (!id.equals(0L)) {
+            try {
+                Category category = categoryService.getById(id);
+                session.setAttribute("categoryScope", category);
+            } catch (ServiceException e) {
+                model.addAttribute("message", e.getMessage());
+                return "error";
+            }
+        }
+        return "redirect:/";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')")
     @GetMapping(value = "/edit/{id}")
     public ModelAndView editCategory(@PathVariable Long id, ModelAndView model) {
         try {
             Category category = categoryService.getById(id);
             CategoryDTO categoryDTO = new CategoryDTO(category.getId(), category.getName());
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = new ArrayList<>();
-            categoryDTOs = CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
+            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
             model.setViewName("category");
             model.addObject("categoryDTO", categoryDTO);
             model.addObject("categoryDTOs", categoryDTOs);
@@ -77,6 +88,7 @@ public class CategoryController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')")
     @GetMapping(value = "/delete/{id}")
     public String deleteCategory(@PathVariable Long id, Model model) {
         try {
@@ -88,6 +100,7 @@ public class CategoryController {
         return "redirect:/admin";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')")
     @PostMapping(value = "")
     public String saveCategory(@ModelAttribute CategoryDTO categoryDTO, @RequestParam(name = "category", required = false) Long categoryId, Model model) {
         try {

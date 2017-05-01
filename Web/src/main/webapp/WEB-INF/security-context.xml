@@ -11,9 +11,7 @@
     />
 
     <http auto-config="true">
-        <intercept-url pattern="/" access="permitAll"/>
-        <intercept-url pattern="/records/add" access="isAuthenticated()"/>
-        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+        <intercept-url pattern="/**" access="permitAll"/>
         <form-login login-page="/login"
                     login-processing-url="/auth"
                     username-parameter="email"

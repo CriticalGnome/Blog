@@ -1,6 +1,9 @@
 package com.criticalgnome.blog.dao;
 
+import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
+import com.criticalgnome.blog.entities.Tag;
+import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 
 import java.util.List;
@@ -20,7 +23,7 @@ public interface IRecordDao extends IDao<Record> {
      * @return list of records
      * @throws DaoException custom exception
      */
-    List<Record> getRecordsByPage(int pageOffset, int pageCapacity) throws DaoException;
+    List<Record> getRecordsByPage(int pageOffset, int pageCapacity, Category categoryScope, User userScope, Tag tagScope) throws DaoException;
 
     /**
      * Get total count of all rows in table

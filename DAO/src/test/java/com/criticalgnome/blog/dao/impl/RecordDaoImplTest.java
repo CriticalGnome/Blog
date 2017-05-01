@@ -63,7 +63,7 @@ public class RecordDaoImplTest {
     @Test
     public void recordPaginationTest() throws Exception {
         int expected = 3;
-        int actual = recordDao.getRecordsByPage(0, 3).size();
+        int actual = recordDao.getRecordsByPage(0, 3, null, null, null).size();
         Assert.assertTrue("Not equals", actual <= expected);
     }
 

@@ -5,9 +5,31 @@
           xmlns:spring="http://www.springframework.org/tags"
           xmlns:sec="http://www.springframework.org/security/tags">
     <jsp:output omit-xml-declaration="true"/>
-    <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; UTF-8"/>
-
     <div class="container">
+
+        <!--@elvariable id="categoryScope" type="com.criticalgnome.blog.entities.Category"-->
+        <c:if test="${not empty categoryScope}">
+            <h2><spring:message code="main.heder.categoryscope"/> ${categoryScope.name}</h2>
+        </c:if>
+        <!--@elvariable id="userScope" type="com.criticalgnome.blog.entities.User"-->
+        <c:if test="${not empty userScope}">
+            <h3>
+                <spring:message code="main.heder.userscope"/> ${userScope.nickName}
+                <a href="${pageContext.request.contextPath}/users/0">
+                    <small>(<spring:message code="main.heder.cancel"/>)</small>
+                </a>
+            </h3>
+        </c:if>
+        <!--@elvariable id="tagScope" type="com.criticalgnome.blog.entities.Tag"-->
+        <c:if test="${not empty tagScope}">
+            <h3>
+                <spring:message code="main.heder.tagscope"/> ${tagScope.name}
+                <a href="${pageContext.request.contextPath}/tags/0">
+                    <small>(<spring:message code="main.heder.cancel"/>)</small>
+                </a>
+            </h3>
+        </c:if>
+
         <div class="col-md-9">
             <!--@elvariable id="records" type="java.util.List"-->
             <!--@elvariable id="record" type="com.criticalgnome.blog.entities.Record"-->
@@ -16,18 +38,23 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><b>${record.header}</b></h3>
-                            <p><small>${record.createdAt}</small></p>
-                            <div class="btn-group btn-group-xs" role="group"  aria-label="...">
+                            <p>
+                                <small>${record.createdAt}</small>
+                            </p>
+                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                 <sec:authorize access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')">
-                                    <button type="button" class="btn btn-default"  onclick="location.href='${pageContext.request.contextPath}/records/edit/${record.id}';"><spring:message code="main.button.edit"/></button>
+                                    <button type="button" class="btn btn-default" onclick="location.href='${pageContext.request.contextPath}/records/edit/${record.id}';">
+                                        <spring:message code="main.button.edit"/></button>
                                 </sec:authorize>
                                 <sec:authorize access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR','ROLE_MODERATOR')">
-                                    <button type="button" class="btn btn-default"  onclick="location.href='${pageContext.request.contextPath}/records/delete/${record.id}';"><spring:message code="main.button.delete"/></button>
+                                    <button type="button" class="btn btn-default" onclick="location.href='${pageContext.request.contextPath}/records/delete/${record.id}';">
+                                        <spring:message code="main.button.delete"/></button>
                                 </sec:authorize>
                             </div>
                         </div>
                         <div class="panel-body">
-                            <h6><b><spring:message code="main.label.category"/>: <a href="${pageContext.request.contextPath}/categories/${record.category.id}">${record.category.name}</a></b></h6>
+                            <h6><b><spring:message code="main.label.category"/>: <a href="${pageContext.request.contextPath}/categories/${record.category.id}">${record.category.name}</a></b>
+                            </h6>
                             ${record.body}
                             <br/>
                             <hr/>
@@ -43,16 +70,55 @@
                     </div>
                 </div>
             </c:forEach>
+
+            <!--Pagination section-->
+            <div class="row">
+                <nav aria-label="...">
+                    <ul class="pager">
+                        <c:if test="${not empty pageNumber and pageNumber ne 1}">
+                            <li class="previous"><a href="${pageContext.request.contextPath}/page/${pageNumber - 1}"><span aria-hidden="true">&amp;larr;</span>&amp;nbsp;<spring:message code="main.pagination.newer"/></a></li>
+                        </c:if>
+                        <c:if test="${empty pageNumber or pageNumber eq 1}">
+                            <li class="previous disabled"><a href="#"><span aria-hidden="true">&amp;larr;</span>&amp;nbsp;<spring:message code="main.pagination.newer"/></a></li>
+                        </c:if>
+                        <c:if test="${pageNumber * recordsPerPage lt recordsCount}">
+                            <li class="next"><a href="${pageContext.request.contextPath}/page/${pageNumber + 1}"><spring:message code="main.pagination.older"/>&amp;nbsp;<span aria-hidden="true">&amp;rarr;</span></a></li>
+                        </c:if>
+                        <c:if test="${pageNumber * recordsPerPage ge recordsCount}">
+                            <li class="next disabled"><a href="#"><spring:message code="main.pagination.older"/>&amp;nbsp;<span aria-hidden="true">&amp;rarr;</span></a></li>
+                        </c:if>
+                    </ul>
+                </nav>
+            </div>
         </div>
+
+        <!--Sidebar section -->
         <div class="col-md-3">
+            <h3 class="panel-title"><b><spring:message code="main.box.name.categories"/></b></h3>
+            <br/>
+            <div class="list-group">
+                <c:if test="${empty categoryScope}">
+                    <a href="${pageContext.request.contextPath}/categories/0" class="list-group-item active"><spring:message code="main.box.link.allcategories"/></a>
+                </c:if>
+                <c:if test="${not empty categoryScope}">
+                    <a href="${pageContext.request.contextPath}/categories/0" class="list-group-item"><spring:message code="main.box.link.allcategories"/></a>
+                </c:if>
+                <c:forEach items="${categoryDTOs}" var="category">
+                    <c:if test="${categoryScope.id == category.id}">
+                        <a href="${pageContext.request.contextPath}/categories/${category.id}" class="list-group-item active">${category.name}</a>
+                    </c:if>
+                    <c:if test="${categoryScope.id != category.id}">
+                        <a href="${pageContext.request.contextPath}/categories/${category.id}" class="list-group-item">${category.name}</a>
+                    </c:if>
+                </c:forEach>
+            </div>
+
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title"><b><spring:message code="main.box.name.categories"/></b></h3></div>
+                <div class="panel-heading"><h3 class="panel-title"><b><spring:message code="main.box.name.calendar"/></b></h3>
+                </div>
                 <div class="panel-body">Panel text</div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title"><b><spring:message code="main.box.name.calendar"/></b></h3></div>
-                <div class="panel-body">Panel text</div>
-            </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title"><b><spring:message code="main.box.name.tags"/></b></h3></div>
                 <div class="panel-body">Panel text</div>
@@ -60,4 +126,6 @@
         </div>
     </div>
 
-</jsp:root>
+    <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; UTF-8"/>
+
+        </jsp:root>

@@ -6,6 +6,7 @@ import com.criticalgnome.blog.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,6 +68,7 @@ public class UserRestController {
      * @param user updated object
      * @return HttpStatus
      */
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody User user) {
         try {
@@ -83,6 +85,7 @@ public class UserRestController {
      * @param id user's id
      * @return HttpStatus
      */
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         try {

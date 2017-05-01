@@ -8,6 +8,7 @@ import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.utils.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
@@ -43,6 +45,21 @@ public class UserController {
     @GetMapping(value = "/register")
     public ModelAndView showRegisterPage() {
         return new ModelAndView("user","user", new User());
+    }
+
+    @GetMapping(value = "/{id}")
+    public String showRecordsByUser(@PathVariable Long id, HttpSession session, Model model) {
+        session.removeAttribute("userScope");
+        if (!id.equals(0L)) {
+            try {
+                User user = userService.getById(id);
+                session.setAttribute("userScope", user);
+            } catch (ServiceException e) {
+                model.addAttribute("message", e.getMessage());
+                return "error";
+            }
+        }
+        return "redirect:/";
     }
 
     @PostMapping(value = "")
@@ -84,6 +101,7 @@ public class UserController {
         return page;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping(value = "/add")
     public ModelAndView editUser(ModelAndView model) {
         try {
@@ -98,6 +116,7 @@ public class UserController {
         return model;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping(value = "/edit/{id}")
     public ModelAndView editUser(@PathVariable Long id, ModelAndView model) {
         try {
@@ -113,6 +132,7 @@ public class UserController {
         return model;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable Long id, Model model) {
         try {

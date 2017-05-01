@@ -6,6 +6,7 @@ import com.criticalgnome.blog.services.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author CriticalGnome
  */
 @RestController
-@RequestMapping("/rest/users")
+@RequestMapping("/rest/tags")
 public class TagRestController {
 
     private final ITagService tagService;
@@ -32,6 +33,7 @@ public class TagRestController {
      * @param tag object to create
      * @return HttpStatus
      */
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "")
     public ResponseEntity<Tag> create(@RequestBody Tag tag) {
         try {
@@ -67,6 +69,7 @@ public class TagRestController {
      * @param tag updated object
      * @return HttpStatus
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody Tag tag) {
         try {
@@ -83,6 +86,7 @@ public class TagRestController {
      * @param id tag's id
      * @return HttpStatus
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR','ROLE_MODERATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         try {

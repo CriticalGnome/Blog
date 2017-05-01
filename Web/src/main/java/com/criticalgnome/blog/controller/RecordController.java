@@ -8,6 +8,7 @@ import com.criticalgnome.blog.services.ITagService;
 import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.utils.CategoriesList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,12 +41,12 @@ public class RecordController {
         this.userService = userService;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/add")
     public ModelAndView composeNewRecord(ModelAndView model) {
         try {
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = new ArrayList<>();
-            CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
+            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
             model.setViewName("record");
             RecordDTO recordDTO = new RecordDTO();
             recordDTO.setId(0L);
@@ -59,6 +60,7 @@ public class RecordController {
         return model;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')")
     @GetMapping(value = "/edit/{id}")
     public ModelAndView editRecord(ModelAndView model, @PathVariable Long id) {
         try {
@@ -69,8 +71,7 @@ public class RecordController {
             }
             RecordDTO recordDTO = new RecordDTO(record.getId(), record.getHeader(), record.getBody(), record.getCategory().getId(), record.getAuthor().getId(), tagString.toString());
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = new ArrayList<>();
-            CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
+            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
             model.setViewName("record");
             model.addObject("recordDTO", recordDTO);
             model.addObject("categoryDTOs", categoryDTOs);
@@ -81,6 +82,7 @@ public class RecordController {
         return model;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "")
     public String save(@ModelAttribute RecordDTO recordDTO, Model model) {
         try {
@@ -110,6 +112,7 @@ public class RecordController {
         return "redirect:/";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR','ROLE_MODERATOR')")
     @GetMapping(value = "/delete/{id}")
     public String deleteRecord(Model model, @PathVariable Long id) {
         try {

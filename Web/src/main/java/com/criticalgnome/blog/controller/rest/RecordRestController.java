@@ -6,6 +6,7 @@ import com.criticalgnome.blog.services.IRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author CriticalGnome
  */
 @RestController
-@RequestMapping("/rest/users")
+@RequestMapping("/rest/records")
 public class RecordRestController {
 
     private final IRecordService recordService;
@@ -32,6 +33,7 @@ public class RecordRestController {
      * @param record object to create
      * @return HttpStatus
      */
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "")
     public ResponseEntity<Record> create(@RequestBody Record record) {
         try {
@@ -67,6 +69,7 @@ public class RecordRestController {
      * @param record updated object
      * @return HttpStatus
      */
+    @PreAuthorize("isAuthenticated()")
     @PutMapping(value = "/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody Record record) {
         try {
@@ -83,6 +86,7 @@ public class RecordRestController {
      * @param id record's id
      * @return HttpStatus
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR','ROLE_MODERATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         try {

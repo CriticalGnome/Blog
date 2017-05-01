@@ -59,7 +59,7 @@ public class RecordServiceImplTest {
     @Test
     public void recordPaginationTest() throws Exception {
         int expected = 3;
-        int actual = recordService.getRecordsByPage(1, 3).size();
+        int actual = recordService.getRecordsByPage(1, 3, null, null, null).size();
         Assert.assertTrue("Not equals", actual <= expected);
     }
 

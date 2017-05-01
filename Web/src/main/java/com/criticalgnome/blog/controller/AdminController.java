@@ -10,12 +10,11 @@ import com.criticalgnome.blog.services.IRoleService;
 import com.criticalgnome.blog.services.IUserService;
 import com.criticalgnome.blog.utils.CategoriesList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,14 +37,14 @@ public class AdminController {
         this.categoryService = categoryService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping(value = "/admin")
     public ModelAndView showAdminPanel(ModelAndView model) {
         try {
             List<User> users = userService.getAll();
             List<Role> roles = roleService.getAll();
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = new ArrayList<>();
-            categoryDTOs = CategoriesList.getSubcategories(categoryDTOs, categories, null, "");
+            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
             model.setViewName("admin");
             model.addObject("users", users);
             model.addObject("roles", roles);

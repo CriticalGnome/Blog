@@ -1,30 +1,25 @@
 package com.criticalgnome.blog.controller;
 
 import com.criticalgnome.blog.constants.SiteConstants;
-import com.criticalgnome.blog.entities.Record;
-import com.criticalgnome.blog.entities.User;
+import com.criticalgnome.blog.entities.*;
 import com.criticalgnome.blog.exceptions.ServiceException;
+import com.criticalgnome.blog.services.ICategoryService;
 import com.criticalgnome.blog.services.IRecordService;
-import com.criticalgnome.blog.services.IRoleService;
-import com.criticalgnome.blog.services.IUserService;
-import com.criticalgnome.blog.utils.Alert;
+import com.criticalgnome.blog.utils.CategoriesList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -38,25 +33,38 @@ import java.util.List;
 public class MainController {
 
     private final IRecordService recordService;
+    private final ICategoryService categoryService;
 
     @Autowired
-    public MainController(IRecordService recordService) {
+    public MainController(IRecordService recordService, ICategoryService categoryService) {
         this.recordService = recordService;
+        this.categoryService = categoryService;
     }
 
-    @GetMapping(value = "")
-    public ModelAndView showHomePage(ModelAndView model) {
-        List<Record> records;
-        int pageNumber = SiteConstants.DEFAULT_PAGE;
-        int recordsPerPage = SiteConstants.RECORDS_PER_PAGE;
+    @GetMapping(value = {"", "page/{page}"})
+    public ModelAndView showHomePage(ModelAndView model, HttpSession session, @PathVariable(required = false) Integer page) {
         try {
-            records = recordService.getRecordsByPage(pageNumber, recordsPerPage);
-            int recordsCount = recordService.getRecordsCount();
+            int pageNumber;
+            if (page != null) {
+                pageNumber = page;
+            } else {
+                pageNumber = SiteConstants.DEFAULT_PAGE;
+            }
+            int recordsPerPage = SiteConstants.RECORDS_PER_PAGE;
+            Category categoryScope = (Category) session.getAttribute("categoryScope");
+            User userScope = (User) session.getAttribute("userScope");
+            Tag tagScope = (Tag) session.getAttribute("tagScope");
+            List<Record> records = recordService.getRecordsByPage(pageNumber, recordsPerPage, categoryScope, userScope, tagScope);
+            int recordsCount = recordService.getRecordsCount(); // TODO Сделать возврат с учётом сужения критериев
+            List<Category> categories = categoryService.getAll();
+            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
+
             model.setViewName("main");
-            model.addObject("records", records);
             model.addObject("pageNumber", pageNumber);
             model.addObject("recordsPerPage", recordsPerPage);
+            model.addObject("records", records);
             model.addObject("recordsCount", recordsCount);
+            model.addObject("categoryDTOs", categoryDTOs);
         } catch (ServiceException e) {
             model.setViewName("error");
             model.addObject("message", e.getMessage());
@@ -84,7 +92,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "denied", method = RequestMethod.GET)
-    public String accesssDenied() {
+    public String accessDenied() {
         return "denied";
 
     }

@@ -2,7 +2,10 @@ package com.criticalgnome.blog.services.impl;
 
 import com.criticalgnome.blog.constants.ServiceConstants;
 import com.criticalgnome.blog.dao.IRecordDao;
+import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.Record;
+import com.criticalgnome.blog.entities.Tag;
+import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.DaoException;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.IRecordService;
@@ -36,18 +39,14 @@ public class RecordServiceImpl extends ServiceImpl<Record> implements IRecordSer
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public List<Record> getRecordsByPage(int pageNumber, int pageCapacity) throws ServiceException {
+    public List<Record> getRecordsByPage(int pageNumber, int pageCapacity, Category categoryScope, User userScope, Tag tagScope) throws ServiceException {
         int pageOffset = pageCapacity * pageNumber - pageCapacity;
         List<Record> records;
         try {
-            records = iRecordDao.getRecordsByPage(pageOffset, pageCapacity);
+            records = iRecordDao.getRecordsByPage(pageOffset, pageCapacity, categoryScope, userScope, tagScope);
         } catch (DaoException e) {
             log.error(ServiceConstants.TRANSACTION_FAILED);
             throw new ServiceException(RecordServiceImpl.class, ServiceConstants.TRANSACTION_FAILED, e);
-        }
-        if (records.size() == 0) {
-            Record record = new Record(null, null, "No items", null, null, null, null, null);
-            records.add(record);
         }
         return records;
     }

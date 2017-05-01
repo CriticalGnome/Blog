@@ -6,6 +6,7 @@ import com.criticalgnome.blog.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author CriticalGnome
  */
 @RestController
-@RequestMapping("/rest/users")
+@RequestMapping("/rest/categories")
 public class CategoryRestController {
 
     private final ICategoryService categoryService;
@@ -32,6 +33,7 @@ public class CategoryRestController {
      * @param category object to create
      * @return HttpStatus
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')")
     @PostMapping(value = "")
     public ResponseEntity<Category> create(@RequestBody Category category) {
         try {
@@ -67,6 +69,7 @@ public class CategoryRestController {
      * @param category updated object
      * @return HttpStatus
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody Category category) {
         try {
@@ -83,6 +86,7 @@ public class CategoryRestController {
      * @param id category's id
      * @return HttpStatus
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         try {

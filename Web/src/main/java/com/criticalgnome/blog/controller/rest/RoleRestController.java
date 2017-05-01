@@ -6,6 +6,7 @@ import com.criticalgnome.blog.services.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author CriticalGnome
  */
 @RestController
-@RequestMapping("/rest/users")
+@RequestMapping("/rest/roles")
 public class RoleRestController {
 
     private final IRoleService roleService;
@@ -32,6 +33,7 @@ public class RoleRestController {
      * @param role object to create
      * @return HttpStatus
      */
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @PostMapping(value = "")
     public ResponseEntity<Role> create(@RequestBody Role role) {
         try {
@@ -67,6 +69,7 @@ public class RoleRestController {
      * @param role updated object
      * @return HttpStatus
      */
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody Role role) {
         try {
@@ -83,6 +86,7 @@ public class RoleRestController {
      * @param id role's id
      * @return HttpStatus
      */
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         try {
