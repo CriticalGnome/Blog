@@ -17,7 +17,7 @@
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-          p:url="jdbc:mysql://localhost:3306/blog2?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8"
+          p:url="jdbc:mysql://localhost:3306/blog2?autoReconnect=true&amp;useUnicode=true&amp;useSSL=false&amp;characterEncoding=utf-8"
           p:driverClassName="com.mysql.jdbc.Driver"
           p:username="root"
           p:password="kromvel"
@@ -32,7 +32,7 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">validate</prop>
-                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.show_sql">false</prop>
                 <prop key="debug">true</prop>
                 <prop key="connection.isolation">2</prop>
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
