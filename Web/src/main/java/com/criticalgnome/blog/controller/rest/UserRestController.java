@@ -53,6 +53,7 @@ public class UserRestController {
         User user;
         try {
             user = userService.getById(id);
+            user.setPassword(null);
         } catch (ServiceException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -105,6 +106,9 @@ public class UserRestController {
         List<User> users;
         try {
             users = userService.getAll();
+            for (User user : users) {
+                user.setPassword(null);
+            }
         } catch (ServiceException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
