@@ -1,4 +1,4 @@
-package com.criticalgnome.blog.utils;
+package com.criticalgnome.blog.entities;
 
 import lombok.*;
 

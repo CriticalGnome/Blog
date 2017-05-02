@@ -8,7 +8,7 @@ import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.ICategoryService;
 import com.criticalgnome.blog.services.IRoleService;
 import com.criticalgnome.blog.services.IUserService;
-import com.criticalgnome.blog.utils.CategoriesList;
+import com.criticalgnome.blog.utils.CategoriesListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -44,7 +44,7 @@ public class AdminController {
             List<User> users = userService.getAll();
             List<Role> roles = roleService.getAll();
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
+            List<CategoryDTO> categoryDTOs = CategoriesListUtil.getCategoriesDTOList(categories);
             model.setViewName("admin");
             model.addObject("users", users);
             model.addObject("roles", roles);

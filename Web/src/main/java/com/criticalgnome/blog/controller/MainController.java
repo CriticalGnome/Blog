@@ -5,7 +5,7 @@ import com.criticalgnome.blog.entities.*;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.ICategoryService;
 import com.criticalgnome.blog.services.IRecordService;
-import com.criticalgnome.blog.utils.CategoriesList;
+import com.criticalgnome.blog.utils.CategoriesListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,7 +57,7 @@ public class MainController {
             List<Record> records = recordService.getRecordsByPage(pageNumber, recordsPerPage, categoryScope, userScope, tagScope);
             int recordsCount = recordService.getRecordsCount(categoryScope, userScope, tagScope);
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
+            List<CategoryDTO> categoryDTOs = CategoriesListUtil.getCategoriesDTOList(categories);
 
             model.setViewName("main");
             model.addObject("pageNumber", pageNumber);

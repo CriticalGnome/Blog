@@ -13,9 +13,9 @@ import java.util.List;
  *
  * @author CriticalGnome
  */
-public class CategoriesList {
+public class CategoriesListUtil {
 
-    public static List<CategoryDTO> get(List<Category> categories) {
+    public static List<CategoryDTO> getCategoriesDTOList(List<Category> categories) {
         List<CategoryDTO> categoryDTOs = new ArrayList<>();
         return getSubcategories(categoryDTOs, categories, null, "");
     }

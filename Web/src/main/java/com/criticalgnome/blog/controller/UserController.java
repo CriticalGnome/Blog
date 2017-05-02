@@ -5,7 +5,7 @@ import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.IRoleService;
 import com.criticalgnome.blog.services.IUserService;
-import com.criticalgnome.blog.utils.Alert;
+import com.criticalgnome.blog.entities.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,11 +42,6 @@ public class UserController {
         this.messageSource = messageSource;
     }
 
-    @GetMapping(value = "/register")
-    public ModelAndView showRegisterPage() {
-        return new ModelAndView("user","user", new User());
-    }
-
     @GetMapping(value = "/{id}")
     public String showRecordsByUser(@PathVariable Long id, HttpSession session, Model model) {
         session.removeAttribute("userScope");
@@ -62,8 +57,28 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping(value = "/register")
+    public ModelAndView showRegisterPage() {
+        return new ModelAndView("user","user", new User());
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @GetMapping(value = "/add")
+    public ModelAndView editUser(ModelAndView model) {
+        try {
+            List<Role> roles = roleService.getAll();
+            model.setViewName("user");
+            model.addObject("user", new User());
+            model.addObject("roles", roles);
+        } catch (ServiceException e) {
+            model.setViewName("error");
+            model.addObject("message", e.getMessage());
+        }
+        return model;
+    }
+
     @PostMapping(value = "")
-    public String doRegister(@Valid @ModelAttribute("user") User user, @RequestParam(required = false) Long roleId, BindingResult result, Model model, Locale locale) {
+    public String save(@Valid @ModelAttribute("user") User user, BindingResult result, @RequestParam(required = false) Long roleId, Model model, Locale locale) {
         String page;
         if (result.hasErrors()) {
             List<ObjectError> objectErrors = result.getAllErrors();
@@ -87,6 +102,7 @@ public class UserController {
                     user.setRole(roleService.getByName("USER"));
                     userService.create(user);
                     page = "redirect:/";
+                    model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.register.success", null, locale)));
                 } else {
                     user.setRole(roleService.getById(roleId));
                     userService.update(user);
@@ -97,23 +113,7 @@ public class UserController {
                 page = "user";
             }
         }
-        model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.register.success", null, locale)));
         return page;
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @GetMapping(value = "/add")
-    public ModelAndView editUser(ModelAndView model) {
-        try {
-            List<Role> roles = roleService.getAll();
-            model.setViewName("user");
-            model.addObject("user", new User());
-            model.addObject("roles", roles);
-        } catch (ServiceException e) {
-            model.setViewName("error");
-            model.addObject("message", e.getMessage());
-        }
-        return model;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")

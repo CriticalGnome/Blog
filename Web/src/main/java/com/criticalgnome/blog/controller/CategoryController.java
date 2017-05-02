@@ -4,7 +4,7 @@ import com.criticalgnome.blog.entities.Category;
 import com.criticalgnome.blog.entities.CategoryDTO;
 import com.criticalgnome.blog.exceptions.ServiceException;
 import com.criticalgnome.blog.services.ICategoryService;
-import com.criticalgnome.blog.utils.CategoriesList;
+import com.criticalgnome.blog.utils.CategoriesListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -37,7 +37,7 @@ public class CategoryController {
     public ModelAndView addCategory(ModelAndView model) {
         try {
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
+            List<CategoryDTO> categoryDTOs = CategoriesListUtil.getCategoriesDTOList(categories);
             model.setViewName("category");
             model.addObject("categoryDTO", new CategoryDTO());
             model.addObject("categoryDTOs", categoryDTOs);
@@ -71,7 +71,7 @@ public class CategoryController {
             Category category = categoryService.getById(id);
             CategoryDTO categoryDTO = new CategoryDTO(category.getId(), category.getName());
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
+            List<CategoryDTO> categoryDTOs = CategoriesListUtil.getCategoriesDTOList(categories);
             model.setViewName("category");
             model.addObject("categoryDTO", categoryDTO);
             model.addObject("categoryDTOs", categoryDTOs);

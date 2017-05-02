@@ -6,7 +6,7 @@ import com.criticalgnome.blog.services.ICategoryService;
 import com.criticalgnome.blog.services.IRecordService;
 import com.criticalgnome.blog.services.ITagService;
 import com.criticalgnome.blog.services.IUserService;
-import com.criticalgnome.blog.utils.CategoriesList;
+import com.criticalgnome.blog.utils.CategoriesListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,7 +46,7 @@ public class RecordController {
     public ModelAndView composeNewRecord(ModelAndView model) {
         try {
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
+            List<CategoryDTO> categoryDTOs = CategoriesListUtil.getCategoriesDTOList(categories);
             model.setViewName("record");
             RecordDTO recordDTO = new RecordDTO();
             recordDTO.setId(0L);
@@ -71,7 +71,7 @@ public class RecordController {
             }
             RecordDTO recordDTO = new RecordDTO(record.getId(), record.getHeader(), record.getBody(), record.getCategory().getId(), record.getAuthor().getId(), tagString.toString());
             List<Category> categories = categoryService.getAll();
-            List<CategoryDTO> categoryDTOs = CategoriesList.get(categories);
+            List<CategoryDTO> categoryDTOs = CategoriesListUtil.getCategoriesDTOList(categories);
             model.setViewName("record");
             model.addObject("recordDTO", recordDTO);
             model.addObject("categoryDTOs", categoryDTOs);
