@@ -47,7 +47,8 @@
                                         <spring:message code="main.button.edit"/></button>
                                 </sec:authorize>
                                 <sec:authorize access="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_EDITOR','ROLE_MODERATOR')">
-                                    <button type="button" class="btn btn-default" onclick="location.href='${pageContext.request.contextPath}/records/delete/${record.id}';">
+                                    <!--<button type="button" class="btn btn-default" onclick="location.href='${pageContext.request.contextPath}/records/delete/${record.id}';">-->
+                                    <button type="button" class="btn btn-default"  data-toggle="modal" data-target="#deleteRecordModal-${record.id}">
                                         <spring:message code="main.button.delete"/></button>
                                 </sec:authorize>
                             </div>
@@ -119,6 +120,31 @@
             </div>
         </div>
     </div>
+
+    <!--Delete decord confirmation modal window-->
+    <c:forEach items="${records}" var="record">
+        <div class="modal fade" id="deleteRecordModal-${record.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&amp;times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><spring:message code="main.modal.deleterecord.title"/></h4>
+                    </div>
+                    <div class="modal-body">
+                        <spring:message code="main.modal.deleterecord.text"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <spring:message code="main.modal.deleterecord.button.cancel"/>
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/records/delete/${record.id}';">
+                            <spring:message code="main.modal.deleterecord.button.confirm"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
 
     <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; UTF-8"/>
 

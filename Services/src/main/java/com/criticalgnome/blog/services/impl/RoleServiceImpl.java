@@ -31,6 +31,15 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements IRoleService {
         this.iRoleDao = iRoleDao;
     }
 
+    /**
+     * Return role by name
+     *
+     * @param roleName name
+     * @return role
+     * @throws ServiceException custom exception
+     */
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Role getByName(String roleName) throws ServiceException {
         Role role;
         try {

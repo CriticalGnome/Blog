@@ -32,6 +32,13 @@ public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
         this.iUserDao = iUserDao;
     }
 
+    /**
+     * Create new User
+     *
+     * @param user user instance
+     * @return id
+     * @throws ServiceException custom exception
+     */
     @Override
     public Long create(User user) throws ServiceException {
         Long id;
@@ -47,6 +54,14 @@ public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
         return id;
     }
 
+    /**
+     * get User by email an password
+     *
+     * @param email email
+     * @param password password
+     * @return User
+     * @throws ServiceException custom exception
+     */
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public User getByEmailAndPassword(String email, String password) throws ServiceException {
@@ -60,7 +75,15 @@ public class UserServiceImpl extends ServiceImpl<User> implements IUserService {
         return user;
     }
 
+    /**
+     * Get user by email
+     *
+     * @param email email
+     * @return User
+     * @throws ServiceException custom exception
+     */
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public User getByEmail(String email) throws ServiceException {
         User user;
         try {

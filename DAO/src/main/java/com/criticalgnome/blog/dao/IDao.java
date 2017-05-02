@@ -14,6 +14,7 @@ import java.util.List;
 public interface IDao<T extends AbstractEntity> {
     /**
      * Create new row in table
+     *
      * @param abstractEntity object
      * @return id for created row
      * @throws DaoException custom exception
@@ -22,6 +23,7 @@ public interface IDao<T extends AbstractEntity> {
 
     /**
      * Get one row from table by id
+     *
      * @param id row id
      * @return row object
      * @throws DaoException custom exception
@@ -30,6 +32,7 @@ public interface IDao<T extends AbstractEntity> {
 
     /**
      * Update object data in table
+     *
      * @param abstractEntity object
      * @throws DaoException custom exception
      */
@@ -37,6 +40,7 @@ public interface IDao<T extends AbstractEntity> {
 
     /**
      * Remove row from table by id
+     *
      * @param id id
      * @throws DaoException custom exception
      */
@@ -44,6 +48,7 @@ public interface IDao<T extends AbstractEntity> {
 
     /**
      * Get list of all records
+     *
      * @return list
      * @throws DaoException custom exception
      */

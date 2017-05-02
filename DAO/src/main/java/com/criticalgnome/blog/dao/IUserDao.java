@@ -13,7 +13,8 @@ public interface IUserDao extends IDao<User> {
 
     /**
      * Get one row from table by email and password
-     * @param email user email
+     *
+     * @param email    user email
      * @param password user password
      * @return row object or null if email/password not valid
      * @throws DaoException custom exception
@@ -22,6 +23,7 @@ public interface IUserDao extends IDao<User> {
 
     /**
      * Get one row from table by email
+     *
      * @param email user email
      * @return row object or null if email/password not valid
      * @throws DaoException custom exception

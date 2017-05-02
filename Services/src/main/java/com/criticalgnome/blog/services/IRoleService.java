@@ -12,5 +12,13 @@ import com.criticalgnome.blog.exceptions.ServiceException;
  */
 public interface IRoleService extends IService<Role> {
 
+    /**
+     * Return role by name
+     *
+     * @param roleName name
+     * @return role
+     * @throws ServiceException custom exception
+     */
     Role getByName(String roleName) throws ServiceException;
+
 }

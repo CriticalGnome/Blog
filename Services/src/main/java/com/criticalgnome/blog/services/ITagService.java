@@ -11,5 +11,14 @@ import com.criticalgnome.blog.exceptions.ServiceException;
  * @author CriticalGnome
  */
 public interface ITagService extends IService<Tag> {
+
+    /**
+     * Return tag by name or create if not exist
+     *
+     * @param tagName name
+     * @return Tag
+     * @throws ServiceException custom exception
+     */
     Tag getOrCreateTagByName(String tagName) throws ServiceException;
+
 }

@@ -38,36 +38,35 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = null;
+        User user;
+        UserDTO userDTO = null;
         try {
             user = userService.getByEmail(email);
             if (user == null) throw new UsernameNotFoundException("User not found");
+            userDTO = new UserDTO(user.getId(),
+                    user.getEmail(),
+                    user.getPassword(),
+                    user.getNickName(),
+                    user.getFirstName() + " " + user.getLastName(),
+                    true,
+                    true,
+                    true,
+                    true,
+                    setAuthorities(user.getRole().getId()));
+
         } catch (ServiceException e) {
-            e.printStackTrace();
+            throw new UsernameNotFoundException("User not found");
         }
-        return new UserDTO(user != null ? user.getId() : null,
-                user != null ? user.getEmail() : null,
-                user != null ? user.getPassword() : null,
-                user != null ? user.getNickName() : null,
-                user != null ? user.getFirstName() + " " + user.getLastName() : null,
-                true,
-                true,
-                true,
-                true,
-                setAuthorities(user != null ? user.getRole().getId() : null));
+        return userDTO;
     }
 
-    private Collection<GrantedAuthority> setAuthorities(Long roleId){
+    private Collection<GrantedAuthority> setAuthorities(Long roleId) throws ServiceException {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        try {
-            List<Role> roles = roleService.getAll();
-            for (Role role : roles) {
-                if (role.getId().equals(roleId)) {
-                    authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
-                }
+        List<Role> roles = roleService.getAll();
+        for (Role role : roles) {
+            if (role.getId().equals(roleId)) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
             }
-        } catch (ServiceException e) {
-            e.printStackTrace();
         }
         return authorities;
     }

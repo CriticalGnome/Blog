@@ -35,6 +35,13 @@ public abstract class ServiceImpl<T extends AbstractEntity> implements IService<
         this.iDao = iDao;
     }
 
+    /**
+     * Create new entity instance
+     *
+     * @param abstractEntity generic entity
+     * @return id
+     * @throws ServiceException custom exception
+     */
     @Override
     public Long create(final T abstractEntity) throws ServiceException {
         return transactionTemplate.execute(new TransactionCallback<Long>() {
@@ -54,6 +61,12 @@ public abstract class ServiceImpl<T extends AbstractEntity> implements IService<
         });
     }
 
+    /**
+     * Return generic instance by id
+     * @param id id
+     * @return entity
+     * @throws ServiceException custom exception
+     */
     @Override
     public T getById(final Long id) throws ServiceException {
         return transactionTemplate.execute(new TransactionCallback<T>() {
@@ -74,6 +87,12 @@ public abstract class ServiceImpl<T extends AbstractEntity> implements IService<
         });
     }
 
+    /**
+     * Update generic entity
+     *
+     * @param abstractEntity entity instance
+     * @throws ServiceException custom exception
+     */
     @Override
     public void update(final T abstractEntity) throws ServiceException {
         transactionTemplate.execute(new TransactionCallback<Void>() {
@@ -92,6 +111,12 @@ public abstract class ServiceImpl<T extends AbstractEntity> implements IService<
         });
     }
 
+    /**
+     * Delete entity instance
+     *
+     * @param id id
+     * @throws ServiceException custom exception
+     */
     @Override
     public void remove(final Long id) throws ServiceException {
         transactionTemplate.execute(new TransactionCallback<Void>() {
@@ -111,6 +136,12 @@ public abstract class ServiceImpl<T extends AbstractEntity> implements IService<
         });
     }
 
+    /**
+     * List of all instances of generic entity
+     *
+     * @return List
+     * @throws ServiceException custom exception
+     */
     @Override
     public List<T> getAll() throws ServiceException {
         return transactionTemplate.execute(new TransactionCallback<List<T>>() {

@@ -34,6 +34,15 @@ public class TagServiceImpl extends ServiceImpl<Tag> implements ITagService {
         this.iTagDao = iTagDao;
     }
 
+    /**
+     * Return tag by name or create if not exist
+     *
+     * @param tagName name
+     * @return Tag
+     * @throws ServiceException custom exception
+     */
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Tag getOrCreateTagByName(String tagName) throws ServiceException {
         Tag tag;
         try {

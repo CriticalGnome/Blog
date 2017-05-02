@@ -37,6 +37,17 @@ public class RecordServiceImpl extends ServiceImpl<Record> implements IRecordSer
     }
 
 
+    /**
+     * Transmits main query to DAO layer
+     *
+     * @param pageNumber number of requested page
+     * @param pageCapacity number of records on one page
+     * @param categoryScope narrowing scope
+     * @param userScope narrowing scope
+     * @param tagScope narrowing scope
+     * @return List of records
+     * @throws ServiceException custom exception
+     */
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Record> getRecordsByPage(int pageNumber, int pageCapacity, Category categoryScope, User userScope, Tag tagScope) throws ServiceException {
@@ -51,6 +62,15 @@ public class RecordServiceImpl extends ServiceImpl<Record> implements IRecordSer
         return records;
     }
 
+    /**
+     * Request records count with narrowing scopes
+     *
+     * @param categoryScope narrowing scope
+     * @param userScope narrowing scope
+     * @param tagScope narrowing scope
+     * @return records count
+     * @throws ServiceException custom exception
+     */
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public int getRecordsCount(Category categoryScope, User userScope, Tag tagScope) throws ServiceException {

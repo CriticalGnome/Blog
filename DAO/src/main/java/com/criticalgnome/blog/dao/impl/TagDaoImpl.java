@@ -27,6 +27,7 @@ public class TagDaoImpl extends DaoImpl<Tag> implements ITagDao {
 
     /**
      * Get one row from table by name
+     *
      * @param tagName tag mane
      * @return row object
      * @throws DaoException custom exception

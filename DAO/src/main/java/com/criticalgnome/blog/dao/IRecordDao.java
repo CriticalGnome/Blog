@@ -18,15 +18,23 @@ public interface IRecordDao extends IDao<Record> {
 
     /**
      * Main page big query with parameters
-     * @param pageOffset   row offset
-     * @param pageCapacity row limit
+     *
+     * @param pageOffset    row offset
+     * @param pageCapacity  row limit
+     * @param categoryScope narrowing scope
+     * @param userScope     narrowing scope
+     * @param tagScope      narrowing scope
      * @return list of records
      * @throws DaoException custom exception
      */
     List<Record> getRecordsByPage(int pageOffset, int pageCapacity, Category categoryScope, User userScope, Tag tagScope) throws DaoException;
 
     /**
-     * Get total count of all rows in table
+     * Return count of Records with considering to narrowing scope
+     *
+     * @param categoryScope narrowing scope
+     * @param userScope     narrowing scope
+     * @param tagScope      narrowing scope
      * @return count
      * @throws DaoException custom exception
      */

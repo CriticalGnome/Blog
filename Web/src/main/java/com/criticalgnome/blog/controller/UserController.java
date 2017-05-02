@@ -1,5 +1,6 @@
 package com.criticalgnome.blog.controller;
 
+import com.criticalgnome.blog.constants.SiteConstants;
 import com.criticalgnome.blog.entities.Role;
 import com.criticalgnome.blog.entities.User;
 import com.criticalgnome.blog.exceptions.ServiceException;
@@ -99,7 +100,7 @@ public class UserController {
         } else {
             try {
                 if (roleId == null) {
-                    user.setRole(roleService.getByName("USER"));
+                    user.setRole(roleService.getByName(SiteConstants.DEFAULT_ROLE));
                     userService.create(user);
                     page = "redirect:/";
                     model.addAttribute("alert", new Alert("alert-success", messageSource.getMessage("alert.register.success", null, locale)));

@@ -15,11 +15,26 @@ import java.util.List;
  */
 public class CategoriesListUtil {
 
+    /**
+     * Create Categories list for display on pages
+     *
+     * @param categories Categories list
+     * @return CategoriesDTO list
+     */
     public static List<CategoryDTO> getCategoriesDTOList(List<Category> categories) {
         List<CategoryDTO> categoryDTOs = new ArrayList<>();
         return getSubcategories(categoryDTOs, categories, null, "");
     }
 
+    /**
+     * Get subcategories for current category
+     *
+     * @param categoryDTOs CategoriesDTO list
+     * @param categories   Categories list
+     * @param parent       parent Category
+     * @param indent       indent symbols
+     * @return CategoriesDTO list
+     */
     private static List<CategoryDTO> getSubcategories(List<CategoryDTO> categoryDTOs, List<Category> categories, Category parent, String indent){
 
         for (Category category : categories) {

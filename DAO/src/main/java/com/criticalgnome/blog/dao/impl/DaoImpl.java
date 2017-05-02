@@ -36,6 +36,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
 
     /**
      * Create new row in table
+     *
      * @param abstractEntity object
      * @return id for created row
      * @throws DaoException custom exception
@@ -55,6 +56,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
 
     /**
      * Get one row from table by id
+     *
      * @param id row id
      * @return row object
      * @throws DaoException custom exception
@@ -71,6 +73,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
 
     /**
      * Update object data in table
+     *
      * @param abstractEntity object
      * @throws DaoException custom exception
      */
@@ -86,6 +89,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
 
     /**
      * Remove row from table by id
+     *
      * @param id id
      * @throws DaoException custom exception
      */
@@ -102,6 +106,7 @@ public abstract class DaoImpl<T extends AbstractEntity> implements IDao<T> {
 
     /**
      * Get list of all categories
+     *
      * @return list
      * @throws DaoException custom exception
      */
