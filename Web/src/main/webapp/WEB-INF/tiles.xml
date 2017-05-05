@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <!--Default Definition-->
+    <definition name="default" template="/WEB-INF/layouts/default.jspx">
+        <put-attribute name="title" value=""/>
+        <put-attribute name="header" value="/WEB-INF/common/header.jspx"/>
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/common/footer.jspx"/>
+    </definition>
+
+    <!--Main page-->
+    <definition name="main" extends="default">
+        <put-attribute name="title" value="Main page"/>
+        <put-attribute name="body" value="/WEB-INF/views/main.jspx"/>
+    </definition>
+
+    <!--About page-->
+    <definition name="about" extends="default">
+        <put-attribute name="title" value="About project"/>
+        <put-attribute name="body" value="/WEB-INF/views/about.jspx"/>
+    </definition>
+
+    <!--Login page-->
+    <definition name="login" extends="default">
+        <put-attribute name="title" value="Sign In"/>
+        <put-attribute name="body" value="/WEB-INF/views/login.jspx"/>
+    </definition>
+
+    <!--User page-->
+    <definition name="user" extends="default">
+        <put-attribute name="title" value="User page"/>
+        <put-attribute name="body" value="/WEB-INF/views/user.jspx"/>
+    </definition>
+
+    <!--Record page-->
+    <definition name="record" extends="default">
+        <put-attribute name="title" value="Record page"/>
+        <put-attribute name="body" value="/WEB-INF/views/record.jspx"/>
+    </definition>
+
+    <!--Category page-->
+    <definition name="category" extends="default">
+        <put-attribute name="title" value="Category page"/>
+        <put-attribute name="body" value="/WEB-INF/views/category.jspx"/>
+    </definition>
+
+    <!--Admin Panel page-->
+    <definition name="admin" extends="default">
+        <put-attribute name="title" value="Admin page"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin.jspx"/>
+    </definition>
+
+    <!--Error page-->
+    <definition name="error" extends="default">
+        <put-attribute name="title" value="Error page"/>
+        <put-attribute name="body" value="/WEB-INF/views/error.jspx"/>
+    </definition>
+
+    <!--Error page-->
+    <definition name="errors" extends="default">
+        <put-attribute name="title" value="Error page"/>
+        <put-attribute name="body" value="/WEB-INF/views/errors.jspx"/>
+    </definition>
+
+    <!--Access denied page-->
+    <definition name="denied" extends="default">
+        <put-attribute name="title" value="Access Denied"/>
+        <put-attribute name="body" value="/WEB-INF/views/denied.jspx"/>
+    </definition>
+
+</tiles-definitions>

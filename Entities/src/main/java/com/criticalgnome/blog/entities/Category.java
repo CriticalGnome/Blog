@@ -2,6 +2,7 @@ package com.criticalgnome.blog.entities;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -10,14 +11,22 @@ import java.io.Serializable;
  *
  * @author CriticalGnome
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class Category extends Entity implements Serializable {
+@Builder
+@Entity
+@Table(name = "categories")
+public class Category extends AbstractEntity implements Serializable {
 
-    private Integer id;
+    private static final long SerialVersionUID = 1L;
+
+    @Id @GeneratedValue
+    private Long id;
+    @Column
     private String name;
+    @ManyToOne(cascade = CascadeType.PERSIST) @JoinColumn(name = "category_id")
     private Category category;
 
 }

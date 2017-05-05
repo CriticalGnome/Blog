@@ -1,0 +1,56 @@
+<jsp:root version="2.0"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <div class="container">
+        <div class="col-md-5">
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th><spring:message code="admin.form.label.id"/></th>
+                    <th colspan="3"><spring:message code="admin.form.label.name"/></th>
+                </tr>
+                <c:forEach items="${categoryDTOs}" var="category">
+                    <tr>
+                        <td>${category.id}</td>
+                        <td>${category.name}</td>
+                        <td width="1%"><a href="${pageContext.request.contextPath}/categories/edit/${category.id}">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
+                        </a></td>
+                        <td width="1%"><a href="${pageContext.request.contextPath}/categories/delete/${category.id}">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"/>
+                        </a></td>
+                    </tr>
+                </c:forEach>
+            </table>
+            <a href="${pageContext.request.contextPath}/categories/add"><spring:message code="admin.link.addcategory"/></a>
+        </div>
+        <div class="col-md-7">
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th><spring:message code="admin.form.label.id"/></th>
+                    <th><spring:message code="admin.form.label.nickname"/></th>
+                    <th><spring:message code="admin.form.label.fullname"/></th>
+                    <th colspan="3">Role</th>
+                </tr>
+                <c:forEach items="${users}" var="user">
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.nickName}</td>
+                        <td>${user.firstName} ${user.lastName}</td>
+                        <td>${user.role.name}</td>
+                        <td width="1%"><a href="${pageContext.request.contextPath}/users/edit/${user.id}">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
+                        </a></td>
+                        <td width="1%"><a href="${pageContext.request.contextPath}/users/delete/${user.id}">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"/>
+                        </a></td>
+                    </tr>
+                </c:forEach>
+            </table>
+            <a href="${pageContext.request.contextPath}/users/add"><spring:message code="admin.link.adduser"/></a>
+        </div>
+    </div>
+
+</jsp:root>

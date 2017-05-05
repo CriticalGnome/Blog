@@ -1,0 +1,27 @@
+<jsp:root version="2.0"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <br/>
+    <footer class="navbar-bottom panel-footer">
+            <div class="container">
+                <div class="col-md-2 text-left">
+                    &amp;nbsp;
+                </div>
+                <div class="col-md-8 text-center">
+                    <a href="mailto:web3oha@gmail.com">Web3OHA</a> &amp;copy; 2017
+                </div>
+                <div class="col-md-2 text-right">
+                    <form action="" method="get">
+                        <select name="locale" class="form-control input-sm" onchange="if (this.selectedIndex) this.form.submit ()" title="locale">
+                            <option><spring:message code="footer.changelang"/></option>
+                            <option value="ru">Русский</option>
+                            <option value="en">English</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+    </footer>
+
+</jsp:root>

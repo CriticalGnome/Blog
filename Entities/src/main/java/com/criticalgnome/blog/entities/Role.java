@@ -2,6 +2,7 @@ package com.criticalgnome.blog.entities;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -14,8 +15,15 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Role extends Entity implements Serializable {
+@Builder
+@Entity
+@Table(name = "roles")
+public class Role extends AbstractEntity implements Serializable {
 
-    private Integer id;
+    private static final long SerialVersionUID = 1L;
+
+    @Id @GeneratedValue
+    private Long id;
+    @Column
     private String name;
 }

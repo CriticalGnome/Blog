@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:Context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <Context:component-scan base-package="com.criticalgnome.blog.dao"/>
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="false"/>
+
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          p:url="jdbc:h2:mem:test"
+          p:driverClassName="org.h2.Driver"
+          p:username="sa"
+          p:password=""
+          p:initialSize="5"
+          p:maxTotal="10"
+    />
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:packagesToScan="com.criticalgnome.blog.entities">
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="debug">true</prop>
+                <prop key="connection.isolation">2</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="cache.use_query_cache">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="categoryDao" class="com.criticalgnome.blog.dao.impl.CategoryDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="recordDao" class="com.criticalgnome.blog.dao.impl.RecordDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="roleDao" class="com.criticalgnome.blog.dao.impl.RoleDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="tagDao" class="com.criticalgnome.blog.dao.impl.TagDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userDao" class="com.criticalgnome.blog.dao.impl.UserDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+</beans>
