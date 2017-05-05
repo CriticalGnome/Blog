@@ -25,6 +25,6 @@ Editors can edit and delete any posts.
 
 Administrators has access to adminarea, can add/edit/delete users and categories.
 
-#Author
+__Author__
 Sergey Kalinovsky
 lord.skiminok@gmail.com
