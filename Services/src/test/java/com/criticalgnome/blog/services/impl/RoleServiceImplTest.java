@@ -55,4 +55,13 @@ public class RoleServiceImplTest {
         roleService.remove(role.getId());
     }
 
+    @Test
+    public void roleServiceGetByNameTest() throws Exception {
+        Role expected = new Role(null, "New role from Service");
+        roleService.create(expected);
+        Role actual = roleService.getByName(expected.getName());
+        Assert.assertEquals("Not equal:", expected, actual);
+        roleService.remove(expected.getId());
+    }
+
 }

@@ -54,4 +54,14 @@ public class RoleDaoImplTest {
         roleDao.remove(role.getId());
     }
 
+    @Test
+    public void roleDaoGetbyName() throws Exception {
+        Role expected = new Role(null, "New role");
+        roleDao.create(expected);
+        Role actual = roleDao.getByName(expected.getName());
+        Assert.assertEquals("Not equal:", expected, actual);
+        roleDao.remove(expected.getId());
+    }
+
+
 }

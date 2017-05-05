@@ -80,5 +80,17 @@ public class UserServiceImplTest {
         userService.remove(user.getId());
         roleService.remove(role.getId());
     }
-    
+
+    @Test
+    public void userServiceGetByEmailTest() throws Exception {
+        Role role = new Role(null, "Test role");
+        roleService.create(role);
+        User user = new User(null,"me@my.com","qwerty","John","Doe","CoolDude",role);
+        userService.create(user);
+        User actual = userService.getByEmail("me@my.com");
+        Assert.assertNotNull("Not exist", actual);
+        userService.remove(user.getId());
+        roleService.remove(role.getId());
+    }
+
 }

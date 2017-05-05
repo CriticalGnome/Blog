@@ -79,4 +79,16 @@ public class UserDaoImplTest {
         roleDao.remove(role.getId());
     }
 
+    @Test
+    public void userDaoGetByEmail() throws Exception {
+        Role role = new Role(null, "Test role");
+        roleDao.create(role);
+        User expected = new User(null,"me@my.com","qwerty","John","Doe","Dude",role);
+        userDao.create(expected);
+        User actual = userDao.getByEmail("me@my.com");
+        Assert.assertEquals("Not equal:", expected, actual);
+        userDao.remove(expected.getId());
+        roleDao.remove(role.getId());
+    }
+
 }
