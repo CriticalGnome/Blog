@@ -4,10 +4,38 @@
 
     <div class="container">
         <div class="col-md-12">
-            <div class="page-header"><h1>About Page</h1></div>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, aliquam aperiam blanditiis commodi
-            dicta distinctio ducimus error expedita incidunt ipsam non odit voluptatum. Alias, corporis earum facilis
-            id iste maxime!
+            <div class="page-header"><h1>Blog project</h1></div>
+
+            <p>Sample Java project using</p>
+
+            <ul>
+                <li>Spring Framework</li>
+                <li>Hibernate Framework</li>
+                <li>Maven Project Manager</li>
+            </ul>
+            <p>Project use <b>MySQL database</b>. An example of a Database Dump is located in the <code>sample_data.sql</code> file. Sample Database have four test users:</p>
+        </div>
+
+        <div class="col-md-6">
+            <table class="table">
+                <tr><th>Login</th><th>Password</th><th>Priveleges</th></tr>
+                <tr><td>admin@test.com</td><td>123</td><td>Administrator</td></tr>
+                <tr><td>editor@test.com</td><td>123</td><td>Editor</td></tr>
+                <tr><td>moder@test.com</td><td>123</td><td>Moderator</td></tr>
+                <tr><td>user@test.com</td><td>123</td><td>Default User</td></tr>
+            </table>
+        </div>
+
+        <div class="col-md-12">
+            <p>In addition, new users can register themselves.</p>
+            <p><b>Users</b> can add new posts into blog system.</p>
+            <p><b>Moderators</b> can delete any posts.</p>
+            <p><b>Editors</b> can edit and delete any posts.</p>
+            <p><b>Administrators</b> has access to adminarea, can add/edit/delete users and categories.</p>
+
+            <div class="text-right">
+                <b>Author</b><br/>Sergey Kalinovsky<br/>lord.skiminok@gmail.com
+            </div>
         </div>
     </div>
 
