@@ -1,6 +1,8 @@
 package com.criticalgnome.blog.entities;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -44,6 +46,7 @@ public class Record extends AbstractEntity implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "tag_id")}
             )
     @Builder.Default
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Tag> tags = new HashSet<>();
 
     @Override
